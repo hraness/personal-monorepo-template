@@ -1,0 +1,97 @@
+.workbench-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
+  background: #e9ecee;
+  color: #202426;
+  font: 0.875rem/1.5 ui-sans-serif, system-ui, sans-serif;
+}
+
+.workbench-sidebar {
+  padding: 1.25rem;
+  border-right: 1px solid #cbd0d3;
+  background: #f7f8f8;
+}
+
+.workbench-sidebar :where(h1, p),
+.workbench-stage > header :where(h2, p),
+.workbench-error :where(h1, p) {
+  margin: 0;
+}
+
+.workbench-sidebar header > p,
+.workbench-stage > header > p,
+.workbench-error > p {
+  color: #667076;
+  font: 0.7rem/1.5 ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.workbench-sidebar nav {
+  display: grid;
+  gap: 0.35rem;
+  margin-block: 1.5rem;
+}
+
+.workbench-sidebar nav a {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem;
+  border-radius: 0.4rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.workbench-sidebar nav a[aria-current="page"] {
+  background: #e1e6e8;
+}
+
+.workbench-sidebar small,
+.workbench-sidebar header span,
+.workbench-stage > header span {
+  color: #667076;
+}
+
+.workbench-sidebar ul {
+  padding-left: 1.2rem;
+}
+
+.workbench-stage {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.workbench-stage > header {
+  margin-bottom: 1rem;
+}
+
+.workbench-frame {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #cbd0d3;
+  border-radius: 0.6rem;
+  background: white;
+  box-shadow: 0 8px 30px rgb(20 30 35 / 10%);
+}
+
+.workbench-error {
+  display: grid;
+  min-height: 100vh;
+  align-content: center;
+  gap: 0.6rem;
+  padding: 2rem;
+  background: #fff5f4;
+  color: #601a12;
+  font: 0.9rem/1.5 ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (max-width: 48rem) {
+  .workbench-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .workbench-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #cbd0d3;
+  }
+}

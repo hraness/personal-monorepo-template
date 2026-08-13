@@ -1,0 +1,4 @@
+interface:
+  display_name: "Direct setup"
+  short_description: "Design a deterministic product seam"
+  default_prompt: "Use $direct-setup to add a product-owned deterministic port seam and Direct composition."

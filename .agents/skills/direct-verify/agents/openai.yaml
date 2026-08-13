@@ -1,0 +1,4 @@
+interface:
+  display_name: "Direct verification"
+  short_description: "Verify evidence and production exclusion"
+  default_prompt: "Use $direct-verify to verify this Direct composition and report its proof boundary."

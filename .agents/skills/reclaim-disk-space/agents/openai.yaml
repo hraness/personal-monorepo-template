@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reclaim Disk Space"
+  short_description: "Audit disk usage and remove only verified-safe data"
+  default_prompt: "Use $reclaim-disk-space to audit disk usage and prepare a cautious cleanup plan."

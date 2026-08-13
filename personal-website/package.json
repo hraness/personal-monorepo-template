@@ -1,0 +1,38 @@
+{
+  "name": "@personal-monorepo/personal-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "test": "bun test ./app ./src ./direct",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "dev:direct": "vite --config direct/vite.config.ts",
+    "build:direct": "vite build --config direct/vite.config.ts",
+    "check:production-boundary": "bun run direct/check-build-boundaries.ts production .next",
+    "check:direct-boundary": "bun run direct/check-build-boundaries.ts direct dist-direct",
+    "verify": "bun run test && bun run typecheck && bun run lint && bun run build && bun run check:production-boundary && bun run build:direct && bun run check:direct-boundary"
+  },
+  "dependencies": {
+    "@hraness/ui": "github:hraness/ui#v0.2.0",
+    "next": "catalog:",
+    "posthog-js": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@hraness/direct": "github:hraness/direct#v0.6.1",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-next": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

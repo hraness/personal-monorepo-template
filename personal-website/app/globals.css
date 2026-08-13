@@ -1,0 +1,183 @@
+@import "@hraness/ui/tokens.css";
+@import "@hraness/ui/reset.css";
+@import "@hraness/ui/components.css";
+
+:root {
+  scrollbar-gutter: stable;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--ui-background);
+}
+
+.personal-surface,
+.design-gallery {
+  background: var(--ui-background);
+  color: var(--ui-foreground);
+  font-size: var(--text-label);
+  line-height: 1.65;
+}
+
+.personal-surface {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+}
+
+.personal-index,
+.personal-footer,
+.design-gallery {
+  width: min(36rem, calc(100% - 3rem));
+  margin-inline: auto;
+}
+
+.personal-index {
+  flex: 1 0 auto;
+  padding-block: clamp(4rem, 14vh, 8rem) 4rem;
+}
+
+.personal-index header > :where(h1, p),
+.personal-index section > :where(h2, p),
+.personal-index ul,
+.personal-footer,
+.design-gallery :where(h1, h2, p) {
+  margin: 0;
+}
+
+.personal-index h1,
+.personal-index h2,
+.design-gallery h1,
+.design-gallery h2 {
+  font: var(--font-weight-bold) var(--text-label)/1.5 var(--ui-font-heading);
+}
+
+.personal-index header p,
+.design-gallery header p {
+  color: var(--ui-muted-foreground);
+}
+
+.personal-index section {
+  margin-top: var(--space-8);
+}
+
+.personal-index h2,
+.design-gallery h2 {
+  margin-bottom: var(--space-1);
+}
+
+.project-list,
+.social-list {
+  padding: 0;
+  list-style: none;
+}
+
+.project-list li + li,
+.social-list li + li {
+  margin-top: 0.15rem;
+}
+
+.project-list a {
+  display: inline-flex;
+  min-height: 1.5rem;
+  align-items: center;
+  border-radius: var(--radius-round);
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.project-list a:focus-visible {
+  outline: 2px solid var(--ui-ring);
+  outline-offset: 2px;
+}
+
+.project-list .hraness-badge {
+  font-family: var(--ui-font-heading);
+  vertical-align: middle;
+}
+
+.social-list a,
+.design-gallery a {
+  display: inline-block;
+  min-height: 1.5rem;
+}
+
+.personal-footer {
+  display: flex;
+  min-width: 0;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-6) var(--space-8);
+  border-top: 1px solid var(--ui-border);
+  color: var(--ui-muted-foreground);
+  font-family: var(--ui-font-heading);
+  font-size: var(--text-caption);
+}
+
+.appearance-control {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.appearance-control .hraness-segmented-control {
+  font-family: var(--ui-font-heading);
+  font-size: var(--text-caption);
+}
+
+.appearance-error:empty {
+  display: none;
+}
+
+.appearance-error {
+  max-width: 28rem;
+  color: var(--ui-destructive);
+  font-family: var(--ui-font-sans);
+}
+
+.design-gallery {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: clamp(3rem, 10vh, 6rem);
+}
+
+.design-gallery header {
+  margin-bottom: var(--space-12);
+}
+
+.design-gallery header h1 {
+  margin-top: var(--space-4);
+}
+
+.design-gallery section + section {
+  margin-top: var(--space-8);
+}
+
+.design-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+@media (max-width: 30rem) {
+  .personal-index,
+  .personal-footer,
+  .design-gallery {
+    width: min(100% - 2rem, 36rem);
+  }
+
+  .personal-index {
+    padding-top: 3rem;
+  }
+}

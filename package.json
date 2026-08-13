@@ -1,0 +1,55 @@
+{
+  "name": "personal-monorepo-template",
+  "description": "An agent-friendly monorepo template for a personal website, Markdown knowledge base, Direct, and reusable Codex skills.",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.14",
+  "engines": {
+    "node": "24.x"
+  },
+  "workspaces": {
+    "packages": [
+      "personal-website"
+    ],
+    "catalog": {
+      "@eslint/js": "^9.39.2",
+      "@types/bun": "^1.3.14",
+      "@types/node": "^24.10.0",
+      "@types/react": "^19.2.14",
+      "@types/react-dom": "^19.2.3",
+      "@vitejs/plugin-react": "^6.0.3",
+      "eslint": "^9.39.2",
+      "eslint-config-next": "16.3.0",
+      "fast-check": "^4.8.0",
+      "next": "16.3.0",
+      "posthog-js": "1.412.1",
+      "react": "19.2.3",
+      "react-dom": "19.2.3",
+      "typescript": "^6.0.3",
+      "typescript-eslint": "^8.53.0",
+      "vite": "^8.1.5"
+    }
+  },
+  "scripts": {
+    "dev": "bun run --cwd personal-website dev",
+    "dev:direct": "bun run --cwd personal-website dev:direct",
+    "build": "bun run --cwd personal-website build",
+    "lint": "bun run --cwd personal-website lint",
+    "typecheck": "tsc --noEmit && bun run --cwd personal-website typecheck",
+    "test": "bun test ./scripts ./.agents/skills/reclaim-disk-space/scripts && bun run --cwd personal-website test",
+    "check": "bun run lint && bun run typecheck && bun run test && bun run kb:check && bun run --cwd personal-website verify",
+    "kb:refresh": "kb refresh --root kb",
+    "kb:check:lane": "kb check --root kb --no-catalog",
+    "kb:check": "kb check --root kb && kb agents check --root kb --repo .",
+    "kb:catalog": "kb catalog --root kb",
+    "kb:doctor": "kb doctor",
+    "disk:worktrees:audit": "bun run .agents/skills/reclaim-disk-space/scripts/worktree-cleanup.ts",
+    "merge:queue": "bun run scripts/merge-main.ts"
+  },
+  "devDependencies": {
+    "@hraness/kb": "github:hraness/kb#v0.14.0",
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
+  }
+}

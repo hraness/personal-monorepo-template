@@ -1,0 +1,22 @@
+# Dependencies and caches
+node_modules/
+.turbo/
+.qmd/
+
+# Next.js and Direct output
+.next/
+out/
+dist/
+dist-direct/
+
+# Local configuration
+.env*
+!.env.example
+
+# Test and editor output
+coverage/
+.DS_Store
+*.tsbuildinfo
+
+# Vercel project binding
+.vercel/
