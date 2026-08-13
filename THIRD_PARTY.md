@@ -2,7 +2,7 @@
 
 This template uses public Hraness projects under their own MIT licenses:
 
-- [`@hraness/ui`](https://github.com/hraness/ui), pinned to `v0.3.0`.
+- [`@hraness/ui`](https://github.com/hraness/ui), pinned to `v0.3.1`.
 - [`@hraness/direct`](https://github.com/hraness/direct), pinned to `v0.6.1`.
 - [`@hraness/kb`](https://github.com/hraness/kb), pinned to `v0.14.0`.
 

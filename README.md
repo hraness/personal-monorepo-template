@@ -81,7 +81,7 @@ section, Reading and Bookshelf links, restrained typography, and a
 Light/Dark/System control in the footer.
 The footer has no inherited wordmark or brand mark.
 
-The site consumes [`@hraness/ui`](https://github.com/hraness/ui) at `v0.3.0`
+The site consumes [`@hraness/ui`](https://github.com/hraness/ui) at `v0.3.1`
 for accessible, product-neutral components, social and appearance glyphs,
 quiet-site geometry, and CSS tokens. The original
 Hraness theme layer is private, so the template owns a small system-font site

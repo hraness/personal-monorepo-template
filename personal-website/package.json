@@ -17,7 +17,7 @@
     "verify": "bun run test && bun run typecheck && bun run lint && bun run build && bun run check:production-boundary && bun run build:direct && bun run check:direct-boundary"
   },
   "dependencies": {
-    "@hraness/ui": "github:hraness/ui#v0.3.0",
+    "@hraness/ui": "github:hraness/ui#v0.3.1",
     "next": "catalog:",
     "posthog-js": "catalog:",
     "react": "catalog:",
