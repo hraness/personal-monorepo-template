@@ -1,14 +1,14 @@
 "use client";
 
-import { SegmentedControl } from "@hraness/ui";
+import { AppearanceIcon, SegmentedControl } from "@hraness/ui";
 import { useSyncExternalStore } from "react";
 
 import type { AppearancePort, AppearancePreference } from "./appearance-port";
 
 const items = [
-  { id: "light", label: "light" },
-  { id: "dark", label: "dark" },
-  { id: "system", label: "system" },
+  { id: "light", ariaLabel: "Light", label: <AppearanceIcon name="light" /> },
+  { id: "dark", ariaLabel: "Dark", label: <AppearanceIcon name="dark" /> },
+  { id: "system", ariaLabel: "System", label: <AppearanceIcon name="system" /> },
 ] as const;
 
 export function AppearanceSwitcher({ port }: Readonly<{ port: AppearancePort }>) {

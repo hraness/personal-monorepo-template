@@ -1,4 +1,8 @@
 import type { JsonValue } from "@hraness/direct";
+import {
+  isSocialIconName,
+  type SocialIconName,
+} from "@hraness/ui";
 
 import {
   isAppearancePreference,
@@ -17,7 +21,7 @@ export type WebsiteDirectProject = {
 export type WebsiteDirectSocialLink = {
   readonly [key: string]: JsonValue;
   readonly href: string;
-  readonly id: string;
+  readonly id: SocialIconName;
   readonly label: string;
 };
 
@@ -129,8 +133,13 @@ function parseProject(input: unknown, index: number): WebsiteDirectProject {
 
 function parseSocialLink(input: unknown, index: number): WebsiteDirectSocialLink {
   const record = exactRecord(input, SOCIAL_KEYS, `content.socialLinks[${String(index)}]`);
+  if (!isSocialIconName(record.id)) {
+    throw new Error(
+      `content.socialLinks[${String(index)}].id must name a supported social icon.`,
+    );
+  }
   return Object.freeze({
-    id: identifier(record.id, `content.socialLinks[${String(index)}].id`),
+    id: record.id,
     label: text(record.label, `content.socialLinks[${String(index)}].label`, 80),
     href: webUrl(record.href, `content.socialLinks[${String(index)}].href`),
   });

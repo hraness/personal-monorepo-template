@@ -1,3 +1,5 @@
+import type { SocialIconName } from "@hraness/ui";
+
 export interface PersonalProject {
   readonly description: string;
   readonly href: string;
@@ -7,7 +9,7 @@ export interface PersonalProject {
 
 export interface SocialLink {
   readonly href: string;
-  readonly id: string;
+  readonly id: SocialIconName;
   readonly label: string;
 }
 

@@ -1,8 +1,6 @@
 # Personal website
 
-A small static personal index built with Next.js and the public [`@hraness/ui`](https://github.com/hraness/ui) package. The same homepage renders inside a separate Direct workbench for deterministic UI development.
-
-The build configs resolve the pinned v0.2.0 package's shipped TypeScript source for JavaScript imports. This is a narrow compatibility alias for Next.js: that release's prebuilt single-file bundle retains internal `use client` directives that Next rejects after the first statement. Styles still use the package's public CSS exports.
+A small static personal index built with Next.js and the public [`@hraness/ui`](https://github.com/hraness/ui) package. The package supplies the shared quiet-site page and footer geometry plus social and appearance glyphs. The same homepage renders inside a separate Direct workbench for deterministic UI development.
 
 The template is intentionally not deployed. It has no database, authentication, reading list, feed, hidden form, or inherited brand identity.
 

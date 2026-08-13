@@ -31,21 +31,19 @@ body {
 }
 
 .personal-index,
-.personal-footer,
 .design-gallery {
   width: min(36rem, calc(100% - 3rem));
   margin-inline: auto;
 }
 
 .personal-index {
-  flex: 1 0 auto;
-  padding-block: clamp(4rem, 14vh, 8rem) 4rem;
+  --hraness-quiet-site-measure: 34rem;
+  width: auto;
 }
 
 .personal-index header > :where(h1, p),
 .personal-index section > :where(h2, p),
 .personal-index ul,
-.personal-footer,
 .design-gallery :where(h1, h2, p) {
   margin: 0;
 }
@@ -101,23 +99,25 @@ body {
   vertical-align: middle;
 }
 
-.social-list a,
+.social-list a {
+  display: inline-flex;
+  min-height: 1.5rem;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .design-gallery a {
   display: inline-block;
   min-height: 1.5rem;
 }
 
-.personal-footer {
-  display: flex;
-  min-width: 0;
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  padding-block: var(--space-6) var(--space-8);
-  border-top: 1px solid var(--ui-border);
+.social-list .hraness-social-icon {
   color: var(--ui-muted-foreground);
+}
+
+.personal-footer {
+  --hraness-quiet-site-measure: 34rem;
+  justify-content: flex-end;
   font-family: var(--ui-font-heading);
   font-size: var(--text-caption);
 }
@@ -172,12 +172,16 @@ body {
 
 @media (max-width: 30rem) {
   .personal-index,
-  .personal-footer,
   .design-gallery {
     width: min(100% - 2rem, 36rem);
   }
 
   .personal-index {
-    padding-top: 3rem;
+    --hraness-quiet-site-gutter: 1rem;
+    width: auto;
+  }
+
+  .personal-footer {
+    --hraness-quiet-site-gutter: 1rem;
   }
 }

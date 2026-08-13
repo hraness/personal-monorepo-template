@@ -28,4 +28,17 @@ describe("personal website Direct world", () => {
       appearance: { preference: "light", resolved: "dark", writeFailure: null },
     })).toThrow("must equal");
   });
+
+  test("rejects social identifiers without a shared icon", () => {
+    expect(() => parseWebsiteDirectWorld({
+      ...valid(),
+      content: {
+        ...valid().content,
+        socialLinks: [{
+          ...valid().content.socialLinks[0],
+          id: "unsupported",
+        }],
+      },
+    })).toThrow("must name a supported social icon");
+  });
 });

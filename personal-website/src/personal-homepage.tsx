@@ -1,6 +1,11 @@
 "use client";
 
-import { Badge } from "@hraness/ui";
+import {
+  Badge,
+  QuietSiteFooter,
+  QuietSitePage,
+  SocialIcon,
+} from "@hraness/ui";
 import { useSyncExternalStore } from "react";
 
 import type { AppearancePort } from "./appearance-port";
@@ -28,7 +33,7 @@ export function PersonalHomepage({
       data-product-surface={PERSONAL_HOMEPAGE_MARKER}
       data-theme={snapshot.resolved}
     >
-      <main className="personal-index">
+      <QuietSitePage className="personal-index">
         <header>
           <h1>{content.name}</h1>
           <p>{content.introduction}</p>
@@ -54,7 +59,10 @@ export function PersonalHomepage({
           <ul className="social-list">
             {content.socialLinks.map((link) => (
               <li key={link.id}>
-                <a href={link.href} rel="me">{link.label}</a>
+                <a href={link.href} rel="me">
+                  <SocialIcon name={link.id} />
+                  <span>{link.label}</span>
+                </a>
               </li>
             ))}
           </ul>
@@ -64,12 +72,11 @@ export function PersonalHomepage({
           <h2 id="about-heading">about me</h2>
           <p>{content.about}</p>
         </section>
-      </main>
+      </QuietSitePage>
 
-      <footer className="personal-footer">
-        <span>{content.name}</span>
+      <QuietSiteFooter className="personal-footer">
         <AppearanceSwitcher port={appearance} />
-      </footer>
+      </QuietSiteFooter>
     </div>
   );
 }

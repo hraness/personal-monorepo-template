@@ -74,10 +74,11 @@ bun run kb:doctor       # optional KB capability diagnostics
 The homepage keeps the useful parts of [hraness.com](https://hraness.com): a
 compact column, a name and introduction, project and social links, an about
 section, restrained typography, and a Light/Dark/System control in the footer.
-The control has no inherited wordmark or icon.
+The footer has no inherited wordmark or brand mark.
 
-The site consumes [`@hraness/ui`](https://github.com/hraness/ui) at `v0.2.0`
-for accessible, product-neutral components and CSS tokens. The original
+The site consumes [`@hraness/ui`](https://github.com/hraness/ui) at `v0.3.0`
+for accessible, product-neutral components, social and appearance glyphs,
+quiet-site geometry, and CSS tokens. The original
 Hraness theme layer is private, so the template owns a small system-font site
 grammar and appearance adapter locally. This keeps customization clear and
 avoids licensed private fonts and brand assets.

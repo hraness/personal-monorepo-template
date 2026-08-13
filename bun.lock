@@ -15,7 +15,7 @@
       "name": "@personal-monorepo/personal-website",
       "version": "0.1.0",
       "dependencies": {
-        "@hraness/ui": "github:hraness/ui#v0.2.0",
+        "@hraness/ui": "github:hraness/ui#v0.3.0",
         "next": "catalog:",
         "posthog-js": "catalog:",
         "react": "catalog:",
@@ -114,7 +114,11 @@
 
     "@hraness/kb": ["@hraness/kb@github:hraness/kb#66e8731", { "dependencies": { "@steipete/sweet-cookie": "git+https://github.com/hraness/sweet-cookie.git#112dce1a3c3dd165310616ca63dd2f6cc652b212", "@tobilu/qmd": "git+https://github.com/hraness/qmd.git#aa993dceb3ef8cfb71d470554ca437570f5a2b3c", "agent-browser": "0.32.3", "defuddle": "0.19.1", "yaml": "^2.9.0" }, "bin": { "kb": "./dist/cli.js" } }, "hraness-kb-66e8731", "sha512-wkU3L36IjMp87oYrHoVa/z2fNkGKDQgtUDqhv20qGkwBpW+Z+UyLRnOtZK98BYaNzClHxzt2pLbqUQM3u3XC6A=="],
 
-    "@hraness/ui": ["@hraness/ui@github:hraness/ui#8d1027a", { "dependencies": { "clsx": "^2.1.1", "react-aria-components": "1.19.0", "tailwind-merge": "^3.6.0" }, "peerDependencies": { "react": ">=18 <20", "react-dom": ">=18 <20" } }, "hraness-ui-8d1027a", "sha512-ChJEUfilPf5yHOGJDNo9+zhSWqHSuVxnxKKi8bK/6S0IFpfXrYbyPqb00xC4hFOOcMw4avLcwYeS1fzhL0za9Q=="],
+    "@hraness/ui": ["@hraness/ui@github:hraness/ui#bed714a", { "dependencies": { "@hugeicons/core-free-icons": "^4.2.2", "@hugeicons/react": "^1.1.9", "clsx": "^2.1.1", "react-aria": "3.50.0", "react-aria-components": "1.19.0", "tailwind-merge": "^3.6.0" }, "peerDependencies": { "react": ">=18 <20", "react-dom": ">=18 <20" } }, "hraness-ui-bed714a", "sha512-0fTwUpKGlCgkRzPGRroKB52kwxVvKMSHCLbVGDInFcZLVZ9p4y1wrMe9K+eCgKVEhf8s97vSWjOHiY9vpRl7Zw=="],
+
+    "@hugeicons/core-free-icons": ["@hugeicons/core-free-icons@4.2.3", "", {}, "sha512-fpiU0qFZkv4ABi23xJ2m4qNr0BBfuIaYjPboN8WDA6aj9D+OzXa7eykxKOpACZRuGbDz1U9S5DsNx1d5KNnsgA=="],
+
+    "@hugeicons/react": ["@hugeicons/react@1.1.9", "", { "peerDependencies": { "react": ">=16.0.0" } }, "sha512-O+lWSWjbijoAvMCxn4K2bQWCGN5+mP1y5j+X99j23mXMj+s0X25fs71T6t9YJLaBodwmZdaewD27dzS/PiboQw=="],
 
     "@huggingface/jinja": ["@huggingface/jinja@0.5.9", "", {}, "sha512-uWTG+l3VJRsl7EXxYizuL3P+cCPoc3cRqbWWRcQN0FhejRfbdq0RNhCmbY/YDtnTcz9icdLYuLDjsnz4d8JMuw=="],
 
