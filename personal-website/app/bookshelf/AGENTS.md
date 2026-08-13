@@ -10,3 +10,4 @@
 - Add only books the site owner has actually read or is reading. Preserve supplied titles, author names, dates, and notes.
 - Keep the page typographic and quiet, with compact metadata and muted notes instead of cards, covers, ratings, or decorative taxonomy.
 - Link each title to a reviewed first-party author or publisher source when one is available.
+- Use the app-owned collection page header for the home breadcrumb and collection heading.

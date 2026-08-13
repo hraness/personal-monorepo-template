@@ -15,3 +15,4 @@
 - Keep digest and complete-note content as a discriminated union and render primary content in server HTML.
 - Model the external source as an Article or Book in structured data. The site owner remains the author of the reading note.
 - Keep the surface chronological, typographic, and quiet. Do not add cards, tags, reactions, subscriptions, reading-time badges, or decorative media.
+- Use the app-owned collection page header for the home breadcrumb and collection heading.

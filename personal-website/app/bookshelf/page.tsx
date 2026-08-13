@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
+import { CollectionPageHeader } from "../collection-page-header";
 import { JsonLdScript } from "../seo/json-ld";
 import { publicSite } from "../site";
 import { BOOKSHELF_PATH, bookshelfBooks, bookshelfReadingLabel } from "./books";
@@ -46,8 +46,7 @@ export default function BookshelfPage() {
           },
         }}
       />
-      <nav aria-label="breadcrumb"><Link href="/">{publicSite.name}</Link></nav>
-      <header><h1>bookshelf</h1></header>
+      <CollectionPageHeader title="bookshelf" />
       {bookshelfBooks.length === 0 ? (
         <p className="empty-collection">No books listed yet.</p>
       ) : (

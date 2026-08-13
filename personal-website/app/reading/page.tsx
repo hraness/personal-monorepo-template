@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { CollectionPageHeader } from "../collection-page-header";
 import { READING_ATOM_PATH, READING_PATH } from "../feeds/paths";
 import { JsonLdScript } from "../seo/json-ld";
 import { publicSite } from "../site";
@@ -53,11 +54,9 @@ export default function ReadingPage() {
           },
         }}
       />
-      <nav aria-label="breadcrumb"><Link href="/">{publicSite.name}</Link></nav>
-      <header>
-        <h1>reading</h1>
+      <CollectionPageHeader title="reading">
         <p><a href={READING_ATOM_PATH}>atom feed</a></p>
-      </header>
+      </CollectionPageHeader>
       {readingEntries.length === 0 ? (
         <p className="empty-collection">No published reading notes yet.</p>
       ) : (

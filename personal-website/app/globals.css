@@ -55,15 +55,15 @@
   color: var(--ui-muted-foreground);
 }
 
-.content-page > nav {
+.content-page-header nav {
   margin-bottom: var(--space-8);
 }
 
-.content-page > header {
+.content-page-header {
   margin-bottom: var(--space-8);
 }
 
-.content-page > header :where(h1, p) {
+.content-page-header :where(h1, p) {
   margin-bottom: 0;
 }
 
