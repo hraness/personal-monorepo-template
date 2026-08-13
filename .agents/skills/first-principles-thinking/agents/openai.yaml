@@ -1,0 +1,4 @@
+interface:
+  display_name: "First-Principles Thinking"
+  short_description: "Rebuild an answer from fundamental constraints"
+  default_prompt: "Use $first-principles-thinking to rebuild this problem from its fundamental constraints."

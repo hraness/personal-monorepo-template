@@ -1,0 +1,39 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [
+        "scripts/**/*.ts",
+        ".agents/skills/*/scripts/**/*.ts"
+      ],
+      "project": [
+        "scripts/**/*.ts",
+        ".agents/skills/*/scripts/**/*.ts"
+      ]
+    },
+    "personal-website": {
+      "entry": [
+        "app/**/*.{ts,tsx}",
+        "direct/**/*.{ts,tsx}",
+        "src/**/*.test.{ts,tsx}"
+      ],
+      "project": [
+        "app/**/*.{ts,tsx}",
+        "direct/**/*.{ts,tsx}",
+        "src/**/*.{ts,tsx}"
+      ]
+    }
+  },
+  "ignoreExportsUsedInFile": true,
+  "exclude": [
+    "duplicates",
+    "binaries"
+  ],
+  "rules": {
+    "dependencies": "error",
+    "devDependencies": "error",
+    "unlisted": "error",
+    "exports": "warn",
+    "types": "warn"
+  }
+}

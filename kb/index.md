@@ -26,7 +26,13 @@ bounded links, metadata, text, or history queries only when needed.
 - `articles/` holds self-contained captured sources and their local assets.
 - `notes/` holds maintained concepts and synthesis.
 - `plans/` holds proposed through terminal coordination records.
+- `riffs/` holds finished first-person notes cleaned from spoken or stream-of-consciousness drafts.
 - `scopes/` holds curated repository-context hubs.
+
+The [[scopes/repository--cdb4ee2aea69|repository context hub]] explains the
+repository-wide rule boundaries. [[notes/documentation-ownership|Documentation
+ownership]] records the durable split between guides, docs, executable
+contracts, and KB context.
 
 Git history is the maintenance log. Do not add generated backlink sections or
 a second append-only fact store. Each record owns its metadata, links, and

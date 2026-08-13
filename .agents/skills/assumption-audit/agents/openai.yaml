@@ -1,0 +1,4 @@
+interface:
+  display_name: "Assumption Audit"
+  short_description: "Surface and test load-bearing assumptions"
+  default_prompt: "Use $assumption-audit to find and test the load-bearing assumptions in this plan."

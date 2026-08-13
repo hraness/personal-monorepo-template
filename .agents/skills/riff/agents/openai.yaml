@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clean Up a Riff"
+  short_description: "Turn a voice dump into a faithful KB note"
+  default_prompt: "Use $riff to turn this transcript into a faithful first-person knowledge-base note."

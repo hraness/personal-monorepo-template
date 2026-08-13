@@ -53,7 +53,8 @@ unreleased component work is intentionally not assumed here.
 | --- | --- |
 | `personal-website/` | Next.js personal index, public design-system primitives, local appearance control, optional PostHog, Vercel configuration, and Direct workbench |
 | `kb/` | Authored Obsidian-compatible Markdown vault for notes, plans, sources, and repository context |
-| `.agents/skills/` | Codex-discoverable KB, disk reclamation, Direct, and phased-work skills |
+| `.agents/skills/` | Codex-discoverable KB capture and writing, reasoning, disk reclamation, Direct, and phased-work skills |
+| `docs/`, `WRITING.md`, `STYLE.md` | Documentation ownership plus internal and public prose contracts |
 | `scripts/` | Stateless serializer for trusted direct-to-`main` workflows |
 | `.github/workflows/ci.yml` | Frozen install followed by the same `bun run check` used locally |
 
@@ -62,7 +63,8 @@ The shared command surface stays intentionally small:
 ```sh
 bun run dev             # Next.js personal website
 bun run dev:direct      # deterministic Direct workbench
-bun run check           # lint, types, tests, KB policy, both builds, boundary scans
+bun run check           # lint, types, tests, Knip, KB policy, both builds, boundary scans
+bun run check:knip      # unused files, exports, and dependency declarations
 bun run kb:catalog      # disposable complete vault listing
 bun run kb:doctor       # optional KB capability diagnostics
 ```
@@ -155,8 +157,9 @@ bun run kb:catalog      # render the exhaustive catalog on demand
 
 Exact search, metadata, links, graph analysis, and repository context work
 locally. Semantic search is optional and downloads a local model on first use.
-Web and PDF capture have additional optional browser/OCR dependencies and are
-not part of this template's default skills.
+The included web and PDF capture skills use the installed KB CLI, but browser,
+media, OCR, and platform-specific capabilities remain optional and are reported
+honestly by `bun run kb:doctor`.
 
 Repository visibility also controls KB visibility. A public generated
 repository creates a public vault, so keep private notes in a private
@@ -167,10 +170,14 @@ repository or a separate private vault.
 The repository ships focused workflows for:
 
 - querying, planning, percolating, and refreshing the KB;
+- cleaning dictated riffs into faithful first-person notes;
+- capturing web pages and PDFs into auditable KB bundles;
 - adopting and verifying Direct while keeping it out of production;
 - auditing disk use and removing only explicitly approved, clean, merged Git
   worktrees; and
-- executing an accepted plan through bounded parallel lanes and join gates.
+- executing an accepted plan through bounded parallel lanes and join gates;
+- auditing assumptions, comparing weighted decisions, reasoning from first
+  principles, and reformulating stuck questions.
 
 Each skill has its own `SKILL.md`. Agents should load the smallest applicable
 workflow and follow the closest `AGENTS.md` before editing.

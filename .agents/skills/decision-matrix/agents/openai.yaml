@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decision Matrix"
+  short_description: "Compare options with weights and sensitivity"
+  default_prompt: "Use $decision-matrix to compare these options, test the weights, and identify the real tiebreaker."

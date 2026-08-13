@@ -4,10 +4,17 @@
 - `refresh-kb/` – knowledge-graph refresh and validation.
 - `percolate-kb/` – evidence-backed concept and relationship promotion.
 - `plan-kb/` – durable implementation planning in the knowledge base.
+- `riff/` – faithful cleanup of dictated or stream-of-consciousness notes.
+- `save-url-kb/` – auditable public and signed-in web capture.
+- `save-pdf-kb/` – auditable PDF conversion with OCR and image evidence.
 - `direct-setup/` – deterministic Direct composition design and production exclusion.
 - `direct-verify/` – evidence-based verification of Direct compositions.
 - `reclaim-disk-space/` – cautious disk and Git worktree cleanup.
 - `phase-orchestrator/` – phased execution with Codex collaboration agents.
+- `assumption-audit/` – load-bearing assumption discovery and testing.
+- `decision-matrix/` – weighted option comparison with sensitivity analysis.
+- `first-principles-thinking/` – reconstruction from fundamental constraints.
+- `question-forge/` – reformulation of stuck, loaded, or defensive questions.
 
 # Guidelines
 

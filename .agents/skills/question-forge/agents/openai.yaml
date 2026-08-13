@@ -1,0 +1,4 @@
+interface:
+  display_name: "Question Forge"
+  short_description: "Turn a stuck question into the useful question"
+  default_prompt: "Use $question-forge to diagnose and reformulate this question without answering the forged question."
