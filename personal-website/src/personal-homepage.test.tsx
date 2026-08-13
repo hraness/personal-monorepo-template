@@ -22,6 +22,10 @@ describe("personal homepage chrome", () => {
       expect(markup).toContain(`data-social-icon="${link.id}"`);
       expect(markup).toContain(`<span>${link.label}</span></a>`);
     }
+    for (const link of personalSite.libraryLinks) {
+      expect(markup).toContain(`href="${link.href}"`);
+      expect(markup).toContain(`>${link.label}</a>`);
+    }
     expect(markup).toContain('data-appearance-icon="light"');
     expect(markup).toContain('data-appearance-icon="dark"');
     expect(markup).toContain('data-appearance-icon="system"');

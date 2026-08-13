@@ -6,6 +6,128 @@
   scrollbar-gutter: stable;
 }
 
+.library-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.personal-index nav + nav {
+  margin-top: var(--space-4);
+}
+
+.content-page {
+  width: min(34rem, calc(100% - 3rem));
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-block: clamp(3rem, 10vh, 6rem);
+  color: var(--ui-foreground);
+  font-size: var(--text-label);
+  line-height: 1.65;
+}
+
+.content-page :where(h1, h2, h3, p, ol, ul, figure, blockquote) {
+  margin-top: 0;
+}
+
+.content-page h1,
+.content-page h2,
+.content-page h3 {
+  font-family: var(--ui-font-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+}
+
+.content-page h1,
+.content-page h2 {
+  font-size: var(--text-label);
+}
+
+.content-page nav,
+.collection-meta,
+.reading-source-meta,
+.reading-quote figcaption,
+.reading-full-note figcaption,
+.empty-collection {
+  color: var(--ui-muted-foreground);
+}
+
+.content-page > nav {
+  margin-bottom: var(--space-8);
+}
+
+.content-page > header {
+  margin-bottom: var(--space-8);
+}
+
+.content-page > header :where(h1, p) {
+  margin-bottom: 0;
+}
+
+.reading-list,
+.bookshelf-list {
+  padding: 0;
+  list-style: none;
+}
+
+.reading-list > li + li,
+.bookshelf-list > li + li {
+  margin-top: var(--space-8);
+}
+
+.reading-list article > :where(h2, p),
+.bookshelf-list article > :where(h2, p) {
+  margin-bottom: var(--space-1);
+}
+
+.reading-detail article > header {
+  margin-bottom: var(--space-8);
+}
+
+.reading-detail article > header :where(h1, p) {
+  margin-bottom: var(--space-1);
+}
+
+.reading-notes section + section {
+  margin-top: var(--space-8);
+}
+
+.reading-notes ul {
+  padding-left: 1.25rem;
+}
+
+.reading-notes li + li {
+  margin-top: var(--space-2);
+}
+
+.reading-quote-group figure + figure {
+  margin-top: var(--space-6);
+}
+
+.reading-quote,
+.reading-full-note {
+  margin-inline: 0;
+}
+
+.reading-quote blockquote,
+.reading-full-note blockquote {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--ui-border);
+}
+
+.reading-full-note blockquote p + p {
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 30rem) {
+  .content-page {
+    width: min(100% - 2rem, 34rem);
+  }
+}
+
 html,
 body {
   min-height: 100%;

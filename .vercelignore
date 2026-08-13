@@ -1,0 +1,15 @@
+# Repository tooling and private knowledge that are not part of the website
+.agents/
+.github/
+kb/
+scripts/
+
+# Deterministic workbench source and local build output
+personal-website/direct/
+personal-website/dist-direct/
+personal-website/.next/
+personal-website/tsconfig.tsbuildinfo
+
+# Installed dependencies are restored by Vercel
+node_modules/
+personal-website/node_modules/

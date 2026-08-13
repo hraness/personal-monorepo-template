@@ -1,6 +1,7 @@
 # Contents
 
 - Descriptive lowercase Markdown files – maintained concepts, entities, comparisons, and synthesis.
+- `reading/` – private maintained sources for explicitly reviewed public Reading entries.
 
 # Guidelines
 
@@ -11,3 +12,4 @@
 - Link the source-bearing capture, report, plan, or external source behind material claims.
 - Store a typed outbound assertion only when this note's prose or evidence establishes it. Do not author reciprocal or inferred relationships.
 - Treat agent-written synthesis as maintained and revisable, not as a replacement for its sources.
+- Keep Reading drafts and public projection rules under `reading/AGENTS.md`; ordinary notes do not become public implicitly.

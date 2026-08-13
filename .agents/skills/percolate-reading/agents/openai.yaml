@@ -1,0 +1,4 @@
+interface:
+  display_name: "Percolate Reading"
+  short_description: "Publish reviewed KB sources as reading notes"
+  default_prompt: "Use $percolate-reading to review saved KB sources and project selected public reading notes into the personal website."

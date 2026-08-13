@@ -24,7 +24,7 @@ bounded links, metadata, text, or history queries only when needed.
 ## Record boundaries
 
 - `articles/` holds self-contained captured sources and their local assets.
-- `notes/` holds maintained concepts and synthesis.
+- `notes/` holds maintained concepts and synthesis; `notes/reading/` holds private reviewed sources for explicitly published Reading entries.
 - `plans/` holds proposed through terminal coordination records.
 - `riffs/` holds finished first-person notes cleaned from spoken or stream-of-consciousness drafts.
 - `scopes/` holds curated repository-context hubs.

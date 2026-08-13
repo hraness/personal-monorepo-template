@@ -7,7 +7,9 @@ base, optional PostHog analytics, and a simple path for landing validated
 commits on `main`.
 
 The repository is a template, not a deployed product. It contains no Hraness
-identity, icon, authentication, database, reading list, Atom feed, or RSS feed.
+identity, icon, authentication, database, RSS feed, inherited reading notes, or
+inherited books. Its empty Reading, Bookshelf, and Atom surfaces are ready for
+the generated repository owner's material.
 
 ## Start here
 
@@ -51,8 +53,8 @@ unreleased component work is intentionally not assumed here.
 
 | Area | Purpose |
 | --- | --- |
-| `personal-website/` | Next.js personal index, public design-system primitives, local appearance control, optional PostHog, Vercel configuration, and Direct workbench |
-| `kb/` | Authored Obsidian-compatible Markdown vault for notes, plans, sources, and repository context |
+| `personal-website/` | Next.js personal index, Reading, Bookshelf, Atom and SEO discovery, design primitives, appearance control, optional PostHog, Vercel configuration, and Direct workbench |
+| `kb/` | Authored Obsidian-compatible Markdown vault for notes, plans, captures, private reading sources, and repository context |
 | `.agents/skills/` | Codex-discoverable KB capture and writing, reasoning, disk reclamation, Direct, and phased-work skills |
 | `docs/`, `WRITING.md`, `STYLE.md` | Documentation ownership plus internal and public prose contracts |
 | `scripts/` | Stateless serializer for trusted direct-to-`main` workflows |
@@ -67,13 +69,16 @@ bun run check           # lint, types, tests, Knip, KB policy, both builds, boun
 bun run check:knip      # unused files, exports, and dependency declarations
 bun run kb:catalog      # disposable complete vault listing
 bun run kb:doctor       # optional KB capability diagnostics
+bun run reading:inbox   # captures with no maintained reading note
+bun run reading:check   # validate notes and generated registry drift
 ```
 
 ## Personal website
 
 The homepage keeps the useful parts of [hraness.com](https://hraness.com): a
 compact column, a name and introduction, project and social links, an about
-section, restrained typography, and a Light/Dark/System control in the footer.
+section, Reading and Bookshelf links, restrained typography, and a
+Light/Dark/System control in the footer.
 The footer has no inherited wordmark or brand mark.
 
 The site consumes [`@hraness/ui`](https://github.com/hraness/ui) at `v0.3.0`
@@ -99,6 +104,29 @@ Deployment is deliberately left to the repository owner:
 5. Deploy, attach the final domain, and verify the canonical URL directly.
 
 No Vercel account, project, domain, or deployment is created by this template.
+
+### Reading, bookshelf, and discovery
+
+Web and PDF captures remain under `kb/`. Only maintained notes at
+`kb/notes/reading/<slug>.md` with `reading.status: published` enter the
+website:
+
+```sh
+bun run reading:inbox
+bun run reading:generate
+bun run reading:check
+```
+
+The projector verifies source metadata, provenance, public fields, quotation
+limits, and the generated-file boundary. Production imports only
+`personal-website/app/reading/entries.generated.ts`; it never reads the vault
+or fetches source content. The starter registry is empty.
+
+Bookshelf data lives in `personal-website/app/bookshelf/books.ts` and also
+starts empty. It is typed, file-based, and provider-free. Reading entries drive
+the static `/reading` pages and `/reading/atom.xml`. The site also includes
+canonical metadata, Open Graph and Twitter metadata, JSON-LD, `robots.txt`,
+`sitemap.xml`, and `manifest.webmanifest`.
 
 ### Configure PostHog when wanted
 
@@ -158,9 +186,10 @@ bun run kb:catalog      # render the exhaustive catalog on demand
 
 Exact search, metadata, links, graph analysis, and repository context work
 locally. Semantic search is optional and downloads a local model on first use.
-The included web and PDF capture skills use the installed KB CLI, but browser,
-media, OCR, and platform-specific capabilities remain optional and are reported
-honestly by `bun run kb:doctor`.
+The included web and PDF capture skills use the installed KB CLI. The Reading
+skill reviews selected captures and generates a network-silent public
+projection. Browser, media, OCR, and platform-specific capabilities remain
+optional and are reported honestly by `bun run kb:doctor`.
 
 Repository visibility also controls KB visibility. A public generated
 repository creates a public vault, so keep private notes in a private
@@ -173,6 +202,7 @@ The repository ships focused workflows for:
 - querying, planning, percolating, and refreshing the KB;
 - cleaning dictated riffs into faithful first-person notes;
 - capturing web pages and PDFs into auditable KB bundles;
+- percolating reviewed captures and complete notes into the public Reading registry;
 - adopting and verifying Direct while keeping it out of production;
 - auditing disk use and removing only explicitly approved, clean, merged Git
   worktrees; and

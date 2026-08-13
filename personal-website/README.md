@@ -2,11 +2,13 @@
 
 A small static personal index built with Next.js and the public [`@hraness/ui`](https://github.com/hraness/ui) package. The package supplies the shared quiet-site page and footer geometry plus social and appearance glyphs. The same homepage renders inside a separate Direct workbench for deterministic UI development.
 
-The template is intentionally not deployed. It has no database, authentication, reading list, feed, hidden form, or inherited brand identity.
+The template is intentionally not deployed. It has no database, authentication,
+hidden form, inherited brand identity, inherited reading notes, or inherited
+books. Its Reading, Bookshelf, and Atom surfaces start empty.
 
 ## Customize
 
-1. Edit `src/site.ts`. Replace the example name, introduction, projects, social links, and about copy.
+1. Edit `src/site.ts`. Replace the example name, introduction, projects, social links, and about copy. Keep or remove the Reading and Bookshelf links deliberately.
 2. Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` to the final canonical HTTPS origin.
 3. Run `bun run dev` from this directory, or `bun run --filter @personal-monorepo/personal-website dev` from the repository root.
 
@@ -36,6 +38,28 @@ bun run check:direct-boundary
 ```
 
 The two builds are deliberately separate: Next writes `.next`, while Vite writes `dist-direct`.
+
+## Reading and bookshelf
+
+Use `$save-url-kb` or `$save-pdf-kb` to preserve sources, then
+`$percolate-reading` to author and review a maintained note. The root commands
+are:
+
+```sh
+bun run reading:inbox
+bun run reading:generate
+bun run reading:check
+```
+
+Do not edit `app/reading/entries.generated.ts` by hand. Production imports
+only that checked public projection and never reads `kb/`. Add books directly
+to `app/bookshelf/books.ts`; the template supplies structure, not personal
+history.
+
+The site publishes `/reading`, `/bookshelf`, and
+`/reading/atom.xml` alongside static canonical metadata, Open Graph and
+Twitter metadata, JSON-LD, `robots.txt`, `sitemap.xml`, and
+`manifest.webmanifest`.
 
 ## Design system
 

@@ -10,6 +10,13 @@ import {
   type ResolvedAppearance,
 } from "../src/appearance-port";
 
+export type WebsiteDirectLibraryLink = {
+  readonly [key: string]: JsonValue;
+  readonly href: "/bookshelf" | "/reading";
+  readonly id: "bookshelf" | "reading";
+  readonly label: string;
+};
+
 export type WebsiteDirectProject = {
   readonly [key: string]: JsonValue;
   readonly description: string;
@@ -29,6 +36,7 @@ export type WebsiteDirectContent = {
   readonly [key: string]: JsonValue;
   readonly about: string;
   readonly introduction: string;
+  readonly libraryLinks: readonly WebsiteDirectLibraryLink[];
   readonly name: string;
   readonly projects: readonly WebsiteDirectProject[];
   readonly socialLinks: readonly WebsiteDirectSocialLink[];
@@ -50,7 +58,15 @@ export type WebsiteDirectWorld = {
 
 const WORLD_KEYS = new Set(["version", "appearance", "content"]);
 const APPEARANCE_KEYS = new Set(["preference", "resolved", "writeFailure"]);
-const CONTENT_KEYS = new Set(["name", "introduction", "projects", "socialLinks", "about"]);
+const CONTENT_KEYS = new Set([
+  "name",
+  "introduction",
+  "libraryLinks",
+  "projects",
+  "socialLinks",
+  "about",
+]);
+const LIBRARY_KEYS = new Set(["id", "label", "href"]);
 const PROJECT_KEYS = new Set(["id", "label", "description", "href"]);
 const SOCIAL_KEYS = new Set(["id", "label", "href"]);
 const IDENTIFIER = /^[a-z][a-z0-9-]{0,47}$/u;
@@ -117,6 +133,24 @@ function webUrl(input: unknown, label: string): string {
   return parsed.href;
 }
 
+function parseLibraryLink(input: unknown, index: number): WebsiteDirectLibraryLink {
+  const record = exactRecord(input, LIBRARY_KEYS, `content.libraryLinks[${String(index)}]`);
+  if (
+    (record.id !== "reading" && record.id !== "bookshelf")
+    || (record.href !== "/reading" && record.href !== "/bookshelf")
+    || record.href !== `/${record.id}`
+  ) {
+    throw new Error(
+      `content.libraryLinks[${String(index)}] must pair reading or bookshelf with its internal path.`,
+    );
+  }
+  return Object.freeze({
+    id: record.id,
+    label: text(record.label, `content.libraryLinks[${String(index)}].label`, 80),
+    href: record.href,
+  });
+}
+
 function parseProject(input: unknown, index: number): WebsiteDirectProject {
   const record = exactRecord(input, PROJECT_KEYS, `content.projects[${String(index)}]`);
   return Object.freeze({
@@ -158,19 +192,25 @@ function uniqueIds(
 
 function parseContent(input: unknown): WebsiteDirectContent {
   const record = exactRecord(input, CONTENT_KEYS, "content");
+  if (!Array.isArray(record.libraryLinks) || record.libraryLinks.length > 2) {
+    throw new Error("content.libraryLinks must contain at most 2 links.");
+  }
   if (!Array.isArray(record.projects) || record.projects.length > 12) {
     throw new Error("content.projects must contain at most 12 projects.");
   }
   if (!Array.isArray(record.socialLinks) || record.socialLinks.length > 12) {
     throw new Error("content.socialLinks must contain at most 12 links.");
   }
+  const libraryLinks = record.libraryLinks.map(parseLibraryLink);
   const projects = record.projects.map(parseProject);
   const socialLinks = record.socialLinks.map(parseSocialLink);
+  uniqueIds(libraryLinks, "content.libraryLinks");
   uniqueIds(projects, "content.projects");
   uniqueIds(socialLinks, "content.socialLinks");
   return Object.freeze({
     name: text(record.name, "content.name", 100),
     introduction: text(record.introduction, "content.introduction", 320),
+    libraryLinks: Object.freeze(libraryLinks),
     projects: Object.freeze(projects),
     socialLinks: Object.freeze(socialLinks),
     about: text(record.about, "content.about", 2_000),

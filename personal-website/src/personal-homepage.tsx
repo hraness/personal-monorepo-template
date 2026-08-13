@@ -68,6 +68,17 @@ export function PersonalHomepage({
           </ul>
         </section>
 
+        <section aria-labelledby="library-heading">
+          <h2 id="library-heading">library</h2>
+          <ul className="library-list">
+            {content.libraryLinks.map((link) => (
+              <li key={link.id}>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <section aria-labelledby="about-heading">
           <h2 id="about-heading">about me</h2>
           <p>{content.about}</p>

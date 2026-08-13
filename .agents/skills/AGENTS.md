@@ -3,6 +3,7 @@
 - `query-kb/` – scoped knowledge-base retrieval.
 - `refresh-kb/` – knowledge-graph refresh and validation.
 - `percolate-kb/` – evidence-backed concept and relationship promotion.
+- `percolate-reading/` – reviewed capture-to-public-reading projection.
 - `plan-kb/` – durable implementation planning in the knowledge base.
 - `riff/` – faithful cleanup of dictated or stream-of-consciousness notes.
 - `save-url-kb/` – auditable public and signed-in web capture.

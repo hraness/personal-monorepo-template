@@ -12,7 +12,7 @@ project. The `direct-setup` and `direct-verify` skill directories come from
 the public `hraness/direct` project. Their copyright and license remain
 governed by those projects' MIT licenses.
 
-The local personal-site styles, writing guides, reasoning skills, riff
-workflow, disk-reclamation workflow, phased-work workflow, and merge serializer
+The local personal-site styles, reading projector, writing guides, reasoning
+skills, riff workflow, disk-reclamation workflow, phased-work workflow, and merge serializer
 are distributed under this repository's MIT license. Installed transitive
 dependencies retain their respective licenses.

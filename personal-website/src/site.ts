@@ -7,6 +7,12 @@ export interface PersonalProject {
   readonly label: string;
 }
 
+export interface LibraryLink {
+  readonly href: "/bookshelf" | "/reading";
+  readonly id: "bookshelf" | "reading";
+  readonly label: string;
+}
+
 export interface SocialLink {
   readonly href: string;
   readonly id: SocialIconName;
@@ -16,6 +22,7 @@ export interface SocialLink {
 export interface PersonalSiteContent {
   readonly about: string;
   readonly introduction: string;
+  readonly libraryLinks: readonly LibraryLink[];
   readonly name: string;
   readonly projects: readonly PersonalProject[];
   readonly socialLinks: readonly SocialLink[];
@@ -25,6 +32,10 @@ export interface PersonalSiteContent {
 export const personalSite = Object.freeze({
   name: "your name",
   introduction: "designer, developer, and maker of small useful things.",
+  libraryLinks: Object.freeze([
+    Object.freeze({ id: "reading", label: "reading", href: "/reading" }),
+    Object.freeze({ id: "bookshelf", label: "bookshelf", href: "/bookshelf" }),
+  ]),
   projects: Object.freeze([
     Object.freeze({
       id: "field-notes",

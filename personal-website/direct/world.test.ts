@@ -12,6 +12,7 @@ describe("personal website Direct world", () => {
   test("round trips a strict version 1 JSON world", () => {
     const world = valid();
     expect(parseWebsiteDirectWorld(JSON.parse(JSON.stringify(world)) as unknown)).toEqual(world);
+    expect(Object.isFrozen(world.content.libraryLinks)).toBeTrue();
     expect(Object.isFrozen(world.content.projects)).toBeTrue();
   });
 
@@ -40,5 +41,15 @@ describe("personal website Direct world", () => {
         }],
       },
     })).toThrow("must name a supported social icon");
+  });
+
+  test("rejects library links that escape their fixed internal routes", () => {
+    expect(() => parseWebsiteDirectWorld({
+      ...valid(),
+      content: {
+        ...valid().content,
+        libraryLinks: [{ id: "reading", label: "reading", href: "https://example.com" }],
+      },
+    })).toThrow("must pair reading or bookshelf");
   });
 });
