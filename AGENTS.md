@@ -17,7 +17,11 @@
 - Keep the personal site statically renderable and provider-light. Do not add authentication, databases, or user tracking without an explicit product need and documented privacy behavior.
 - Follow `WRITING.md` for internal prose and `STYLE.md` for public prose. Preserve facts, exact terms, literals, quotations, links, and necessary uncertainty.
 - Apply unreasonably robust programming when agent work is cheap. Prefer coherent cross-file correctness and focused deterministic evidence to a knowingly weaker design.
-- Model state so invalid states cannot exist. Parse foreign values from `unknown`. Use deterministic regression examples, and add property tests for laws, parsers, reducers, ordering, and round trips.
+- Model state so invalid states cannot exist. Parse foreign values from `unknown`. Use readable deterministic regression examples, and add property tests for laws, parsers, reducers, ordering, and round trips.
+- Pin Hraness dependencies to reviewed immutable releases or full commits. Never replace them with sibling paths, Git submodules, or coordinated `main` assumptions.
+- Extract a shared package only after two concrete consumers need the same stable interface. Keep shared packages product-neutral and keep product policy and composition in the consuming product.
+- Use `@hraness/ui` for stable, portable primitives and tokens. Keep page composition, copy, state, and the local `/design` visual contract owned by the product.
+- Freeze shared interfaces before parallel lanes begin. Give workspace manifests, lockfiles, generated registries, and other convergence surfaces one owner while lanes edit disjoint paths.
 - Keep mandatory edit-time rules in the closest `AGENTS.md`, current multi-step procedures in `docs/`, executable contracts in types and tests, and rationale, evidence, synthesis, and plans in `kb/`. A KB scope hub can explain a rule but cannot override a guide.
 - Treat `kb/` as one Obsidian-compatible vault. Markdown and Git are authoritative; catalogs, backlinks, embeddings, and graph views are derived.
 - Treat `reading.status: published` as an explicit public boundary. Generate the public Reading registry with `bun run reading:generate`; production code never reads the vault.

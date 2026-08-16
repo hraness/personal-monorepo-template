@@ -53,7 +53,7 @@
     "merge:queue": "bun run scripts/merge-main.ts"
   },
   "devDependencies": {
-    "@hraness/kb": "github:hraness/kb#v0.14.0",
+    "@hraness/kb": "github:hraness/kb#v0.15.1",
     "@types/bun": "catalog:",
     "knip": "catalog:",
     "remark-parse": "catalog:",

@@ -1,176 +1,232 @@
 ---
 name: phase-orchestrator
-description: >-
-  Execute phased implementation plans in a repository with Codex
-  collaboration tools, dependency gates, parallel agent lanes, validation, and
-  review/fix loops. Use only when the user supplies a plan, checklist, or PRD
-  and explicitly asks Codex to execute it in phases, delegate it to subagents,
-  parallelize independent work, or orchestrate implementation. Do not use for a
-  one-off edit, an ordinary multi-step task, or a plan the user only wants
-  reviewed.
+description: Orchestrate phase-based implementation plans in Codex with dependency analysis, parallel sub-agent lanes, join gates, validation, review/fix loops, and final integration. Use when the user provides a plan, checklist, PRD, or phased task and explicitly asks Codex to execute it with phases, delegation, parallel agents, or orchestration in any repository.
 ---
 
-# Orchestrate implementation phases
+# Phase Orchestrator
 
-Treat the user's plan as the scope contract and the closest `AGENTS.md` files as
-the implementation authority. Keep the root Codex agent responsible for the
-dependency graph, shared files, join gates, validation, and delivery.
+Execute a phased plan safely. Treat the plan as the source of scope and repository
+instructions as the authority for tooling, validation, version control, and delivery.
 
-## Hold the invariants
+## Rules
 
-- Read the complete plan, root `AGENTS.md`, and every scoped `AGENTS.md` before
-  implementation. Read any writing or style guide that governs changed prose.
-- Keep repository-authored plans under `kb/plans/` and update that file as the
-  execution record. A user-supplied inline or external plan remains the scope
-  contract without being copied into the repository unless the user asks.
-- Use `update_plan` for orchestration state. Keep at most one top-level step
-  `in_progress`; describe concurrent lanes within that step.
-- Use Codex collaboration tools for bounded work: `spawn_agent`,
-  `send_message`, `followup_task`, `wait_agent`, `interrupt_agent`, and
-  `list_agents`.
-- Respect the active collaboration concurrency limit. Keep one slot for the
-  root orchestrator; when four slots are available, run at most three workers.
-- Remember that Codex agents share the same filesystem. Assign every writer an
-  explicit absolute working directory and non-overlapping owned paths.
-- Preserve all user-owned changes. Never revert, stage, commit, or overwrite an
-  unrelated change.
-- Follow the repository's documented package manager and command surface. This
-  template uses Bun; do not introduce another package manager or lockfile.
-- Do not commit, push, open or modify a PR, merge, deploy, or make another
-  external write unless the user authorized that stopping point.
-- Never rebase or amend a pushed branch, force-push, or use destructive VCS
-  commands unless the user explicitly requested the exact operation.
-- Give the user a concise commentary update during long-running work at least
-  once per minute.
+- Read applicable repository instructions and the complete plan before acting.
+- Use `update_plan` for orchestration state. Keep at most one orchestration step
+  `in_progress`; represent parallel lanes inside that step or as pending siblings until
+  they join.
+- Use Codex collaboration tools for bounded work: `spawn_agent`, `send_message`,
+  `followup_task`, `wait_agent`, `interrupt_agent`, and `list_agents`.
+- Record each agent id, task path, owned scope, and result. Resume the same agent with
+  `followup_task` when continuity helps; use a fresh agent for independent review.
+- Respect the active concurrency limit. Keep one slot for the root orchestrator; when
+  four slots are available, run at most three worker agents concurrently.
+- Run dependent work sequentially. Parallelize read-only work freely. Parallelize writers
+  only with disjoint paths in one checkout or isolated worktrees/workspaces.
+- Remember that Codex agents share the same filesystem. A prompt alone does not isolate
+  writes; give every writer an explicit worktree path and ownership boundary.
+- Preserve user-owned changes. Never revert, overwrite, stage, or commit unrelated work.
+- Do not commit, push, open/modify PRs, merge, deploy, or make other external writes
+  unless the user authorized them.
+- Never rebase or amend a pushed branch, force-push, or use destructive VCS commands
+  unless the user explicitly requested the exact operation.
+- Follow repository policy over this skill.
 
-## Orient before spawning
+## Orient
 
-1. Confirm the repository root, current branch, `git status`, relevant remotes,
-   and existing changes.
-2. Read the plan and its supporting specifications in full. Record requested
-   phases, acceptance criteria, exclusions, and stopping point.
-3. Discover focused checks, aggregate checks, generated-file policy,
-   migrations, release rules, CI gates, and delivery conventions for the paths
-   in scope.
-4. Map each deliverable to its dependencies, owned paths, shared files, and
-   validation evidence.
-5. Ask only when a missing choice changes the result materially or requires new
-   authority.
+Before implementation:
 
-## Build the phase graph
+1. Locate the repository root and read applicable `AGENTS.md`, contributor, workflow,
+   writing, and delivery instructions.
+2. Inspect VCS status, active branch/change, remotes when relevant, and existing changes.
+3. Discover setup, focused checks, aggregate checks, generated-file policy, migrations,
+   release/version rules, CI, review gates, and PR conventions.
+4. Read the plan and supporting specification.
+5. Capture the requested stopping point and authorization for commits, pushes, PRs,
+   merges, or deploys.
+6. Identify dependencies, write scopes, shared files, acceptance criteria, and validation.
 
-Classify every node before delegating:
+Ask only when a missing choice materially changes the result or requires new authority.
 
-- **Convergence:** shared contracts, schemas, manifests, lockfiles, barrels,
-  migrations, generated indexes, integration, or release files. Give these one
-  owner, normally the root agent.
-- **Parallel lane:** bounded work with satisfied inputs and disjoint writes.
-- **Join gate:** integrate all prerequisite lanes and prove their contracts
-  compose before downstream work starts.
-- **Validation or review:** read-heavy work against a stable diff; run it in
-  parallel only when the evidence cannot change underneath it.
+## Build the orchestration graph
 
-For each fan-out, record prerequisites, lane owners, exact paths, deferred
-shared files, focused checks, join criteria, and isolation. Freeze shared
-interfaces before parallel implementation.
+Convert the plan into a dependency DAG before spawning workers.
 
-Prefer the shared checkout for read-only workers and writers with provably
-disjoint paths. Serialize work when paths overlap. Use Git worktrees only when
-the user has authorized branch creation and isolated commits help integration;
-otherwise do not create orchestration branches as a side effect.
+Classify each node:
 
-## Execute a phase
+- **Convergence**: shared contracts, schemas, migrations, barrels, integration, release.
+  Run with one owner.
+- **Parallel lane**: bounded work with independent inputs and disjoint writes.
+- **Join gate**: integrate lanes and prove cross-lane contracts before downstream work.
+- **Validation/review**: read-heavy work that may run concurrently after a stable diff.
 
-### 1. Open the phase
+For every parallel fan-out, record:
 
-- Re-read its criteria and prior results.
-- Confirm prerequisites, write ownership, and isolation.
-- Mark the phase or fan-out step `in_progress`.
+- prerequisites and join gate;
+- owned directories/files per lane;
+- shared files deferred to the integration owner;
+- focused validation and required evidence;
+- whether isolation needs Git worktrees or jj workspaces.
 
-### 2. Delegate bounded lanes
-
-Give each worker enough context to act without inferring parent-only state:
+Do not parallelize unresolved shared-interface design. Freeze the shared contract first,
+then fan out. Prefer this shape:
 
 ```text
-Implement {phase_or_lane} in {absolute_working_directory}.
-
-Plan and criteria: {plan_path_or_excerpt_and_acceptance_criteria}
-Dependencies: {prior_results}
-Repository rules: {applicable_guides}
-Existing user changes: {relevant_status}
-
-Ownership:
-- Own only {paths}.
-- Defer {shared_files} to the root integration owner.
-- Other Codex agents share this filesystem. Do not revert or overwrite their work.
-
-Validate with: {focused_commands}
-Commit policy: {authorized_or_do_not_commit}
-
-Return changed files, behavior, exact validation results, deviations, blockers,
-risks, and integration notes.
+contract phase
+  ├─ independent lane A
+  └─ independent lane B
+          ↓ join gate
+  ┌───────┼───────┐
+lane C  lane D  lane E
+  └───────┼───────┘
+       final join
 ```
 
-Continue useful integration or read-only work while workers run. Resume the
-same worker with `followup_task` when continuity helps; use a fresh agent for an
-independent review.
+Update the plan document when orchestration changes are part of the user's request.
 
-### 3. Inspect every result
+## Prepare parallel writers
 
-- Read each worker's result and inspect the actual diff and repository status.
-- Confirm the worker stayed within its path ownership.
-- Re-run the smallest documented checks that prove the lane's behavior.
-- Send bounded corrections back with `followup_task`.
-- Record an unavailable or failed check exactly; do not silently replace it
-  with weaker evidence.
+Use the repository's documented isolation mechanism. For Git worktrees:
 
-### 4. Pass the join gate
+1. Start from the intended feature base.
+2. Create one `codex/` topic branch and worktree per concurrent writer.
+3. Tell each agent its absolute worktree path and require every command to use it.
+4. Keep shared barrels, manifests, lockfiles, generated indexes, docs, and version files
+   with the integration owner unless one lane explicitly owns them.
+5. Integrate completed lane commits into one feature branch without rewriting pushed
+   history.
+6. Prove intended commits are contained in the integration tip before cleanup.
 
-Wait for every prerequisite lane, integrate shared files once, prove no intended
-output was omitted, then run contract and cross-lane checks. Do not advance just
-because each lane passes alone.
+If writers operate in one checkout, allow only disjoint paths and tell agents that edits
+are immediately visible to every worker. Stop the fan-out if overlapping edits appear.
+
+## Execute each phase
+
+### 1. Orient the phase
+
+- Re-read its criteria, prior results, current status, and owned paths.
+- Confirm prerequisites and isolation.
+- Mark the phase or fan-out orchestration step `in_progress`.
+
+### 2. Delegate bounded implementation
+
+Spawn workers only for concrete independent tasks. Include the plan path or relevant
+excerpt, repository rules, acceptance criteria, worktree, ownership, validation, existing
+changes, and commit policy. Do not assume workers infer parent-only context.
+
+Continue useful root work while agents run. Send concise commentary updates at least once
+per minute during long operations.
+
+### 3. Inspect and validate
+
+For each worker result:
+
+- inspect its summary, status, diff, changed files, validation, deviations, and blockers;
+- independently inspect the focused diff and repository status;
+- run the smallest repository-documented checks that establish lane correctness;
+- use `followup_task` for bounded corrections.
+
+Do not silently replace a blocked check with a weaker one. Record the command, blocker,
+and risk.
+
+### 4. Join
+
+At a join gate:
+
+1. Wait for every required lane.
+2. Integrate all completed work into the feature tip.
+3. Prove no intended lane commit or file remains outside it.
+4. Resolve shared files once through the integration owner.
+5. Run contract and cross-lane tests, then aggregate focused checks.
+6. Freeze the next shared interface before another fan-out.
+
+Do not advance because each lane passes alone. The join gate proves composition.
 
 ### 5. Review and fix
 
-After the phase diff is stable, use a fresh Codex agent to review correctness,
-acceptance criteria, repository rules, security, ownership boundaries, tests,
-and integration risks. Let the reviewer patch only concrete bounded issues,
-then inspect those edits and re-run affected checks. Require a clear no-op when
-the review is clean.
+After implementation and initial validation, spawn a fresh reviewer with the phase diff,
+criteria, repository rules, and validation evidence. Ask it to patch bounded issues, avoid
+commits unless authorized, and report a clear no-op when clean. Re-run affected checks.
 
-### 6. Close the phase
+### 6. Finalize the phase
 
-Record `Done`, `Partial`, or `Blocked`, including behavior, files, validation,
-review outcome, authorized commit identifiers, deviations, risks, and manual
-checks. Update the plan before starting a dependent phase.
+Record:
 
-## Validate in the repository
+- Done, Partial, or Blocked;
+- behavior and changed areas;
+- validation commands/results;
+- review result;
+- commit/change ids when authorized;
+- deviations, downstream changes, risks, and manual checks.
 
-- Run narrow workspace or file-level commands while iterating.
-- Use `bun run kb:check:lane` when a parallel lane changes only its owned KB
-  notes. The integration owner runs `bun run kb:refresh`, reviews findings in
-  context, and finishes with `bun run kb:check` after updating a
-  repository-owned plan.
-- Run the focused Direct checks documented by the owning package when a phase
-  changes a deterministic composition or its production-exclusion boundary.
-- Inspect the root scripts before choosing an aggregate gate. In this template,
-  run `bun run check` for the stable integrated diff.
-- Run any additional guide, structure, build, deployment, or delivery checks
-  named by the root guide and changed workspaces.
-- Distinguish failures caused by the phase from pre-existing failures in the
-  user's working tree. Report both with exact commands and counts.
+## Whole-feature pass
 
-## Finish the requested scope
+After requested phases complete:
 
-After all requested phases reach a terminal state:
+1. Integrate every lane into one feature tip or working tree.
+2. Prove no worker output was omitted.
+3. Run repository-appropriate aggregate validation.
+4. Spawn a fresh final reviewer against the complete diff.
+5. Validate final fixes.
+6. Deliver only to the user's authorized stopping point.
+7. Follow repository-specific PR, CI, readiness, merge, and deployment workflows.
 
-1. Prove every intended worker result is present in the integration tree.
-2. Run the repository-appropriate aggregate validation.
-3. Perform a fresh final review of the complete diff and validate any fixes.
-4. Stop at the authorized delivery point.
-5. Report the repository, branch or worktree, exact checks, skipped checks,
-   residual risks, and anything still pending.
+Respect partial stopping points. Do not implement or review future phases the user did not
+request.
 
-Do not implement future phases merely because they appear in the plan.
+## Worker prompt
 
-This workflow is adapted from an MIT-licensed upstream repository skill.
+```text
+Implement {phase_or_lane} in {absolute_worktree_path}.
+
+Context:
+- Plan: {plan_path_and_relevant_scope}
+- Acceptance criteria: {criteria}
+- Dependencies/prior results: {summary}
+- Repository rules: {rules}
+- Validation: {commands}
+- Existing user-owned changes: {summary}
+
+Ownership:
+- Own only {paths_or_modules}.
+- Defer {shared_files} to the integration owner.
+- Other agents may be working concurrently. Do not revert or overwrite their work.
+
+Task:
+- Implement only this lane.
+- Report evidence that invalidates the plan and its downstream impact.
+- Commit policy: {policy}. Do not commit unless explicitly delegated.
+
+Return:
+- Behavior and changed files.
+- Validation and exact results.
+- Deviations, blockers, risks, and integration notes.
+```
+
+## Review prompt
+
+```text
+Review and fix {scope} in {absolute_worktree_path}.
+
+Context:
+- Plan/criteria: {context}
+- Diff scope: {diff}
+- Repository rules: {rules}
+- Validation so far: {results}
+- Commit policy: {policy}
+
+Review correctness, criteria, repository conventions, security, data ownership,
+migrations, tests, and integration boundaries. Patch concrete bounded issues. Do not
+commit unless delegated. Report fixes or a clear no-op, validation, and residual risks.
+```
+
+## Completion standard
+
+Complete the run only when:
+
+- every requested phase has a terminal status;
+- every intended worker result is integrated;
+- join gates and aggregate checks have recorded results;
+- review fixes are validated;
+- no unauthorized external writes occurred;
+- the final report states exact repository, branch/worktree, validation, and remaining
+  risk.
