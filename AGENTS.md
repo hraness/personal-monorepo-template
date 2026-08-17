@@ -17,6 +17,7 @@
 - Keep the personal site statically renderable and provider-light. Do not add authentication, databases, or user tracking without an explicit product need and documented privacy behavior.
 - Follow `WRITING.md` for internal prose and `STYLE.md` for public prose. Preserve facts, exact terms, literals, quotations, links, and necessary uncertainty.
 - Apply unreasonably robust programming when agent work is cheap. Prefer coherent cross-file correctness and focused deterministic evidence to a knowingly weaker design.
+- Deliver ordinary single-owner changes by fast-forward push to `main` after repository checks. Escalate to a pull request when a change touches schemas or migrations, auth, billing, provider or deployment state, a public or consumed contract, a shared generated or lockfile convergence surface, or another active lane. Repository-owned bounded automation may keep its documented direct path. Never force-push.
 - Model state so invalid states cannot exist. Parse foreign values from `unknown`. Use readable deterministic regression examples, and add property tests for laws, parsers, reducers, ordering, and round trips.
 - Pin Hraness dependencies to reviewed immutable releases or full commits. Never replace them with sibling paths, Git submodules, or coordinated `main` assumptions.
 - Extract a shared package only after two concrete consumers need the same stable interface. Keep shared packages product-neutral and keep product policy and composition in the consuming product.
