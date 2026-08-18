@@ -17,14 +17,14 @@
     "verify": "bun run test && bun run typecheck && bun run lint && bun run build && bun run check:production-boundary && bun run build:direct && bun run check:direct-boundary"
   },
   "dependencies": {
-    "@hraness/ui": "github:hraness/ui#v0.3.1",
+    "@hraness/ui": "github:hraness/ui#v0.4.3",
     "next": "catalog:",
     "posthog-js": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@hraness/direct": "github:hraness/direct#v0.6.1",
+    "@hraness/direct": "github:hraness/direct#v0.7.0",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
