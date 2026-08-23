@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR cleanup"
+  short_description: "Resolve stale PRs safely against current main"
+  default_prompt: "Use $pr-cleanup to audit and resolve every open or stale PR in the repository scope I name."

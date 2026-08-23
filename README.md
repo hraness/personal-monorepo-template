@@ -55,7 +55,7 @@ unreleased component work is intentionally not assumed here.
 | --- | --- |
 | `personal-website/` | Next.js personal index, Reading, Bookshelf, Atom and SEO discovery, design primitives, appearance control, optional PostHog, Vercel configuration, and Direct workbench |
 | `kb/` | Authored Obsidian-compatible Markdown vault for notes, plans, captures, private reading sources, and repository context |
-| `.agents/skills/` | Codex-discoverable KB capture and writing, reasoning, disk reclamation, Direct, and phased-work skills |
+| `.agents/skills/` | Codex-discoverable KB capture and writing, reasoning, PR cleanup, disk reclamation, Direct, and phased-work skills |
 | `docs/`, `WRITING.md`, `STYLE.md` | Documentation ownership plus internal and public prose contracts |
 | `scripts/` | Stateless serializer for trusted direct-to-`main` workflows |
 | `.github/workflows/ci.yml` | Frozen install followed by the same `bun run check` used locally |
@@ -204,6 +204,8 @@ The repository ships focused workflows for:
 - capturing web pages and PDFs into auditable KB bundles;
 - percolating reviewed captures and complete notes into the public Reading registry;
 - adopting and verifying Direct while keeping it out of production;
+- reconciling open and stale PRs against current main, including recovery and
+  supersession;
 - auditing disk use and removing only explicitly approved, clean, merged Git
   worktrees; and
 - executing an accepted plan through bounded parallel lanes and join gates;

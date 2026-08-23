@@ -11,6 +11,7 @@
 - `direct-setup/` – deterministic Direct composition design and production exclusion.
 - `direct-verify/` – evidence-based verification of Direct compositions.
 - `reclaim-disk-space/` – cautious disk and Git worktree cleanup.
+- `pr-cleanup/` – live-census recovery, merge, and supersession of open pull requests.
 - `phase-orchestrator/` – phased execution with Codex collaboration agents.
 - `assumption-audit/` – load-bearing assumption discovery and testing.
 - `decision-matrix/` – weighted option comparison with sensitivity analysis.
