@@ -15,6 +15,7 @@ dist-direct/
 
 # Test and editor output
 coverage/
+/artifacts/
 .DS_Store
 *.tsbuildinfo
 

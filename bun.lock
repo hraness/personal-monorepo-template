@@ -5,6 +5,7 @@
     "": {
       "name": "personal-monorepo-template",
       "devDependencies": {
+        "@antithesishq/bombadil": "catalog:",
         "@hraness/kb": "github:hraness/kb#v0.15.2",
         "@types/bun": "catalog:",
         "knip": "catalog:",
@@ -25,7 +26,8 @@
         "react-dom": "catalog:",
       },
       "devDependencies": {
-        "@hraness/direct": "github:hraness/direct#v0.7.0",
+        "@antithesishq/bombadil": "catalog:",
+        "@hraness/direct": "github:hraness/direct#v0.7.4",
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
         "@types/react": "catalog:",
@@ -39,6 +41,7 @@
     },
   },
   "catalog": {
+    "@antithesishq/bombadil": "0.7.2",
     "@types/bun": "^1.3.14",
     "@types/node": "^24.10.0",
     "@types/react": "^19.2.14",
@@ -58,6 +61,8 @@
     "yaml": "^2.9.0",
   },
   "packages": {
+    "@antithesishq/bombadil": ["@antithesishq/bombadil@0.7.2", "", { "bin": { "bombadil": "bin/bombadil.js" } }, "sha512-Irhtv8XcMewxwZTZA4lURJHq12XLVRJXs6x6mc0M0NnBRpgaTaRP8HmMB/zjlA0GD9QvSXUInPqnQ5tDwyyzTQ=="],
+
     "@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
 
     "@babel/compat-data": ["@babel/compat-data@7.29.7", "", {}, "sha512-locTkQyKvwIEgBzVrn8693ebc97F2U8ZHjbXwDXJ5Fn2TCpNwTlKcaKLkdHop5c/icOFE7qt7Q9JC5hnKNa6Gg=="],
@@ -116,7 +121,7 @@
 
     "@hono/node-server": ["@hono/node-server@1.19.17", "", { "peerDependencies": { "hono": "^4" } }, "sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ=="],
 
-    "@hraness/direct": ["@hraness/direct@github:hraness/direct#849f341", { "peerDependencies": { "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["agent-browser", "react"] }, "hraness-direct-849f341", "sha512-cvWcokL4EY871qpDMjaZm85pSMD3OjwmTAcN/xUgzeXDPeAt0S7+3gP0X/77MUA1hma5SoHiNJlKdnEXL3PVew=="],
+    "@hraness/direct": ["@hraness/direct@github:hraness/direct#1a34c92", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "react"] }, "hraness-direct-1a34c92", "sha512-88Of3wNk+wolH+HRqGxZEY0wOCCldVfOIZQNW9h7ToBlUd4Va6tOSgZoh1NPzyEK0vrFGuUd4+V5sVupyD2iHw=="],
 
     "@hraness/kb": ["@hraness/kb@github:hraness/kb#102ef24", { "dependencies": { "@steipete/sweet-cookie": "github:hraness/sweet-cookie#v0.4.2", "@tobilu/qmd": "git+https://github.com/hraness/qmd.git#aa993dceb3ef8cfb71d470554ca437570f5a2b3c", "agent-browser": "0.32.3", "defuddle": "0.19.1", "yaml": "^2.9.0", "zod": "^4.4.3" }, "bin": { "kb": "./dist/cli.js", "kb-evaluation-builder": "./dist/evaluation-builder.js" } }, "hraness-kb-102ef24", "sha512-BFxGVS9OUUkUmK+jGnkg/tYdRK3qw2MzhELQmZig+ySgM6qbTlOlOOVcprIyzC0fslHeKZsHX4i5nua2WmrwNg=="],
 

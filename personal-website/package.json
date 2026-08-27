@@ -11,6 +11,7 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "dev:direct": "vite --config direct/vite.config.ts",
+    "fuzz:direct": "bun run direct/fuzz-browser.ts",
     "build:direct": "vite build --config direct/vite.config.ts",
     "check:production-boundary": "bun run direct/check-build-boundaries.ts production .next",
     "check:direct-boundary": "bun run direct/check-build-boundaries.ts direct dist-direct",
@@ -24,7 +25,8 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@hraness/direct": "github:hraness/direct#v0.7.0",
+    "@antithesishq/bombadil": "catalog:",
+    "@hraness/direct": "github:hraness/direct#v0.7.4",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
