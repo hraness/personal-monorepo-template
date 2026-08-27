@@ -7,6 +7,8 @@
 - `main.tsx`, `workbench.tsx`, `workbench.css`, and `index.html` form the non-shipping Vite workbench.
 - `check-build-boundaries.ts` checks production exclusion and positive Direct output independently.
 - Colocated tests cover world rejection, catalog drift, session lifecycle, the deterministic adapter, and boundary failures.
+- The Bombadil campaign and runner bind shared conservative exploration and
+  exact trace attestation to the light homepage scenario.
 
 # Guidelines
 
@@ -15,4 +17,6 @@
 - Display malformed explicit activation as an error. Never substitute the default scenario after a rejected query.
 - Install the session through `installDirectBrowser` with its fail-closed fetch firewall and named violation counters.
 - Keep fixture claims limited to deterministic UI and adapter behavior. Leave localStorage, media queries, analytics delivery, Vercel delivery, and production-browser behavior as direct claims.
+- Keep Bombadil diagnostic-only. Use the shared conservative actions and exact
+  trace attestation; do not treat random exploration as coverage evidence.
 - Build only to `dist-direct`. The Next application builds only to `.next`.

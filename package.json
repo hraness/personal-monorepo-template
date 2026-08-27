@@ -13,6 +13,7 @@
       "personal-website"
     ],
     "catalog": {
+      "@antithesishq/bombadil": "0.7.2",
       "@types/bun": "^1.3.14",
       "@types/node": "^24.10.0",
       "@types/react": "^19.2.14",
@@ -35,6 +36,7 @@
   "scripts": {
     "dev": "bun run --cwd personal-website dev",
     "dev:direct": "bun run --cwd personal-website dev:direct",
+    "fuzz:direct": "bun run --cwd personal-website fuzz:direct",
     "build": "bun run --cwd personal-website build",
     "lint": "bun run --cwd personal-website lint",
     "typecheck": "tsc --noEmit && bun run --cwd personal-website typecheck",
@@ -52,7 +54,13 @@
     "disk:worktrees:audit": "bun run .agents/skills/reclaim-disk-space/scripts/worktree-cleanup.ts",
     "merge:queue": "bun run scripts/merge-main.ts"
   },
+  "knip": {
+    "ignoreDependencies": [
+      "@antithesishq/bombadil"
+    ]
+  },
   "devDependencies": {
+    "@antithesishq/bombadil": "catalog:",
     "@hraness/kb": "github:hraness/kb#v0.15.2",
     "@types/bun": "catalog:",
     "knip": "catalog:",
