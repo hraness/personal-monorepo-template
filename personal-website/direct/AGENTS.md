@@ -59,5 +59,9 @@
   product-owned `personalHomepage` snapshot in every campaign. Put interaction
   diversity and post-action change requirements on `personalHomepageInteraction`,
   which excludes viewport fields, and latch the first ready homepage state for
-  initial-world assertions so a later action cannot repair it.
+  initial-world assertions so a later action cannot repair it. Bound startup
+  readiness, then keep surface identity, heading, theme, and selected
+  appearance as strict safety invariants after that first ready state; do not
+  wrap repairable safety in bounded liveness. Calibrate DOM-node or listener
+  growth from retained resource timelines before adding a numeric leak law.
 - Build only to `dist-direct`. The Next application builds only to `.next`.
