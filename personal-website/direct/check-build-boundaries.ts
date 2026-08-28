@@ -2,6 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { extname, join, resolve } from "node:path";
 
 export const PRODUCTION_FORBIDDEN_MARKERS = Object.freeze([
+  "@antithesishq/bombadil",
   "@hraness/direct",
   "direct.browser-bridge/v",
   "direct.coverage/v",

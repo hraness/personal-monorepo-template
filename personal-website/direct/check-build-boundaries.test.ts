@@ -44,6 +44,17 @@ describe("emitted build boundaries", () => {
     );
   });
 
+  test("rejects Bombadil from emitted production assets", async () => {
+    const root = await outputFile([
+      SHARED_PRODUCT_MARKER,
+      "personal-website/browser-appearance-port/v1",
+      "@antithesishq/bombadil",
+    ].join("\n"));
+    await expect(checkBuildBoundary("production", root)).rejects.toThrow(
+      "@antithesishq/bombadil",
+    );
+  });
+
   test("rejects missing positive markers", async () => {
     const root = await outputFile("ordinary production code");
     await expect(checkBuildBoundary("production", root)).rejects.toThrow(
