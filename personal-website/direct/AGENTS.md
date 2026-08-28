@@ -61,6 +61,8 @@
   `personalHomepageInteraction`, which excludes viewport fields. Attribute a
   compact snapshot change to `Click` and a full `personalHomepage` change to
   `SetViewport`; an unrelated action cannot satisfy either semantic signal.
+  This is adjacent temporal evidence, not proof that the action caused the
+  change.
   Latch the first ready homepage state for initial-world assertions so a later
   action cannot repair it. Bound startup
   readiness, then keep surface identity, heading, theme, and selected

@@ -68,9 +68,10 @@ The sufficiency policy retains required Click and SetViewport actions, global
 non-wait activity, interaction diversity, and a post-non-wait interaction
 change. It also attributes each semantic signal to its action: Click must
 change the viewport-free `personalHomepageInteraction` snapshot, and
-SetViewport must change the full `personalHomepage` snapshot. Initial
-appearance is latched from the first ready state so a later generated click
-cannot repair an incorrect start.
+SetViewport must change the full `personalHomepage` snapshot. This is adjacent
+temporal evidence rather than causal proof. Initial appearance is latched from
+the first ready state so a later generated click cannot repair an incorrect
+start.
 
 The runner owns local headless Chrome and confines the starting navigation to
 the configured localhost HTTP origin. It does not test production Chrome,
