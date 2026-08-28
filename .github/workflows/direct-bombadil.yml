@@ -33,7 +33,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: direct-bombadil-${{ github.run_id }}
+          name: direct-bombadil-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/direct-bombadil/
           if-no-files-found: error
           retention-days: 14
