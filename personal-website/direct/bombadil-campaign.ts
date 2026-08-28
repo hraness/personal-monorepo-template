@@ -241,6 +241,7 @@ export const direct_safe_actions: ActionGenerator<ActionTemplate> =
     [4, responsiveViewportActions],
     [3, createDirectBombadilActions()],
   ]);
+export const direct_startup_contract: Formula = properties.startupContract;
 export const direct_exact_contract: Formula = properties.exactContract;
 export const direct_stable_catalog: Formula = properties.stableCatalog;
 export const direct_no_declared_violations: Formula = properties.noDeclaredViolations;
