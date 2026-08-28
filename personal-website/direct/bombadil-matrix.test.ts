@@ -3,48 +3,31 @@ import { describe, expect, test } from "bun:test";
 import {
   assertHomepageBombadilCatalog,
   homepageBombadilCampaigns,
-  parseHomepageBombadilSelection,
 } from "./bombadil-matrix";
+import { websiteDirectDefinition } from "./scenarios";
 
 describe("homepage Bombadil matrix", () => {
-  test("runs every declared appearance and content world by default", () => {
-    const parsed = parseHomepageBombadilSelection(["--time-limit", "45s"]);
-    expect(parsed.campaigns).toEqual(homepageBombadilCampaigns);
-    expect(parsed.campaigns.map((campaign) => campaign.scenario)).toEqual([
-      "homepage.light",
-      "homepage.dark",
-      "homepage.long-content",
-    ]);
-    expect(parsed.runnerArguments).toEqual(["--time-limit", "45s"]);
-  });
-
-  test("selects one scenario for focused replay", () => {
-    const parsed = parseHomepageBombadilSelection([
-      "--campaign=dark-wide",
-      "--replay",
-      "artifacts/direct-bombadil/example/trace.jsonl",
-    ]);
-    expect(parsed.campaigns.map((campaign) => campaign.scenario)).toEqual([
-      "homepage.dark",
-    ]);
-    expect(parsed.runnerArguments).toEqual([
-      "--replay",
-      "artifacts/direct-bombadil/example/trace.jsonl",
-    ]);
-  });
-
-  test("rejects ambiguous and unknown campaign selection", () => {
-    expect(() => parseHomepageBombadilSelection([
-      "--campaign",
+  test("matches every exact Direct scenario with one attainable config", () => {
+    expect(homepageBombadilCampaigns.map((campaign) => campaign.scenario)).toEqual(
+      websiteDirectDefinition.scenarios.list().map((scenario) => scenario.id),
+    );
+    expect(homepageBombadilCampaigns.map((campaign) => campaign.id)).toEqual([
       "light-wide",
-      "--campaign=dark-wide",
-    ])).toThrow("only once");
-    expect(() => parseHomepageBombadilSelection([
-      "--campaign=missing",
-    ])).toThrow("Unknown Bombadil scenario");
-    expect(() => parseHomepageBombadilSelection([
-      "--replay=artifacts/direct-bombadil/example/trace.jsonl",
-    ])).toThrow("requires --campaign");
+      "dark-wide",
+      "long-content-narrow",
+    ]);
+    for (const campaign of homepageBombadilCampaigns) {
+      expect(campaign.viewport.width).toBeGreaterThanOrEqual(390);
+      expect(campaign.viewport.height).toBeGreaterThanOrEqual(768);
+      expect(campaign.explorationPolicy.requiredActionKinds).toEqual([
+        "Click",
+        "SetViewport",
+      ]);
+      expect(campaign.explorationPolicy.requiredNamedSnapshots).toEqual([
+        "direct",
+        "personalHomepage",
+      ]);
+    }
   });
 
   test("fails closed when the Direct catalog and campaign metadata drift", () => {

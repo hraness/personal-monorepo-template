@@ -2,18 +2,15 @@
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { runDirectBombadilFuzz } from "@hraness/direct/tooling/bombadil";
+import { runDirectBombadilFuzzMatrix } from "@hraness/direct/tooling/bombadil";
 
-import { parseHomepageBombadilSelection } from "./bombadil-matrix";
+import { homepageBombadilCampaigns } from "./bombadil-matrix";
 
 const directRoot = fileURLToPath(new URL(".", import.meta.url));
 const productRoot = resolve(directRoot, "..");
 const repositoryRoot = resolve(productRoot, "..");
 
-const selection = parseHomepageBombadilSelection(process.argv.slice(2));
-// This is the additive Direct matrix descriptor shape. The reviewed Direct
-// upgrade can replace the temporary serial loop with runDirectBombadilFuzzMatrix.
-const fuzzCampaigns = selection.campaigns.map((campaign) => ({
+const fuzzCampaigns = homepageBombadilCampaigns.map((campaign) => ({
   id: campaign.id,
   config: {
     artifactName: `personal-monorepo-template-${campaign.artifactSuffix}`,
@@ -46,10 +43,4 @@ const fuzzCampaigns = selection.campaigns.map((campaign) => ({
   },
 }));
 
-for (const campaign of fuzzCampaigns) {
-  const result = await runDirectBombadilFuzz(
-    campaign.config,
-    selection.runnerArguments,
-  );
-  if (result.kind === "help") break;
-}
+await runDirectBombadilFuzzMatrix(fuzzCampaigns, process.argv.slice(2));

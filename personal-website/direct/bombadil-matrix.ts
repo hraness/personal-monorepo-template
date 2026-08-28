@@ -31,11 +31,6 @@ export type HomepageBombadilScenario = keyof typeof campaignMetadata;
 export type HomepageBombadilCampaignId =
   (typeof campaignMetadata)[HomepageBombadilScenario]["id"];
 
-export interface HomepageBombadilSelection {
-  readonly campaigns: readonly HomepageBombadilCampaign[];
-  readonly runnerArguments: readonly string[];
-}
-
 export interface HomepageBombadilCampaign {
   readonly artifactSuffix: string;
   readonly expectedHeading: string;
@@ -45,7 +40,7 @@ export interface HomepageBombadilCampaign {
     readonly minNonWaitActions: 4;
     readonly requireStableTargetUrl: true;
     readonly requiredActionKinds: readonly ["Click", "SetViewport"];
-    readonly requiredNamedSnapshots: readonly ["personalHomepage"];
+    readonly requiredNamedSnapshots: readonly ["direct", "personalHomepage"];
   };
   readonly id: HomepageBombadilCampaignId;
   readonly initialAppearance: "dark" | "light" | "system";
@@ -99,58 +94,8 @@ export const homepageBombadilCampaigns: readonly HomepageBombadilCampaign[] =
         minNonWaitActions: 4,
         requireStableTargetUrl: true,
         requiredActionKinds: Object.freeze(["Click", "SetViewport"] as const),
-        requiredNamedSnapshots: Object.freeze(["personalHomepage"] as const),
+        requiredNamedSnapshots: Object.freeze(["direct", "personalHomepage"] as const),
       }),
       scenario: scenario as HomepageBombadilScenario,
     });
   }));
-
-function isCampaignId(input: string): input is HomepageBombadilCampaignId {
-  return homepageBombadilCampaigns.some((campaign) => campaign.id === input);
-}
-
-export function parseHomepageBombadilSelection(
-  arguments_: readonly string[],
-): HomepageBombadilSelection {
-  const runnerArguments: string[] = [];
-  let selectedCampaign: HomepageBombadilCampaignId | null = null;
-
-  for (let index = 0; index < arguments_.length; index += 1) {
-    const argument = arguments_[index]!;
-    let candidate: string | null = null;
-    if (argument === "--campaign") {
-      candidate = arguments_[index + 1] ?? null;
-      index += 1;
-      if (candidate === null || candidate.startsWith("-")) {
-        throw new Error("--campaign requires a declared campaign ID");
-      }
-    } else if (argument.startsWith("--campaign=")) {
-      candidate = argument.slice("--campaign=".length);
-    } else {
-      runnerArguments.push(argument);
-      continue;
-    }
-
-    if (!isCampaignId(candidate)) {
-      throw new Error(`Unknown Bombadil campaign: ${candidate}`);
-    }
-    if (selectedCampaign !== null) {
-      throw new Error("--campaign may be supplied only once");
-    }
-    selectedCampaign = candidate;
-  }
-
-  const replays = runnerArguments.filter((argument) =>
-    argument === "--replay" || argument.startsWith("--replay=")
-  );
-  if (replays.length > 0 && selectedCampaign === null) {
-    throw new Error("--replay requires --campaign so trace attestation uses the original world");
-  }
-
-  return Object.freeze({
-    campaigns: selectedCampaign === null
-      ? homepageBombadilCampaigns
-      : homepageBombadilCampaigns.filter((campaign) => campaign.id === selectedCampaign),
-    runnerArguments: Object.freeze(runnerArguments),
-  });
-}

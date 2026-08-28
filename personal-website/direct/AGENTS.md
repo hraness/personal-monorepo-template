@@ -54,7 +54,7 @@
 - Bombadil 0.7.2 has no user-supplied seed and performs no shrinking. A passing
   random campaign is diagnostic evidence, not Direct coverage or release
   proof; a failed trace is the exact replay boundary.
-- Keep the local campaign descriptors structurally aligned with Direct's
-  additive matrix, viewport, and exploration-policy config so the reviewed
-  dependency upgrade can replace the temporary local loop mechanically.
+- Keep the campaign descriptors on Direct's shared matrix, viewport, and
+  exploration-policy config. Require both the shared `direct` snapshot and the
+  product-owned `personalHomepage` snapshot in every campaign.
 - Build only to `dist-direct`. The Next application builds only to `.next`.
