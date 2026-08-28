@@ -22,7 +22,7 @@ import { homepageBombadilCampaigns } from "./bombadil-matrix";
 
 export * from "@antithesishq/bombadil/browser/defaults/properties";
 
-interface HomepageObservation {
+export interface HomepageObservation {
   readonly [key: string | number | symbol]: BombadilJson;
   readonly activeScenario: string;
   readonly heading: string;
@@ -33,7 +33,7 @@ interface HomepageObservation {
   readonly viewportWidth: number;
 }
 
-interface HomepageInteractionObservation {
+export interface HomepageInteractionObservation {
   readonly [key: string | number | symbol]: BombadilJson;
   readonly activeScenario: string;
   readonly selectedAppearance: string;
@@ -179,6 +179,40 @@ const responsiveViewportActions = actions<ActionTemplate>(() =>
 );
 const properties = createDirectBombadilProperties();
 
+export function homepageSurfaceLawHolds(
+  observation: Pick<
+    HomepageObservation,
+    "activeScenario" | "heading" | "surfacePresent"
+  >,
+): boolean {
+  const campaign = homepageBombadilCampaigns.find((candidate) =>
+    candidate.scenario === observation.activeScenario
+  );
+  return observation.surfacePresent
+    && campaign !== undefined
+    && observation.heading === campaign.expectedHeading;
+}
+
+export function homepageAppearanceLawHolds(
+  surface: Pick<HomepageObservation, "surfacePresent">,
+  interaction: Pick<
+    HomepageInteractionObservation,
+    "selectedAppearance" | "theme"
+  >,
+): boolean {
+  return surface.surfacePresent
+    && (interaction.theme === "light" || interaction.theme === "dark")
+    && (
+      interaction.selectedAppearance === "light"
+      || interaction.selectedAppearance === "dark"
+      || interaction.selectedAppearance === "system"
+    )
+    && (
+      interaction.selectedAppearance === "system"
+      || interaction.selectedAppearance === interaction.theme
+    );
+}
+
 export const direct_safe_actions: ActionGenerator<ActionTemplate> =
   weighted([
     [8, appearanceControlActions],
@@ -189,16 +223,11 @@ export const direct_exact_contract: Formula = properties.exactContract;
 export const direct_stable_catalog: Formula = properties.stableCatalog;
 export const direct_no_declared_violations: Formula = properties.noDeclaredViolations;
 export const direct_eventual_quiescence: Formula = properties.eventualQuiescence;
-export const personal_homepage_persists: Formula = always(
-  eventually(() => {
-    const { activeScenario, heading, surfacePresent } = homepage.current;
-    const campaign = homepageBombadilCampaigns.find((candidate) =>
-      candidate.scenario === activeScenario
-    );
-    return surfacePresent
-      && campaign !== undefined
-      && heading === campaign.expectedHeading;
-  }).within(10, "seconds"),
+export const personal_homepage_becomes_ready: Formula = eventually(() =>
+  homepageSurfaceLawHolds(homepage.current)
+).within(10, "seconds");
+export const personal_homepage_persists: Formula = always(() =>
+  !initialHomepage.current.captured || homepageSurfaceLawHolds(homepage.current)
 );
 export const personal_initial_world_matches_scenario: Formula = eventually(() => {
   const { activeScenario, captured, selectedAppearance, theme } = initialHomepage.current;
@@ -210,15 +239,7 @@ export const personal_initial_world_matches_scenario: Formula = eventually(() =>
     && selectedAppearance === campaign.initialAppearance
     && theme === campaign.initialTheme;
 }).within(10, "seconds");
-export const personal_appearance_stays_coherent: Formula = always(
-  eventually(() => {
-    const { surfacePresent } = homepage.current;
-    const { selectedAppearance, theme } = homepageInteraction.current;
-    return surfacePresent
-      && (theme === "light" || theme === "dark")
-      && (selectedAppearance === "light"
-        || selectedAppearance === "dark"
-        || selectedAppearance === "system")
-      && (selectedAppearance === "system" || selectedAppearance === theme);
-  }).within(10, "seconds"),
+export const personal_appearance_stays_coherent: Formula = always(() =>
+  !initialHomepage.current.captured
+  || homepageAppearanceLawHolds(homepage.current, homepageInteraction.current)
 );

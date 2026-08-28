@@ -1,12 +1,37 @@
 import { describe, expect, test } from "bun:test";
 
 import {
+  homepageAppearanceLawHolds,
+  homepageSurfaceLawHolds,
+} from "./bombadil-campaign";
+import {
   assertHomepageBombadilCatalog,
   homepageBombadilCampaigns,
 } from "./bombadil-matrix";
 import { websiteDirectDefinition } from "./scenarios";
 
 describe("homepage Bombadil matrix", () => {
+  test("keeps ready surface and appearance laws strict", () => {
+    expect(homepageSurfaceLawHolds({
+      activeScenario: "homepage.light",
+      heading: "your name",
+      surfacePresent: true,
+    })).toBe(true);
+    expect(homepageSurfaceLawHolds({
+      activeScenario: "homepage.light",
+      heading: "temporarily wrong",
+      surfacePresent: true,
+    })).toBe(false);
+    expect(homepageAppearanceLawHolds(
+      { surfacePresent: true },
+      { selectedAppearance: "dark", theme: "dark" },
+    )).toBe(true);
+    expect(homepageAppearanceLawHolds(
+      { surfacePresent: true },
+      { selectedAppearance: "dark", theme: "light" },
+    )).toBe(false);
+  });
+
   test("matches every exact Direct scenario with one attainable config", () => {
     expect(homepageBombadilCampaigns.map((campaign) => campaign.scenario)).toEqual(
       websiteDirectDefinition.scenarios.list().map((scenario) => scenario.id),
