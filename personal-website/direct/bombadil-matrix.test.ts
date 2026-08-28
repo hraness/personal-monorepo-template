@@ -4,6 +4,10 @@ import {
   captureFirstMountedHomepage,
   homepageAppearanceLawHolds,
   homepageSurfaceLawHolds,
+  isHomepageInteractionObservation,
+  isHomepageObservation,
+  type HomepageInteractionObservation,
+  type HomepageObservation,
 } from "./bombadil-campaign";
 import {
   assertHomepageBombadilCatalog,
@@ -12,6 +16,52 @@ import {
 import { websiteDirectDefinition } from "./scenarios";
 
 describe("homepage Bombadil matrix", () => {
+  test("accepts only the exact bounded named-snapshot shapes", () => {
+    const homepage = {
+      activeScenario: "homepage.light",
+      heading: "your name",
+      selectedAppearance: "light",
+      surfaceMarker: "personal-homepage/v1",
+      surfacePresent: true,
+      theme: "light",
+      viewportHeight: 900,
+      viewportWidth: 1_280,
+    } satisfies HomepageObservation;
+    expect(isHomepageObservation(homepage)).toBeTrue();
+    expect(isHomepageObservation({
+      ...homepage,
+      viewportHeight: 900.5,
+    })).toBeFalse();
+    expect(isHomepageObservation({
+      ...homepage,
+      unexpected: "field",
+    })).toBeFalse();
+    expect(isHomepageObservation({
+      activeScenario: homepage.activeScenario,
+      heading: homepage.heading,
+      selectedAppearance: homepage.selectedAppearance,
+      surfaceMarker: homepage.surfaceMarker,
+      surfacePresent: homepage.surfacePresent,
+      theme: homepage.theme,
+      viewportHeight: homepage.viewportHeight,
+    })).toBeFalse();
+
+    const interaction = {
+      activeScenario: homepage.activeScenario,
+      selectedAppearance: homepage.selectedAppearance,
+      theme: homepage.theme,
+    } satisfies HomepageInteractionObservation;
+    expect(isHomepageInteractionObservation(interaction)).toBeTrue();
+    expect(isHomepageInteractionObservation({
+      ...interaction,
+      selectedAppearance: false,
+    })).toBeFalse();
+    expect(isHomepageInteractionObservation({
+      ...interaction,
+      viewportWidth: homepage.viewportWidth,
+    })).toBeFalse();
+  });
+
   test("keeps ready surface and appearance laws strict", () => {
     expect(homepageSurfaceLawHolds({
       activeScenario: "homepage.light",
@@ -108,6 +158,12 @@ describe("homepage Bombadil matrix", () => {
       ]);
       expect(campaign.explorationPolicy.minDistinctNamedSnapshotValues).toEqual({
         personalHomepageInteraction: 2,
+      });
+      expect(
+        campaign.explorationPolicy.minNamedSnapshotChangesAfterActionKind,
+      ).toEqual({
+        personalHomepage: { SetViewport: 1 },
+        personalHomepageInteraction: { Click: 1 },
       });
       expect(campaign.explorationPolicy.minNamedSnapshotChangesAfterNonWait).toEqual({
         personalHomepageInteraction: 1,

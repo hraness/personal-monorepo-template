@@ -36,6 +36,10 @@ export interface HomepageBombadilCampaign {
   readonly expectedHeading: string;
   readonly explorationPolicy: {
     readonly minDistinctNamedSnapshotValues: Readonly<Record<"personalHomepageInteraction", 2>>;
+    readonly minNamedSnapshotChangesAfterActionKind: Readonly<{
+      readonly personalHomepage: Readonly<Record<"SetViewport", 1>>;
+      readonly personalHomepageInteraction: Readonly<Record<"Click", 1>>;
+    }>;
     readonly minNamedSnapshotChangesAfterNonWait: Readonly<Record<"personalHomepageInteraction", 1>>;
     readonly minNonWaitActions: 4;
     readonly requireStableTargetUrl: true;
@@ -94,6 +98,10 @@ export const homepageBombadilCampaigns: readonly HomepageBombadilCampaign[] =
       ...metadata,
       explorationPolicy: Object.freeze({
         minDistinctNamedSnapshotValues: Object.freeze({ personalHomepageInteraction: 2 }),
+        minNamedSnapshotChangesAfterActionKind: Object.freeze({
+          personalHomepage: Object.freeze({ SetViewport: 1 }),
+          personalHomepageInteraction: Object.freeze({ Click: 1 }),
+        }),
         minNamedSnapshotChangesAfterNonWait: Object.freeze({ personalHomepageInteraction: 1 }),
         minNonWaitActions: 4,
         requireStableTargetUrl: true,

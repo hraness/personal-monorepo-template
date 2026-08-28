@@ -15,6 +15,7 @@ import {
 } from "@antithesishq/bombadil/browser";
 import {
   createDirectBombadilActions,
+  createDirectBombadilNamedSnapshot,
   createDirectBombadilProperties,
 } from "@hraness/direct/tooling/bombadil-campaign";
 
@@ -52,6 +53,71 @@ export interface HomepageInitialSnapshot extends HomepageInteractionObservation 
   readonly heading: string;
   readonly surfaceMarker: string;
   readonly surfacePresent: boolean;
+}
+
+const HOMEPAGE_OBSERVATION_STRING_KEYS = Object.freeze([
+  "activeScenario",
+  "heading",
+  "selectedAppearance",
+  "surfaceMarker",
+  "theme",
+] as const);
+const HOMEPAGE_OBSERVATION_NUMBER_KEYS = Object.freeze([
+  "viewportHeight",
+  "viewportWidth",
+] as const);
+const HOMEPAGE_OBSERVATION_KEYS = Object.freeze([
+  ...HOMEPAGE_OBSERVATION_STRING_KEYS,
+  ...HOMEPAGE_OBSERVATION_NUMBER_KEYS,
+  "surfacePresent",
+]);
+const HOMEPAGE_INTERACTION_OBSERVATION_KEYS = Object.freeze([
+  "activeScenario",
+  "selectedAppearance",
+  "theme",
+] as const);
+
+function bombadilRecord(
+  value: BombadilJson,
+): Readonly<Record<string, BombadilJson>> | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? value as Readonly<Record<string, BombadilJson>>
+    : null;
+}
+
+function hasExactKeys(
+  value: Readonly<Record<string, BombadilJson>>,
+  keys: readonly string[],
+): boolean {
+  const actual = Object.keys(value);
+  return actual.length === keys.length
+    && keys.every((key) => Object.hasOwn(value, key));
+}
+
+export function isHomepageObservation(
+  value: BombadilJson,
+): value is HomepageObservation {
+  const record = bombadilRecord(value);
+  return record !== null
+    && hasExactKeys(record, HOMEPAGE_OBSERVATION_KEYS)
+    && HOMEPAGE_OBSERVATION_STRING_KEYS.every((key) =>
+      typeof record[key] === "string"
+    )
+    && HOMEPAGE_OBSERVATION_NUMBER_KEYS.every((key) =>
+      Number.isSafeInteger(record[key])
+    )
+    && typeof record.surfacePresent === "boolean";
+}
+
+export function isHomepageInteractionObservation(
+  value: BombadilJson,
+): value is HomepageInteractionObservation {
+  const record = bombadilRecord(value);
+  return record !== null
+    && hasExactKeys(record, HOMEPAGE_INTERACTION_OBSERVATION_KEYS)
+    && HOMEPAGE_INTERACTION_OBSERVATION_KEYS.every((key) =>
+      typeof record[key] === "string"
+    );
 }
 
 function readActiveScenario(windowValue: unknown): string {
@@ -115,20 +181,36 @@ function readHomepageObservation(state: BombadilBrowserState): HomepageObservati
   };
 }
 
-const homepage = extract<BombadilBrowserState, HomepageObservation>(
-  readHomepageObservation,
-).named("personalHomepage");
-const homepageInteraction = extract<
-  BombadilBrowserState,
-  HomepageInteractionObservation
->((state) => {
-  const current = readHomepageObservation(state);
-  return {
-    activeScenario: current.activeScenario,
-    selectedAppearance: current.selectedAppearance,
-    theme: current.theme,
-  };
-}).named("personalHomepageInteraction");
+const UNAVAILABLE_HOMEPAGE_OBSERVATION: HomepageObservation = Object.freeze({
+  activeScenario: "",
+  heading: "",
+  selectedAppearance: "",
+  surfaceMarker: "",
+  surfacePresent: false,
+  theme: "",
+  viewportHeight: 0,
+  viewportWidth: 0,
+});
+
+const homepage = createDirectBombadilNamedSnapshot({
+  fallback: UNAVAILABLE_HOMEPAGE_OBSERVATION,
+  name: "personalHomepage",
+  read: readHomepageObservation,
+  validate: isHomepageObservation,
+});
+const homepageInteraction = createDirectBombadilNamedSnapshot({
+  fallback: { activeScenario: "", selectedAppearance: "", theme: "" },
+  name: "personalHomepageInteraction",
+  read: (state) => {
+    const current = readHomepageObservation(state);
+    return {
+      activeScenario: current.activeScenario,
+      selectedAppearance: current.selectedAppearance,
+      theme: current.theme,
+    };
+  },
+  validate: isHomepageInteractionObservation,
+});
 
 export function captureFirstMountedHomepage(
   previous: HomepageInitialSnapshot | null,

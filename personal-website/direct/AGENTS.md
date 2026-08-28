@@ -57,9 +57,12 @@
 - Keep the campaign descriptors on Direct's shared matrix, viewport, and
   exploration-policy config. Require both the shared `direct` snapshot and the
   product-owned `personalHomepage` snapshot in every campaign. Put interaction
-  diversity and post-action change requirements on `personalHomepageInteraction`,
-  which excludes viewport fields, and latch the first ready homepage state for
-  initial-world assertions so a later action cannot repair it. Bound startup
+  diversity and post-non-wait change requirements on
+  `personalHomepageInteraction`, which excludes viewport fields. Attribute a
+  compact snapshot change to `Click` and a full `personalHomepage` change to
+  `SetViewport`; an unrelated action cannot satisfy either semantic signal.
+  Latch the first ready homepage state for initial-world assertions so a later
+  action cannot repair it. Bound startup
   readiness, then keep surface identity, heading, theme, and selected
   appearance as strict safety invariants after that first ready state; do not
   wrap repairable safety in bounded liveness. Calibrate DOM-node or listener
