@@ -22,9 +22,26 @@ describe("homepage Bombadil matrix", () => {
       heading: "temporarily wrong",
       surfacePresent: true,
     })).toBe(false);
+    expect(homepageSurfaceLawHolds({
+      activeScenario: "homepage.long-content",
+      heading: "a person with an unusually long public name",
+      surfacePresent: true,
+    })).toBe(true);
+    expect(homepageAppearanceLawHolds(
+      { surfacePresent: true },
+      { selectedAppearance: "light", theme: "light" },
+    )).toBe(true);
     expect(homepageAppearanceLawHolds(
       { surfacePresent: true },
       { selectedAppearance: "dark", theme: "dark" },
+    )).toBe(true);
+    expect(homepageAppearanceLawHolds(
+      { surfacePresent: true },
+      { selectedAppearance: "system", theme: "light" },
+    )).toBe(true);
+    expect(homepageAppearanceLawHolds(
+      { surfacePresent: true },
+      { selectedAppearance: "system", theme: "dark" },
     )).toBe(true);
     expect(homepageAppearanceLawHolds(
       { surfacePresent: true },
