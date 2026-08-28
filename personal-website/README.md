@@ -39,6 +39,28 @@ bun run check:direct-boundary
 
 The two builds are deliberately separate: Next writes `.next`, while Vite writes `dist-direct`.
 
+### Bombadil discovery
+
+`bun run fuzz:direct -- --time-limit 20s` explores the light, dark, and
+long-content Direct worlds in sequence with conservative controls. Use
+`--campaign homepage.dark` to focus one world. Runs write exact traces,
+manifests, and logs below
+`artifacts/direct-bombadil/personal-monorepo-template-<world>/`.
+
+When a run fails, preserve its `trace.jsonl` and replay the same world before
+editing:
+
+```sh
+bun run fuzz:direct -- --campaign homepage.dark --replay artifacts/direct-bombadil/personal-monorepo-template-dark/<run>/bombadil/trace.jsonl
+```
+
+Inspect the first violated named property and extracted homepage state, fix the
+product or campaign error, and add a deterministic regression for a confirmed
+defect. Bombadil 0.7.2 does not expose a user seed or shrink failures, so the
+trace is the reproduction boundary. Successful exploration remains diagnostic
+and does not replace Direct coverage claims, semantic browser verification, or
+the production boundary checks above.
+
 ## Reading and bookshelf
 
 Use `$save-url-kb` or `$save-pdf-kb` to preserve sources, then
