@@ -64,6 +64,12 @@ trace is the reproduction boundary. Successful exploration remains diagnostic
 and does not replace Direct coverage claims, semantic browser verification, or
 the production boundary checks above.
 
+The sufficiency policy treats responsive and product interaction as separate
+signals: `SetViewport` must move to a different reviewed size, while the named
+interaction snapshot excludes viewport fields and must change after a non-wait
+action. Initial appearance is latched from the first ready state so a later
+generated click cannot repair an incorrect start.
+
 The runner owns local headless Chrome and confines the starting navigation to
 the configured localhost HTTP origin. It does not test production Chrome,
 cross-origin delivery, credentials, PostHog, or Vercel. Raw traces may contain

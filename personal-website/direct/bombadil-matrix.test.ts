@@ -26,7 +26,14 @@ describe("homepage Bombadil matrix", () => {
       expect(campaign.explorationPolicy.requiredNamedSnapshots).toEqual([
         "direct",
         "personalHomepage",
+        "personalHomepageInteraction",
       ]);
+      expect(campaign.explorationPolicy.minDistinctNamedSnapshotValues).toEqual({
+        personalHomepageInteraction: 2,
+      });
+      expect(campaign.explorationPolicy.minNamedSnapshotChangesAfterNonWait).toEqual({
+        personalHomepageInteraction: 1,
+      });
     }
   });
 

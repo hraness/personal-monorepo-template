@@ -35,12 +35,16 @@ export interface HomepageBombadilCampaign {
   readonly artifactSuffix: string;
   readonly expectedHeading: string;
   readonly explorationPolicy: {
-    readonly minDistinctNamedSnapshotValues: Readonly<Record<"personalHomepage", 2>>;
-    readonly minNamedSnapshotChangesAfterNonWait: Readonly<Record<"personalHomepage", 1>>;
+    readonly minDistinctNamedSnapshotValues: Readonly<Record<"personalHomepageInteraction", 2>>;
+    readonly minNamedSnapshotChangesAfterNonWait: Readonly<Record<"personalHomepageInteraction", 1>>;
     readonly minNonWaitActions: 4;
     readonly requireStableTargetUrl: true;
     readonly requiredActionKinds: readonly ["Click", "SetViewport"];
-    readonly requiredNamedSnapshots: readonly ["direct", "personalHomepage"];
+    readonly requiredNamedSnapshots: readonly [
+      "direct",
+      "personalHomepage",
+      "personalHomepageInteraction",
+    ];
   };
   readonly id: HomepageBombadilCampaignId;
   readonly initialAppearance: "dark" | "light" | "system";
@@ -89,12 +93,16 @@ export const homepageBombadilCampaigns: readonly HomepageBombadilCampaign[] =
     return Object.freeze({
       ...metadata,
       explorationPolicy: Object.freeze({
-        minDistinctNamedSnapshotValues: Object.freeze({ personalHomepage: 2 }),
-        minNamedSnapshotChangesAfterNonWait: Object.freeze({ personalHomepage: 1 }),
+        minDistinctNamedSnapshotValues: Object.freeze({ personalHomepageInteraction: 2 }),
+        minNamedSnapshotChangesAfterNonWait: Object.freeze({ personalHomepageInteraction: 1 }),
         minNonWaitActions: 4,
         requireStableTargetUrl: true,
         requiredActionKinds: Object.freeze(["Click", "SetViewport"] as const),
-        requiredNamedSnapshots: Object.freeze(["direct", "personalHomepage"] as const),
+        requiredNamedSnapshots: Object.freeze([
+          "direct",
+          "personalHomepage",
+          "personalHomepageInteraction",
+        ] as const),
       }),
       scenario: scenario as HomepageBombadilScenario,
     });

@@ -33,6 +33,17 @@ interface HomepageObservation {
   readonly viewportWidth: number;
 }
 
+interface HomepageInteractionObservation {
+  readonly [key: string | number | symbol]: BombadilJson;
+  readonly activeScenario: string;
+  readonly selectedAppearance: string;
+  readonly theme: string;
+}
+
+interface HomepageInitialObservation extends HomepageInteractionObservation {
+  readonly captured: boolean;
+}
+
 function readActiveScenario(windowValue: unknown): string {
   try {
     if (typeof windowValue !== "object" || windowValue === null) return "";
@@ -75,7 +86,7 @@ function visibleClickPoint(
     : null;
 }
 
-const homepage = extract<BombadilBrowserState, HomepageObservation>((state) => {
+function readHomepageObservation(state: BombadilBrowserState): HomepageObservation {
   const surface = state.document.querySelector(
     '[data-product-surface="personal-homepage/v1"]',
   );
@@ -91,7 +102,44 @@ const homepage = extract<BombadilBrowserState, HomepageObservation>((state) => {
     viewportHeight: state.window.innerHeight,
     viewportWidth: state.window.innerWidth,
   };
-}).named("personalHomepage");
+}
+
+const homepage = extract<BombadilBrowserState, HomepageObservation>(
+  readHomepageObservation,
+).named("personalHomepage");
+const homepageInteraction = extract<
+  BombadilBrowserState,
+  HomepageInteractionObservation
+>((state) => {
+  const current = readHomepageObservation(state);
+  return {
+    activeScenario: current.activeScenario,
+    selectedAppearance: current.selectedAppearance,
+    theme: current.theme,
+  };
+}).named("personalHomepageInteraction");
+let firstReadyHomepage: HomepageInteractionObservation | null = null;
+const initialHomepage = extract<BombadilBrowserState, HomepageInitialObservation>((state) => {
+  const current = readHomepageObservation(state);
+  const campaign = homepageBombadilCampaigns.find((candidate) =>
+    candidate.scenario === current.activeScenario
+  );
+  if (
+    firstReadyHomepage === null
+    && current.surfacePresent
+    && campaign !== undefined
+    && current.heading === campaign.expectedHeading
+  ) {
+    firstReadyHomepage = {
+      activeScenario: current.activeScenario,
+      selectedAppearance: current.selectedAppearance,
+      theme: current.theme,
+    };
+  }
+  return firstReadyHomepage === null
+    ? { activeScenario: "", captured: false, selectedAppearance: "", theme: "" }
+    : { ...firstReadyHomepage, captured: true };
+});
 
 const appearanceTargets = extract((state: BombadilBrowserState) => {
   const targets: Array<{
@@ -153,17 +201,19 @@ export const personal_homepage_persists: Formula = always(
   }).within(10, "seconds"),
 );
 export const personal_initial_world_matches_scenario: Formula = eventually(() => {
-  const { activeScenario, selectedAppearance, theme } = homepage.current;
+  const { activeScenario, captured, selectedAppearance, theme } = initialHomepage.current;
   const campaign = homepageBombadilCampaigns.find((candidate) =>
     candidate.scenario === activeScenario
   );
-  return campaign !== undefined
+  return captured
+    && campaign !== undefined
     && selectedAppearance === campaign.initialAppearance
     && theme === campaign.initialTheme;
 }).within(10, "seconds");
 export const personal_appearance_stays_coherent: Formula = always(
   eventually(() => {
-    const { selectedAppearance, surfacePresent, theme } = homepage.current;
+    const { surfacePresent } = homepage.current;
+    const { selectedAppearance, theme } = homepageInteraction.current;
     return surfacePresent
       && (theme === "light" || theme === "dark")
       && (selectedAppearance === "light"

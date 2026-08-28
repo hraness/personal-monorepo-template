@@ -56,5 +56,8 @@
   proof; a failed trace is the exact replay boundary.
 - Keep the campaign descriptors on Direct's shared matrix, viewport, and
   exploration-policy config. Require both the shared `direct` snapshot and the
-  product-owned `personalHomepage` snapshot in every campaign.
+  product-owned `personalHomepage` snapshot in every campaign. Put interaction
+  diversity and post-action change requirements on `personalHomepageInteraction`,
+  which excludes viewport fields, and latch the first ready homepage state for
+  initial-world assertions so a later action cannot repair it.
 - Build only to `dist-direct`. The Next application builds only to `.next`.
