@@ -15,7 +15,7 @@ concurrency:
 jobs:
   fuzz:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -28,7 +28,7 @@ jobs:
           node-version: 24
       - run: bun install --frozen-lockfile
       - name: Explore every Direct homepage world
-        run: bun run fuzz:direct -- --time-limit 45s
+        run: bun run fuzz:direct -- --time-limit 60s
       - name: Preserve exact traces and run manifests
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

@@ -22,13 +22,16 @@
   trace attestation; do not treat random exploration as coverage evidence.
 - Run `bun run fuzz:direct -- --time-limit 20s` after changing the homepage,
   appearance control, Direct world, session, or campaign. The default matrix
-  runs light, dark, and long-content worlds; use `--campaign homepage.dark`
-  for a focused campaign and 45-120 seconds per world for scheduled or manual
-  discovery runs.
+  derives light, dark, and long-content campaigns from the exact Direct
+  catalog; catalog drift must fail closed. Use `--campaign dark-wide` for a
+  focused campaign. The runner accepts exactly 12-300 seconds: use 12-30 in
+  the edit loop and 60-300 per campaign for scheduled or manual discovery.
 - Inspect each exact run below
-  `artifacts/direct-bombadil/personal-monorepo-template-<world>/`. Preserve a
+  `artifacts/direct-bombadil/personal-monorepo-template-<campaign>/`. Preserve a
   failing `trace.jsonl`, its run manifest, and logs before retrying. Replay it
-  with `bun run fuzz:direct -- --campaign <world> --replay <trace-path>`.
+  with `bun run fuzz:direct -- --campaign <campaign> --replay <trace-path>`.
+  Open actions, screenshots, snapshots, resources, and violations with
+  `bunx bombadil browser inspect <run-directory>/bombadil`.
 - Triage the first violated named property and the matching product extractor
   values. Promote every confirmed product defect to a deterministic unit or
   semantic browser regression, then keep the trace only when it adds useful
@@ -37,7 +40,21 @@
   reload, history, form-submit, Enter-key, credential, provider, or unbounded
   actions merely to increase activity. Add named extractors and product
   temporal properties for meaningful state transitions rather than DOM churn.
+- Keep appearance clicks restricted to visible, enabled, unchecked controls
+  whose click point is inside the active viewport. Keep responsive viewport
+  actions bounded to the declared campaign dimensions. Name the product
+  snapshot `personalHomepage`, include active scenario and visible state, and
+  require scenario-specific initial semantics without forbidding valid later
+  appearance changes.
+- Bombadil owns a local headless Chrome process and the exact localhost HTTP
+  origin supplied by the runner. It is not production-browser, cross-origin,
+  credential, provider, or public-delivery evidence. A raw trace may contain
+  screenshots, labels, typed text, query values, and local paths; retain CI
+  artifacts briefly and treat them as potentially sensitive.
 - Bombadil 0.7.2 has no user-supplied seed and performs no shrinking. A passing
   random campaign is diagnostic evidence, not Direct coverage or release
   proof; a failed trace is the exact replay boundary.
+- Keep the local campaign descriptors structurally aligned with Direct's
+  additive matrix, viewport, and exploration-policy config so the reviewed
+  dependency upgrade can replace the temporary local loop mechanically.
 - Build only to `dist-direct`. The Next application builds only to `.next`.

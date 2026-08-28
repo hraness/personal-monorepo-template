@@ -42,16 +42,19 @@ The two builds are deliberately separate: Next writes `.next`, while Vite writes
 ### Bombadil discovery
 
 `bun run fuzz:direct -- --time-limit 20s` explores the light, dark, and
-long-content Direct worlds in sequence with conservative controls. Use
-`--campaign homepage.dark` to focus one world. Runs write exact traces,
+long-content Direct worlds in sequence with conservative appearance and
+responsive-viewport actions. The accepted bound is 12-300 seconds. Use 12-30
+seconds while editing and 60-300 seconds per campaign for a scheduled or
+manual discovery run. Use `--campaign dark-wide` to focus one world. Runs write exact traces,
 manifests, and logs below
-`artifacts/direct-bombadil/personal-monorepo-template-<world>/`.
+`artifacts/direct-bombadil/personal-monorepo-template-<campaign>/`.
 
 When a run fails, preserve its `trace.jsonl` and replay the same world before
 editing:
 
 ```sh
-bun run fuzz:direct -- --campaign homepage.dark --replay artifacts/direct-bombadil/personal-monorepo-template-dark/<run>/bombadil/trace.jsonl
+bun run fuzz:direct -- --campaign dark-wide --replay artifacts/direct-bombadil/personal-monorepo-template-dark-wide/<run>/bombadil/trace.jsonl
+bunx bombadil browser inspect artifacts/direct-bombadil/personal-monorepo-template-dark-wide/<run>/bombadil
 ```
 
 Inspect the first violated named property and extracted homepage state, fix the
@@ -60,6 +63,13 @@ defect. Bombadil 0.7.2 does not expose a user seed or shrink failures, so the
 trace is the reproduction boundary. Successful exploration remains diagnostic
 and does not replace Direct coverage claims, semantic browser verification, or
 the production boundary checks above.
+
+The runner owns local headless Chrome and confines the starting navigation to
+the configured localhost HTTP origin. It does not test production Chrome,
+cross-origin delivery, credentials, PostHog, or Vercel. Raw traces may contain
+screenshots, labels, typed text, query values, and local paths, so retain
+uploaded artifacts only long enough to inspect, replay, and promote a confirmed
+defect into the smallest deterministic regression.
 
 ## Reading and bookshelf
 
