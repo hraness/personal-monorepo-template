@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
 import {
+  captureFirstMountedHomepage,
   homepageAppearanceLawHolds,
   homepageSurfaceLawHolds,
 } from "./bombadil-campaign";
@@ -15,16 +16,19 @@ describe("homepage Bombadil matrix", () => {
     expect(homepageSurfaceLawHolds({
       activeScenario: "homepage.light",
       heading: "your name",
+      surfaceMarker: "personal-homepage/v1",
       surfacePresent: true,
     })).toBe(true);
     expect(homepageSurfaceLawHolds({
       activeScenario: "homepage.light",
       heading: "temporarily wrong",
+      surfaceMarker: "personal-homepage/v1",
       surfacePresent: true,
     })).toBe(false);
     expect(homepageSurfaceLawHolds({
       activeScenario: "homepage.long-content",
       heading: "a person with an unusually long public name",
+      surfaceMarker: "personal-homepage/v1",
       surfacePresent: true,
     })).toBe(true);
     expect(homepageAppearanceLawHolds(
@@ -47,6 +51,38 @@ describe("homepage Bombadil matrix", () => {
       { surfacePresent: true },
       { selectedAppearance: "dark", theme: "light" },
     )).toBe(false);
+  });
+
+  test("latches the first mounted surface before its scenario, marker, or heading can heal", () => {
+    const absent = {
+      activeScenario: "homepage.light",
+      heading: "",
+      selectedAppearance: "",
+      surfaceMarker: "",
+      surfacePresent: false,
+      theme: "",
+    };
+    const validMount = {
+      activeScenario: "homepage.light",
+      heading: "your name",
+      selectedAppearance: "light",
+      surfaceMarker: "personal-homepage/v1",
+      surfacePresent: true,
+      theme: "light",
+    };
+    const invalidMounts = [
+      { ...validMount, activeScenario: "homepage.unknown" },
+      { ...validMount, surfaceMarker: "personal-homepage/v0" },
+      { ...validMount, heading: "temporarily wrong" },
+    ];
+
+    expect(captureFirstMountedHomepage(null, absent)).toBeNull();
+    for (const invalidMount of invalidMounts) {
+      const captured = captureFirstMountedHomepage(null, invalidMount);
+      expect(captured).toEqual(invalidMount);
+      expect(homepageSurfaceLawHolds(captured!)).toBe(false);
+      expect(captureFirstMountedHomepage(captured, validMount)).toBe(captured);
+    }
   });
 
   test("matches every exact Direct scenario with one attainable config", () => {
