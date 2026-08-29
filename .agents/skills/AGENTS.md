@@ -12,7 +12,9 @@
 - `direct-verify/` – evidence-based verification of Direct compositions.
 - `reclaim-disk-space/` – cautious disk and Git worktree cleanup.
 - `pr-cleanup/` – live-census recovery, merge, and supersession of open pull requests.
-- `phase-orchestrator/` – phased execution with Codex collaboration agents.
+- `write-phase-plan/` – dependency-ordered plan authoring with explicit acceptance and validation criteria.
+- `phase-orchestrator/` – parent workflow for delegated phased execution, integration, and delivery.
+- `phase-implementer/`, `phase-reviewer/`, and `phase-final-reviewer/` – bounded implementation, independent phase review, and end-to-end review workers.
 - `assumption-audit/` – load-bearing assumption discovery and testing.
 - `decision-matrix/` – weighted option comparison with sensitivity analysis.
 - `first-principles-thinking/` – reconstruction from fundamental constraints.
