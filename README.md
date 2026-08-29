@@ -128,6 +128,16 @@ the static `/reading` pages and `/reading/atom.xml`. The site also includes
 canonical metadata, Open Graph and Twitter metadata, JSON-LD, `robots.txt`,
 `sitemap.xml`, and `manifest.webmanifest`.
 
+### Add editorial images when useful
+
+The starter deliberately has no article-banner requirement. If a generated
+repository adds first-party articles and an image can clarify or identify one,
+follow the [optional editorial-image procedure](docs/editorial-images.md). It
+keeps the visible figure, responsive dimensions, alt text, caption, social
+metadata, schema, feed enclosure, image sitemap, and provenance aligned through
+one typed record. Use the `editorial-image-seo` Codex skill when it is
+available; do not add decorative images to satisfy an assumed SEO quota.
+
 ### Configure PostHog when wanted
 
 The site is fully functional without analytics. To opt in, create a PostHog

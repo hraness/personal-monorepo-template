@@ -13,6 +13,7 @@
 - Keep Reading as a checked public projection from reviewed KB notes and Bookshelf as typed repository data. Never read the KB or fetch content at runtime.
 - Keep Reading and Bookshelf collection routes on the shared semantic breadcrumb header while preserving their route-owned content and visual scale.
 - Keep Atom, canonical metadata, robots, sitemap, manifest, and JSON-LD derived from the same repository-owned registries.
+- If a generated repository opts into first-party editorial images, keep one typed representative-image record authoritative across visible figures, cards, metadata, schema, feeds, and the image sitemap. Follow `../docs/editorial-images.md`; do not make banners mandatory for the starter or its external Reading notes.
 - Keep `/design` limited to the public primitives the template actually uses and render it with the production appearance adapter.
 - Build the real homepage from `PersonalHomepage`; production and Direct must pass different adapters into that same component rather than fork it.
 - Keep persistence, media queries, and document mutation behind `AppearancePort`. Persist only `light`, `dark`, or `system`.

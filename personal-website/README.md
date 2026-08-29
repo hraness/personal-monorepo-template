@@ -61,6 +61,12 @@ The site publishes `/reading`, `/bookshelf`, and
 Twitter metadata, JSON-LD, `robots.txt`, `sitemap.xml`, and
 `manifest.webmanifest`.
 
+Editorial imagery is optional and is not inherited by the starter. Before
+adding a banner or explanatory figure to a first-party article, follow the
+[editorial-image procedure](../docs/editorial-images.md) so visible HTML,
+responsive delivery, discovery metadata, feeds, sitemaps, and provenance stay
+aligned.
+
 ## Design system
 
 Open `/design` during local development to inspect the public `@hraness/ui` Badge variants and the product-owned appearance control against the same tokens and styles as the homepage. This small static gallery is a visual contract for the primitives the starter actually uses, rather than a claim to cover the package's full catalog.
