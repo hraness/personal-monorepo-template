@@ -27,13 +27,26 @@ jobs:
         with:
           node-version: 24
       - run: bun install --frozen-lockfile
+      - name: Allocate a unique public-summary leaf
+        id: bombadil-artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          run_id="$(bun -e 'console.log(crypto.randomUUID())')"
+          if [[ ! "$run_id" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$ ]]; then
+            echo "Bun did not produce a lowercase RFC 4122 UUID." >&2
+            exit 1
+          fi
+          printf 'run_id=%s\n' "$run_id" >> "$GITHUB_OUTPUT"
       - name: Explore every Direct homepage world
+        env:
+          DIRECT_BOMBADIL_RUN_ID: ${{ steps.bombadil-artifact.outputs.run_id }}
         run: bun run fuzz:direct -- --time-limit 60s
-      - name: Preserve exact traces and run manifests
-        if: always()
+      - name: Preserve sanitized Bombadil receipts and summaries
+        if: ${{ always() && steps.bombadil-artifact.outputs.run_id != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: direct-bombadil-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/direct-bombadil/
+          path: artifacts/direct-bombadil-upload/${{ steps.bombadil-artifact.outputs.run_id }}
           if-no-files-found: error
           retention-days: 14

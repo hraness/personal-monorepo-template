@@ -19,8 +19,14 @@ describe("homepage Bombadil matrix", () => {
   test("accepts only the exact bounded named-snapshot shapes", () => {
     const homepage = {
       activeScenario: "homepage.light",
+      aboutPresent: true,
+      appearanceControlPresent: true,
+      appearanceErrorPresent: false,
       heading: "your name",
+      libraryLinkCount: 2,
+      projectCount: 1,
       selectedAppearance: "light",
+      socialLinkCount: 1,
       surfaceMarker: "personal-homepage/v1",
       surfacePresent: true,
       theme: "light",
@@ -38,8 +44,14 @@ describe("homepage Bombadil matrix", () => {
     })).toBeFalse();
     expect(isHomepageObservation({
       activeScenario: homepage.activeScenario,
+      aboutPresent: homepage.aboutPresent,
+      appearanceControlPresent: homepage.appearanceControlPresent,
+      appearanceErrorPresent: homepage.appearanceErrorPresent,
       heading: homepage.heading,
+      libraryLinkCount: homepage.libraryLinkCount,
+      projectCount: homepage.projectCount,
       selectedAppearance: homepage.selectedAppearance,
+      socialLinkCount: homepage.socialLinkCount,
       surfaceMarker: homepage.surfaceMarker,
       surfacePresent: homepage.surfacePresent,
       theme: homepage.theme,
@@ -48,6 +60,7 @@ describe("homepage Bombadil matrix", () => {
 
     const interaction = {
       activeScenario: homepage.activeScenario,
+      appearanceErrorPresent: false,
       selectedAppearance: homepage.selectedAppearance,
       theme: homepage.theme,
     } satisfies HomepageInteractionObservation;
@@ -60,26 +73,43 @@ describe("homepage Bombadil matrix", () => {
       ...interaction,
       viewportWidth: homepage.viewportWidth,
     })).toBeFalse();
+    expect(isHomepageObservation(Object.create(homepage))).toBeFalse();
+    expect(isHomepageObservation(Object.defineProperty({ ...homepage }, "heading", {
+      enumerable: true,
+      get: () => "your name",
+    }))).toBeFalse();
+    expect(isHomepageObservation({ ...homepage, [Symbol("hostile")]: true })).toBeFalse();
+    expect(isHomepageObservation(new Proxy(homepage, {
+      ownKeys: () => {
+        throw new Error("hostile proxy");
+      },
+    }))).toBeFalse();
   });
 
   test("keeps ready surface and appearance laws strict", () => {
+    const surface = {
+      aboutPresent: true,
+      appearanceControlPresent: true,
+      libraryLinkCount: 2,
+      projectCount: 1,
+      socialLinkCount: 1,
+      surfaceMarker: "personal-homepage/v1",
+      surfacePresent: true,
+    } as const;
     expect(homepageSurfaceLawHolds({
+      ...surface,
       activeScenario: "homepage.light",
       heading: "your name",
-      surfaceMarker: "personal-homepage/v1",
-      surfacePresent: true,
     })).toBe(true);
     expect(homepageSurfaceLawHolds({
+      ...surface,
       activeScenario: "homepage.light",
       heading: "temporarily wrong",
-      surfaceMarker: "personal-homepage/v1",
-      surfacePresent: true,
     })).toBe(false);
     expect(homepageSurfaceLawHolds({
+      ...surface,
       activeScenario: "homepage.long-content",
       heading: "a person with an unusually long public name",
-      surfaceMarker: "personal-homepage/v1",
-      surfacePresent: true,
     })).toBe(true);
     expect(homepageAppearanceLawHolds(
       { surfacePresent: true },
@@ -106,16 +136,28 @@ describe("homepage Bombadil matrix", () => {
   test("latches the first mounted surface before its scenario, marker, or heading can heal", () => {
     const absent = {
       activeScenario: "homepage.light",
+      aboutPresent: false,
+      appearanceControlPresent: false,
+      appearanceErrorPresent: false,
       heading: "",
+      libraryLinkCount: 0,
+      projectCount: 0,
       selectedAppearance: "",
+      socialLinkCount: 0,
       surfaceMarker: "",
       surfacePresent: false,
       theme: "",
     };
     const validMount = {
       activeScenario: "homepage.light",
+      aboutPresent: true,
+      appearanceControlPresent: true,
+      appearanceErrorPresent: false,
       heading: "your name",
+      libraryLinkCount: 2,
+      projectCount: 1,
       selectedAppearance: "light",
+      socialLinkCount: 1,
       surfaceMarker: "personal-homepage/v1",
       surfacePresent: true,
       theme: "light",
@@ -142,7 +184,9 @@ describe("homepage Bombadil matrix", () => {
     expect(homepageBombadilCampaigns.map((campaign) => campaign.id)).toEqual([
       "light-wide",
       "dark-wide",
+      "system-dark-wide",
       "long-content-narrow",
+      "appearance-write-failure",
     ]);
     for (const campaign of homepageBombadilCampaigns) {
       expect(campaign.viewport.width).toBeGreaterThanOrEqual(390);

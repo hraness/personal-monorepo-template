@@ -27,7 +27,7 @@
       },
       "devDependencies": {
         "@antithesishq/bombadil": "catalog:",
-        "@hraness/direct": "github:hraness/direct#v0.7.4",
+        "@hraness/direct": "0.7.9",
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
         "@types/react": "catalog:",
@@ -121,7 +121,7 @@
 
     "@hono/node-server": ["@hono/node-server@1.19.17", "", { "peerDependencies": { "hono": "^4" } }, "sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ=="],
 
-    "@hraness/direct": ["@hraness/direct@github:hraness/direct#1a34c92", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "react"] }, "hraness-direct-1a34c92", "sha512-88Of3wNk+wolH+HRqGxZEY0wOCCldVfOIZQNW9h7ToBlUd4Va6tOSgZoh1NPzyEK0vrFGuUd4+V5sVupyD2iHw=="],
+    "@hraness/direct": ["@hraness/direct@0.7.9", "", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "react"] }, "sha512-LLRczilM+Hg5hCb20+fob/agfBt4/s5zDb6KTrqCDY305ocO/QacAZCpeCiUbziLEQVyMiH0tiGCojUs6asxIg=="],
 
     "@hraness/kb": ["@hraness/kb@github:hraness/kb#102ef24", { "dependencies": { "@steipete/sweet-cookie": "github:hraness/sweet-cookie#v0.4.2", "@tobilu/qmd": "git+https://github.com/hraness/qmd.git#aa993dceb3ef8cfb71d470554ca437570f5a2b3c", "agent-browser": "0.32.3", "defuddle": "0.19.1", "yaml": "^2.9.0", "zod": "^4.4.3" }, "bin": { "kb": "./dist/cli.js", "kb-evaluation-builder": "./dist/evaluation-builder.js" } }, "hraness-kb-102ef24", "sha512-BFxGVS9OUUkUmK+jGnkg/tYdRK3qw2MzhELQmZig+ySgM6qbTlOlOOVcprIyzC0fslHeKZsHX4i5nua2WmrwNg=="],
 

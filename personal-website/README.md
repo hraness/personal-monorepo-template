@@ -41,11 +41,12 @@ The two builds are deliberately separate: Next writes `.next`, while Vite writes
 
 ### Bombadil discovery
 
-`bun run fuzz:direct -- --time-limit 20s` explores the light, dark, and
-long-content Direct worlds in sequence with conservative appearance and
-responsive-viewport actions. The accepted bound is 12-300 seconds. Use 12-30
-seconds while editing and 60-300 seconds per campaign for a scheduled or
-manual discovery run. Use `--campaign dark-wide` to focus one world. Runs write exact traces,
+`bun run fuzz:direct -- --time-limit 20s` explores the light, dark,
+system-dark, long-content, and appearance-write-failure Direct worlds in
+sequence with conservative appearance and responsive-viewport actions. The
+accepted bound is 12-300 seconds. Use 12-30 seconds while editing and 60-300
+seconds per campaign for a scheduled or manual discovery run. Use
+`--campaign dark-wide` to focus one world. Local runs write exact traces,
 manifests, and logs below
 `artifacts/direct-bombadil/personal-monorepo-template-<campaign>/`.
 
@@ -71,14 +72,24 @@ change the viewport-free `personalHomepageInteraction` snapshot, and
 SetViewport must change the full `personalHomepage` snapshot. This is adjacent
 temporal evidence rather than causal proof. Initial appearance is latched from
 the first ready state so a later generated click cannot repair an incorrect
-start.
+start. The write-failure world instead requires a product-owned Click and a
+semantic error-state change without imposing a startup deadline on random
+action scheduling.
+
+The scheduled workflow uses Direct v0.7.9 to allocate one lowercase UUID and
+publish only the bounded sanitized leaf at
+`artifacts/direct-bombadil-upload/<uuid>`. The wrapper parses and cross-binds
+the root matrix receipt and summary plus every retained child receipt and
+summary from `unknown` with Direct's four public artifact parsers. Public CI
+never uploads the raw trace tree. Keep useful raw traces in private diagnostic
+storage only.
 
 The runner owns local headless Chrome and confines the starting navigation to
 the configured localhost HTTP origin. It does not test production Chrome,
 cross-origin delivery, credentials, PostHog, or Vercel. Raw traces may contain
-screenshots, labels, typed text, query values, and local paths, so retain
-uploaded artifacts only long enough to inspect, replay, and promote a confirmed
-defect into the smallest deterministic regression.
+screenshots, labels, typed text, query values, and local paths. Every
+product-owned named snapshot uses an exact fail-closed predicate rather than a
+cast. Promote a confirmed defect into the smallest deterministic regression.
 
 ## Reading and bookshelf
 

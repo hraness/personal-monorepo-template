@@ -4,6 +4,7 @@ const campaignMetadata = Object.freeze({
   "homepage.light": Object.freeze({
     artifactSuffix: "light-wide",
     expectedHeading: "your name",
+    expectsWriteFailure: false,
     id: "light-wide",
     initialAppearance: "light",
     initialTheme: "light",
@@ -15,7 +16,17 @@ const campaignMetadata = Object.freeze({
     id: "dark-wide",
     initialAppearance: "dark",
     initialTheme: "dark",
+    expectsWriteFailure: false,
     viewport: Object.freeze({ deviceScaleFactor: 1, height: 768, width: 1_024 }),
+  }),
+  "homepage.system-dark": Object.freeze({
+    artifactSuffix: "system-dark-wide",
+    expectedHeading: "your name",
+    expectsWriteFailure: false,
+    id: "system-dark-wide",
+    initialAppearance: "system",
+    initialTheme: "dark",
+    viewport: Object.freeze({ deviceScaleFactor: 1, height: 900, width: 1_280 }),
   }),
   "homepage.long-content": Object.freeze({
     artifactSuffix: "long-content-narrow",
@@ -23,7 +34,17 @@ const campaignMetadata = Object.freeze({
     id: "long-content-narrow",
     initialAppearance: "system",
     initialTheme: "light",
+    expectsWriteFailure: false,
     viewport: Object.freeze({ deviceScaleFactor: 2, height: 844, width: 390 }),
+  }),
+  "homepage.appearance-write-failure": Object.freeze({
+    artifactSuffix: "appearance-write-failure",
+    expectedHeading: "your name",
+    expectsWriteFailure: true,
+    id: "appearance-write-failure",
+    initialAppearance: "light",
+    initialTheme: "light",
+    viewport: Object.freeze({ deviceScaleFactor: 1, height: 844, width: 390 }),
   }),
 } as const);
 
@@ -51,6 +72,7 @@ export interface HomepageBombadilCampaign {
     ];
   };
   readonly id: HomepageBombadilCampaignId;
+  readonly expectsWriteFailure: boolean;
   readonly initialAppearance: "dark" | "light" | "system";
   readonly initialTheme: "dark" | "light";
   readonly scenario: HomepageBombadilScenario;
