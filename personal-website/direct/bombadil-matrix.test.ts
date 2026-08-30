@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import * as ts from "typescript";
 
 import {
   captureFirstMountedHomepage,
@@ -15,7 +17,72 @@ import {
 } from "./bombadil-matrix";
 import { websiteDirectDefinition } from "./scenarios";
 
+function hasExportModifier(statement: ts.Statement): boolean {
+  return ts.canHaveModifiers(statement)
+    && ts.getModifiers(statement)?.some(
+      (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+    ) === true;
+}
+
+function describeRuntimeExports(source: string): readonly string[] {
+  const sourceFile = ts.createSourceFile(
+    "bombadil-campaign.ts",
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS,
+  );
+  return sourceFile.statements.flatMap((statement) => {
+    if (ts.isExportDeclaration(statement)) {
+      const moduleName = statement.moduleSpecifier !== undefined
+        && ts.isStringLiteral(statement.moduleSpecifier)
+        ? statement.moduleSpecifier.text
+        : "<non-literal>";
+      const clause = statement.exportClause === undefined
+        ? "*"
+        : statement.exportClause.getText(sourceFile);
+      return [`re-export:${clause}:${moduleName}`];
+    }
+    if (ts.isExportAssignment(statement)) {
+      return [`unsupported:${ts.SyntaxKind[statement.kind]}`];
+    }
+    if (!hasExportModifier(statement)) return [];
+    if (!ts.isVariableStatement(statement)) {
+      return [`unsupported:${ts.SyntaxKind[statement.kind]}`];
+    }
+    return statement.declarationList.declarations.map((declaration) => {
+      const name = ts.isIdentifier(declaration.name)
+        ? declaration.name.text
+        : "<non-identifier>";
+      const type = declaration.type?.getText(sourceFile) ?? "<untyped>";
+      return `variable:${name}:${type}`;
+    });
+  });
+}
+
 describe("homepage Bombadil matrix", () => {
+  test("exports only Bombadil Formula and ActionGenerator runtime values", () => {
+    const campaignSource = readFileSync(
+      new URL("./bombadil-campaign.ts", import.meta.url),
+      "utf8",
+    );
+    expect(describeRuntimeExports(campaignSource)).toEqual([
+      "re-export:*:@antithesishq/bombadil/browser/defaults/properties",
+      "variable:direct_safe_actions:ActionGenerator<ActionTemplate>",
+      "variable:direct_startup_contract:Formula",
+      "variable:direct_exact_contract:Formula",
+      "variable:direct_stable_catalog:Formula",
+      "variable:direct_no_declared_violations:Formula",
+      "variable:direct_eventual_quiescence:Formula",
+      "variable:personal_homepage_mounts:Formula",
+      "variable:personal_homepage_persists:Formula",
+      "variable:personal_initial_world_matches_scenario:Formula",
+      "variable:personal_appearance_stays_coherent:Formula",
+      "variable:personal_appearance_errors_stay_bounded:Formula",
+      "variable:personal_configured_write_failure_is_reported:Formula",
+    ]);
+  });
+
   test("accepts only the exact bounded named-snapshot shapes", () => {
     const homepage = {
       activeScenario: "homepage.light",

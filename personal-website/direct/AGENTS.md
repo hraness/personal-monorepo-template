@@ -55,7 +55,7 @@
   credential, provider, or public-delivery evidence. Raw traces can contain
   screenshots, labels, typed text, query values, and local paths. Never upload
   the raw tree from public CI.
-- Scheduled CI preallocates one lowercase RFC 4122 UUID, passes Direct v0.7.9
+- Scheduled CI preallocates one lowercase RFC 4122 UUID, passes Direct v0.7.13
   the exact `public-summary` artifact plan, and uploads only
   `artifacts/direct-bombadil-upload/<uuid>`. Parse and cross-bind its matrix and
   child receipts and summaries from `unknown` with all four public Direct

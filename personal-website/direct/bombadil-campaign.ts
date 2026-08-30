@@ -18,7 +18,7 @@ import {
   createDirectBombadilProperties,
 } from "@hraness/direct/tooling/bombadil-campaign";
 
-import { homepageBombadilCampaigns } from "./bombadil-matrix";
+import { homepageBombadilCampaigns } from "./bombadil-matrix.ts";
 import {
   captureFirstMountedHomepage,
   homepageAppearanceLawHolds,
@@ -28,18 +28,7 @@ import {
   type HomepageInitialSnapshot,
   type HomepageInteractionObservation,
   type HomepageObservation,
-} from "./bombadil-model";
-
-export {
-  captureFirstMountedHomepage,
-  homepageAppearanceLawHolds,
-  homepageSurfaceLawHolds,
-  isHomepageInteractionObservation,
-  isHomepageObservation,
-  type HomepageInitialSnapshot,
-  type HomepageInteractionObservation,
-  type HomepageObservation,
-} from "./bombadil-model";
+} from "./bombadil-model.ts";
 
 export * from "@antithesishq/bombadil/browser/defaults/properties";
 
@@ -93,7 +82,7 @@ function interactionBlocked(window: Window, element: Element): boolean {
   return false;
 }
 
-export function visibleClickPoint(
+function visibleClickPoint(
   window: Window,
   element: Element,
 ): { readonly x: number; readonly y: number } | null {
@@ -261,7 +250,7 @@ const responsiveViewportActions = actions<ActionTemplate>(() =>
 );
 const properties = createDirectBombadilProperties();
 
-export function homepageAppearanceErrorLawHolds(
+function homepageAppearanceErrorLawHolds(
   observation: Pick<
     HomepageInteractionObservation,
     "activeScenario" | "appearanceErrorPresent" | "selectedAppearance" | "theme"

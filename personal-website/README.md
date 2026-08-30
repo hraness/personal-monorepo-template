@@ -76,7 +76,7 @@ start. The write-failure world instead requires a product-owned Click and a
 semantic error-state change without imposing a startup deadline on random
 action scheduling.
 
-The scheduled workflow uses Direct v0.7.9 to allocate one lowercase UUID and
+The scheduled workflow uses Direct v0.7.13 to allocate one lowercase UUID and
 publish only the bounded sanitized leaf at
 `artifacts/direct-bombadil-upload/<uuid>`. The wrapper parses and cross-binds
 the root matrix receipt and summary plus every retained child receipt and

@@ -1,5 +1,3 @@
-import { websiteDirectDefinition } from "./scenarios";
-
 const campaignMetadata = Object.freeze({
   "homepage.light": Object.freeze({
     artifactSuffix: "light-wide",
@@ -105,13 +103,10 @@ export function assertHomepageBombadilCatalog(
   }
 }
 
-const declaredScenarios = websiteDirectDefinition.scenarios.list().map((scenario) =>
-  scenario.id
-);
-assertHomepageBombadilCatalog(declaredScenarios);
+const configuredScenarios = Object.keys(campaignMetadata) as HomepageBombadilScenario[];
 
 export const homepageBombadilCampaigns: readonly HomepageBombadilCampaign[] =
-  Object.freeze(declaredScenarios.map((scenario) => {
+  Object.freeze(configuredScenarios.map((scenario) => {
     const metadata = campaignMetadata[scenario as HomepageBombadilScenario];
     if (metadata === undefined) {
       throw new Error(`Direct scenario ${scenario} has no Bombadil campaign`);

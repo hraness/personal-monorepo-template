@@ -1,6 +1,6 @@
 import type { JSON as BombadilJson } from "@antithesishq/bombadil";
 
-import { homepageBombadilCampaigns } from "./bombadil-matrix";
+import { homepageBombadilCampaigns } from "./bombadil-matrix.ts";
 
 export interface HomepageObservation {
   readonly [key: string | number | symbol]: BombadilJson;

@@ -9,7 +9,11 @@ import {
   selectedHomepageBombadilCampaign,
   verifyHomepageBombadilUpload,
 } from "./bombadil-artifacts";
-import { homepageBombadilCampaigns } from "./bombadil-matrix";
+import {
+  assertHomepageBombadilCatalog,
+  homepageBombadilCampaigns,
+} from "./bombadil-matrix";
+import { websiteDirectDefinition } from "./scenarios";
 
 const directRoot = fileURLToPath(new URL(".", import.meta.url));
 const productRoot = resolve(directRoot, "..");
@@ -17,6 +21,9 @@ const repositoryRoot = resolve(productRoot, "..");
 const arguments_ = process.argv.slice(2);
 const runId = process.env.DIRECT_BOMBADIL_RUN_ID ?? randomUUID();
 const selectedCampaignId = selectedHomepageBombadilCampaign(arguments_);
+assertHomepageBombadilCatalog(
+  websiteDirectDefinition.scenarios.list().map((scenario) => scenario.id),
+);
 
 const fuzzCampaigns = homepageBombadilCampaigns.map((campaign) => ({
   id: campaign.id,
