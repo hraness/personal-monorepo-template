@@ -8,7 +8,7 @@ import {
   isHomepageObservation,
   type HomepageInteractionObservation,
   type HomepageObservation,
-} from "./bombadil-campaign";
+} from "./bombadil-model";
 import {
   assertHomepageBombadilCatalog,
   homepageBombadilCampaigns,
@@ -178,9 +178,13 @@ describe("homepage Bombadil matrix", () => {
   });
 
   test("matches every exact Direct scenario with one attainable config", () => {
-    expect(homepageBombadilCampaigns.map((campaign) => campaign.scenario)).toEqual(
-      websiteDirectDefinition.scenarios.list().map((scenario) => scenario.id),
+    const configuredScenarios: readonly string[] = homepageBombadilCampaigns.map(
+      (campaign) => campaign.scenario,
     );
+    const declaredScenarios: readonly string[] = websiteDirectDefinition.scenarios
+      .list()
+      .map((scenario) => scenario.id);
+    expect(configuredScenarios).toEqual(declaredScenarios);
     expect(homepageBombadilCampaigns.map((campaign) => campaign.id)).toEqual([
       "light-wide",
       "dark-wide",
