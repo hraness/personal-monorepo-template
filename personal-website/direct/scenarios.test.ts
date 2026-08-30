@@ -7,7 +7,13 @@ import { createWebsiteDirectSession } from "./session";
 
 describe("personal website Direct definition", () => {
   test("activates every stable scenario and rejects an explicit unknown scenario", () => {
-    for (const id of ["homepage.light", "homepage.dark", "homepage.long-content"]) {
+    for (const id of [
+      "homepage.light",
+      "homepage.dark",
+      "homepage.system-dark",
+      "homepage.long-content",
+      "homepage.appearance-write-failure",
+    ]) {
       expect(websiteDirectDefinition.activate(`?${SCENARIO_QUERY_KEY}=${id}`)).toMatchObject({
         ok: true,
         value: { scenario: id, route: "/" },
@@ -23,7 +29,9 @@ describe("personal website Direct definition", () => {
     expect(websiteDirectDefinition.coverage.requireExactKeys([
       "homepage.light.render",
       "homepage.dark.render",
+      "homepage.system-dark.render",
       "homepage.long-content.model",
+      "homepage.appearance-write-failure.render",
       "appearance.browser.persistence",
       "analytics.posthog.delivery",
       "delivery.vercel.public",

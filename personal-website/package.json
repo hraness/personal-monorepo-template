@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@antithesishq/bombadil": "catalog:",
-    "@hraness/direct": "github:hraness/direct#v0.7.4",
+    "@hraness/direct": "0.7.13",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",

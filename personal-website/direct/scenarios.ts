@@ -55,6 +55,16 @@ export const websiteDirectDefinition = defineDirect({
       }),
     },
     {
+      id: "homepage.system-dark",
+      title: "System appearance resolving dark",
+      description: "The real compact homepage with a deterministic system preference resolving to dark.",
+      route: "/",
+      world: createWebsiteDirectWorld({
+        appearance: { preference: "system", resolved: "dark", writeFailure: null },
+        content: DEFAULT_CONTENT,
+      }),
+    },
+    {
       id: "homepage.long-content",
       title: "Long content",
       description: "Long names, descriptions, URLs, and biography text are supplied to the real layout for inspection.",
@@ -62,6 +72,20 @@ export const websiteDirectDefinition = defineDirect({
       world: createWebsiteDirectWorld({
         appearance: { preference: "system", resolved: "light", writeFailure: null },
         content: LONG_CONTENT,
+      }),
+    },
+    {
+      id: "homepage.appearance-write-failure",
+      title: "Appearance write failure",
+      description: "The real compact homepage surfaces a deterministic appearance persistence failure.",
+      route: "/",
+      world: createWebsiteDirectWorld({
+        appearance: {
+          preference: "light",
+          resolved: "light",
+          writeFailure: "Appearance preference could not be saved.",
+        },
+        content: DEFAULT_CONTENT,
       }),
     },
   ],
@@ -79,10 +103,22 @@ export const websiteDirectDefinition = defineDirect({
       scenarios: ["homepage.dark"],
     },
     {
+      key: "homepage.system-dark.render",
+      mode: "fixture",
+      claim: "The real homepage renders a deterministic system preference resolved to dark tokens.",
+      scenarios: ["homepage.system-dark"],
+    },
+    {
       key: "homepage.long-content.model",
       mode: "fixture",
       claim: "The real homepage receives bounded long content through its production content model.",
       scenarios: ["homepage.long-content"],
+    },
+    {
+      key: "homepage.appearance-write-failure.render",
+      mode: "fixture",
+      claim: "The real homepage exposes a deterministic appearance write failure without changing its selected preference.",
+      scenarios: ["homepage.appearance-write-failure"],
     },
     {
       key: "appearance.browser.persistence",
