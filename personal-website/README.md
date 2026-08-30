@@ -39,6 +39,47 @@ bun run check:direct-boundary
 
 The two builds are deliberately separate: Next writes `.next`, while Vite writes `dist-direct`.
 
+### Bombadil discovery
+
+`bun run fuzz:direct -- --time-limit 20s` explores the light, dark, and
+long-content Direct worlds in sequence with conservative appearance and
+responsive-viewport actions. The accepted bound is 12-300 seconds. Use 12-30
+seconds while editing and 60-300 seconds per campaign for a scheduled or
+manual discovery run. Use `--campaign dark-wide` to focus one world. Runs write exact traces,
+manifests, and logs below
+`artifacts/direct-bombadil/personal-monorepo-template-<campaign>/`.
+
+When a run fails, preserve its `trace.jsonl` and replay the same world before
+editing:
+
+```sh
+bun run fuzz:direct -- --campaign dark-wide --replay artifacts/direct-bombadil/personal-monorepo-template-dark-wide/<run>/bombadil/trace.jsonl
+bunx bombadil browser inspect artifacts/direct-bombadil/personal-monorepo-template-dark-wide/<run>/bombadil
+```
+
+Inspect the first violated named property and extracted homepage state, fix the
+product or campaign error, and add a deterministic regression for a confirmed
+defect. Bombadil 0.7.2 does not expose a user seed or shrink failures, so the
+trace is the reproduction boundary. Successful exploration remains diagnostic
+and does not replace Direct coverage claims, semantic browser verification, or
+the production boundary checks above.
+
+The sufficiency policy retains required Click and SetViewport actions, global
+non-wait activity, interaction diversity, and a post-non-wait interaction
+change. It also attributes each semantic signal to its action: Click must
+change the viewport-free `personalHomepageInteraction` snapshot, and
+SetViewport must change the full `personalHomepage` snapshot. This is adjacent
+temporal evidence rather than causal proof. Initial appearance is latched from
+the first ready state so a later generated click cannot repair an incorrect
+start.
+
+The runner owns local headless Chrome and confines the starting navigation to
+the configured localhost HTTP origin. It does not test production Chrome,
+cross-origin delivery, credentials, PostHog, or Vercel. Raw traces may contain
+screenshots, labels, typed text, query values, and local paths, so retain
+uploaded artifacts only long enough to inspect, replay, and promote a confirmed
+defect into the smallest deterministic regression.
+
 ## Reading and bookshelf
 
 Use `$save-url-kb` or `$save-pdf-kb` to preserve sources, then

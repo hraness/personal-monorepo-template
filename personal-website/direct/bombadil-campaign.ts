@@ -1,47 +1,351 @@
 import {
+  actions,
   always,
   eventually,
   extract,
+  weighted,
   type ActionGenerator,
   type Formula,
   type JSON as BombadilJson,
 } from "@antithesishq/bombadil";
-import type {
-  ActionTemplate,
-  State as BombadilBrowserState,
+import {
+  getFingerprint,
+  type ActionTemplate,
+  type State as BombadilBrowserState,
 } from "@antithesishq/bombadil/browser";
 import {
   createDirectBombadilActions,
+  createDirectBombadilNamedSnapshot,
   createDirectBombadilProperties,
 } from "@hraness/direct/tooling/bombadil-campaign";
 
+import { homepageBombadilCampaigns } from "./bombadil-matrix";
+
 export * from "@antithesishq/bombadil/browser/defaults/properties";
 
-interface HomepageObservation {
+export interface HomepageObservation {
   readonly [key: string | number | symbol]: BombadilJson;
+  readonly activeScenario: string;
   readonly heading: string;
+  readonly selectedAppearance: string;
+  readonly surfaceMarker: string;
+  readonly surfacePresent: boolean;
+  readonly theme: string;
+  readonly viewportHeight: number;
+  readonly viewportWidth: number;
+}
+
+export interface HomepageInteractionObservation {
+  readonly [key: string | number | symbol]: BombadilJson;
+  readonly activeScenario: string;
+  readonly selectedAppearance: string;
+  readonly theme: string;
+}
+
+interface HomepageInitialObservation extends HomepageInteractionObservation {
+  readonly captured: boolean;
+  readonly heading: string;
+  readonly surfaceMarker: string;
   readonly surfacePresent: boolean;
 }
 
-const homepage = extract<BombadilBrowserState, HomepageObservation>((state) => {
+export interface HomepageInitialSnapshot extends HomepageInteractionObservation {
+  readonly heading: string;
+  readonly surfaceMarker: string;
+  readonly surfacePresent: boolean;
+}
+
+const HOMEPAGE_OBSERVATION_STRING_KEYS = Object.freeze([
+  "activeScenario",
+  "heading",
+  "selectedAppearance",
+  "surfaceMarker",
+  "theme",
+] as const);
+const HOMEPAGE_OBSERVATION_NUMBER_KEYS = Object.freeze([
+  "viewportHeight",
+  "viewportWidth",
+] as const);
+const HOMEPAGE_OBSERVATION_KEYS = Object.freeze([
+  ...HOMEPAGE_OBSERVATION_STRING_KEYS,
+  ...HOMEPAGE_OBSERVATION_NUMBER_KEYS,
+  "surfacePresent",
+]);
+const HOMEPAGE_INTERACTION_OBSERVATION_KEYS = Object.freeze([
+  "activeScenario",
+  "selectedAppearance",
+  "theme",
+] as const);
+
+function bombadilRecord(
+  value: BombadilJson,
+): Readonly<Record<string, BombadilJson>> | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? value as Readonly<Record<string, BombadilJson>>
+    : null;
+}
+
+function hasExactKeys(
+  value: Readonly<Record<string, BombadilJson>>,
+  keys: readonly string[],
+): boolean {
+  const actual = Object.keys(value);
+  return actual.length === keys.length
+    && keys.every((key) => Object.hasOwn(value, key));
+}
+
+export function isHomepageObservation(
+  value: BombadilJson,
+): value is HomepageObservation {
+  const record = bombadilRecord(value);
+  return record !== null
+    && hasExactKeys(record, HOMEPAGE_OBSERVATION_KEYS)
+    && HOMEPAGE_OBSERVATION_STRING_KEYS.every((key) =>
+      typeof record[key] === "string"
+    )
+    && HOMEPAGE_OBSERVATION_NUMBER_KEYS.every((key) =>
+      Number.isSafeInteger(record[key])
+    )
+    && typeof record.surfacePresent === "boolean";
+}
+
+export function isHomepageInteractionObservation(
+  value: BombadilJson,
+): value is HomepageInteractionObservation {
+  const record = bombadilRecord(value);
+  return record !== null
+    && hasExactKeys(record, HOMEPAGE_INTERACTION_OBSERVATION_KEYS)
+    && HOMEPAGE_INTERACTION_OBSERVATION_KEYS.every((key) =>
+      typeof record[key] === "string"
+    );
+}
+
+function readActiveScenario(windowValue: unknown): string {
+  try {
+    if (typeof windowValue !== "object" || windowValue === null) return "";
+    const bridge = Reflect.get(windowValue, "__direct") as unknown;
+    if (typeof bridge !== "object" || bridge === null) return "";
+    const manifest = Reflect.get(bridge, "manifest") as unknown;
+    if (typeof manifest !== "object" || manifest === null) return "";
+    const active = Reflect.get(manifest, "active") as unknown;
+    if (typeof active !== "object" || active === null) return "";
+    const scenario = Reflect.get(active, "scenario") as unknown;
+    return typeof scenario === "string" ? scenario : "";
+  } catch {
+    return "";
+  }
+}
+
+function visibleClickPoint(
+  window: Window,
+  element: Element,
+): { readonly x: number; readonly y: number } | null {
+  const style = window.getComputedStyle(element);
+  if (
+    style.display === "none"
+    || style.visibility === "hidden"
+    || Number.parseFloat(style.opacity || "1") <= 0
+  ) {
+    return null;
+  }
+  const rectangle = element.getBoundingClientRect();
+  if (rectangle.width <= 0 || rectangle.height <= 0) return null;
+  const point = {
+    x: rectangle.left + rectangle.width / 2,
+    y: rectangle.top + rectangle.height / 2,
+  };
+  return point.x >= 0
+      && point.x <= window.innerWidth
+      && point.y >= 0
+      && point.y <= window.innerHeight
+    ? point
+    : null;
+}
+
+function readHomepageObservation(state: BombadilBrowserState): HomepageObservation {
   const surface = state.document.querySelector(
-    '[data-product-surface="personal-homepage/v1"]',
+    ".workbench-frame > *",
+  );
+  const selectedAppearance = state.document.querySelector<HTMLInputElement>(
+    '[data-slot="segmented-control"][aria-label="Appearance"] input[type="radio"]:checked',
   );
   return {
+    activeScenario: readActiveScenario(state.window),
     heading: surface?.querySelector("h1")?.textContent?.trim() ?? "",
+    selectedAppearance: selectedAppearance?.value ?? "",
+    surfaceMarker: surface?.getAttribute("data-product-surface") ?? "",
     surfacePresent: surface !== null,
+    theme: surface?.getAttribute("data-theme") ?? "",
+    viewportHeight: state.window.innerHeight,
+    viewportWidth: state.window.innerWidth,
   };
+}
+
+const UNAVAILABLE_HOMEPAGE_OBSERVATION: HomepageObservation = Object.freeze({
+  activeScenario: "",
+  heading: "",
+  selectedAppearance: "",
+  surfaceMarker: "",
+  surfacePresent: false,
+  theme: "",
+  viewportHeight: 0,
+  viewportWidth: 0,
 });
+
+const homepage = createDirectBombadilNamedSnapshot({
+  fallback: UNAVAILABLE_HOMEPAGE_OBSERVATION,
+  name: "personalHomepage",
+  read: readHomepageObservation,
+  validate: isHomepageObservation,
+});
+const homepageInteraction = createDirectBombadilNamedSnapshot({
+  fallback: { activeScenario: "", selectedAppearance: "", theme: "" },
+  name: "personalHomepageInteraction",
+  read: (state) => {
+    const current = readHomepageObservation(state);
+    return {
+      activeScenario: current.activeScenario,
+      selectedAppearance: current.selectedAppearance,
+      theme: current.theme,
+    };
+  },
+  validate: isHomepageInteractionObservation,
+});
+
+export function captureFirstMountedHomepage(
+  previous: HomepageInitialSnapshot | null,
+  current: HomepageInitialSnapshot,
+): HomepageInitialSnapshot | null {
+  if (previous !== null || !current.surfacePresent) return previous;
+  return Object.freeze({ ...current });
+}
+
+let firstMountedHomepage: HomepageInitialSnapshot | null = null;
+const initialHomepage = extract<BombadilBrowserState, HomepageInitialObservation>((state) => {
+  const current = readHomepageObservation(state);
+  firstMountedHomepage = captureFirstMountedHomepage(firstMountedHomepage, {
+    activeScenario: current.activeScenario,
+    heading: current.heading,
+    selectedAppearance: current.selectedAppearance,
+    surfaceMarker: current.surfaceMarker,
+    surfacePresent: current.surfacePresent,
+    theme: current.theme,
+  });
+  return firstMountedHomepage === null
+    ? {
+        activeScenario: "",
+        captured: false,
+        heading: "",
+        selectedAppearance: "",
+        surfaceMarker: "",
+        surfacePresent: false,
+        theme: "",
+      }
+    : { ...firstMountedHomepage, captured: true };
+});
+
+const appearanceTargets = extract((state: BombadilBrowserState) => {
+  const targets: Array<{
+    fingerprint: ReturnType<typeof getFingerprint>;
+    point: { x: number; y: number };
+  }> = [];
+  for (const item of Array.from(state.document.querySelectorAll(
+    '[data-slot="segmented-control"][aria-label="Appearance"] [data-slot="segmented-control-item"]',
+  ))) {
+    const input = item.querySelector<HTMLInputElement>('input[type="radio"]');
+    if (input === null || input.disabled || input.checked) continue;
+    const point = visibleClickPoint(state.window, item);
+    if (point === null) continue;
+    targets.push({ fingerprint: getFingerprint(item), point });
+  }
+  return targets;
+});
+const viewport = extract((state: BombadilBrowserState) => ({
+  height: state.window.innerHeight,
+  width: state.window.innerWidth,
+}));
+const appearanceControlActions = actions<ActionTemplate>(() =>
+  appearanceTargets.current.map(({ fingerprint, point }) => ({
+    Click: { fingerprint, point },
+  }))
+);
+const responsiveViewportActions = actions<ActionTemplate>(() =>
+  homepageBombadilCampaigns
+    .map((campaign) => campaign.viewport)
+    .filter((candidate) =>
+      candidate.height !== viewport.current.height
+      || candidate.width !== viewport.current.width
+    )
+    .map((candidate) => ({
+      SetViewport: { height: candidate.height, width: candidate.width },
+    }))
+);
 const properties = createDirectBombadilProperties();
 
+export function homepageSurfaceLawHolds(
+  observation: Pick<
+    HomepageObservation,
+    "activeScenario" | "heading" | "surfaceMarker" | "surfacePresent"
+  >,
+): boolean {
+  const campaign = homepageBombadilCampaigns.find((candidate) =>
+    candidate.scenario === observation.activeScenario
+  );
+  return observation.surfacePresent
+    && observation.surfaceMarker === "personal-homepage/v1"
+    && campaign !== undefined
+    && observation.heading === campaign.expectedHeading;
+}
+
+export function homepageAppearanceLawHolds(
+  surface: Pick<HomepageObservation, "surfacePresent">,
+  interaction: Pick<
+    HomepageInteractionObservation,
+    "selectedAppearance" | "theme"
+  >,
+): boolean {
+  return surface.surfacePresent
+    && (interaction.theme === "light" || interaction.theme === "dark")
+    && (
+      interaction.selectedAppearance === "light"
+      || interaction.selectedAppearance === "dark"
+      || interaction.selectedAppearance === "system"
+    )
+    && (
+      interaction.selectedAppearance === "system"
+      || interaction.selectedAppearance === interaction.theme
+    );
+}
+
 export const direct_safe_actions: ActionGenerator<ActionTemplate> =
-  createDirectBombadilActions();
+  weighted([
+    [8, appearanceControlActions],
+    [4, responsiveViewportActions],
+    [3, createDirectBombadilActions()],
+  ]);
+export const direct_startup_contract: Formula = properties.startupContract;
 export const direct_exact_contract: Formula = properties.exactContract;
 export const direct_stable_catalog: Formula = properties.stableCatalog;
 export const direct_no_declared_violations: Formula = properties.noDeclaredViolations;
 export const direct_eventual_quiescence: Formula = properties.eventualQuiescence;
-export const personal_homepage_persists: Formula = always(
-  eventually(() =>
-    homepage.current.surfacePresent && homepage.current.heading === "your name"
-  ).within(10, "seconds"),
+export const personal_homepage_mounts: Formula = eventually(() =>
+  homepage.current.surfacePresent
+).within(10, "seconds");
+export const personal_homepage_persists: Formula = always(() =>
+  !initialHomepage.current.captured || homepageSurfaceLawHolds(homepage.current)
+);
+export const personal_initial_world_matches_scenario: Formula = eventually(() => {
+  const { activeScenario, captured, selectedAppearance, theme } = initialHomepage.current;
+  const campaign = homepageBombadilCampaigns.find((candidate) =>
+    candidate.scenario === activeScenario
+  );
+  return captured
+    && homepageSurfaceLawHolds(initialHomepage.current)
+    && campaign !== undefined
+    && selectedAppearance === campaign.initialAppearance
+    && theme === campaign.initialTheme;
+}).within(10, "seconds");
+export const personal_appearance_stays_coherent: Formula = always(() =>
+  !initialHomepage.current.captured
+  || homepageAppearanceLawHolds(homepage.current, homepageInteraction.current)
 );
