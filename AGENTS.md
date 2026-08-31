@@ -31,3 +31,7 @@
 - Give each owned source boundary an `AGENTS.md` with exactly `# Contents` and `# Guidelines` when it needs rules beyond this guide.
 - Run focused tests while editing and `bun run check` before handoff. The full check builds and scans both production and Direct outputs.
 - Preserve unrelated changes. Commit only task-owned files. Use `bun run merge:queue -- submit --commit <oid> --label <label>` only when direct pushes to `main` are allowed; protected repositories should use GitHub's native pull-request merge queue.
+
+<!-- hra-local-efficiency:start -->
+- Preserve useful agent fan-out. Give each expensive focused validation command and external wait one owner; the integration owner reviews that evidence and runs the repository-required aggregate or final gate once after convergence. Reuse evidence only for the exact Git tree, command, lockfiles, toolchain, relevant environment, and validity period, and never to skip a required final integration, merge, release, deployment, or production-verification gate. On Hraness development machines, use `$hra-local-efficiency` and the installed host scheduler for heavyweight top-level commands when available.
+<!-- hra-local-efficiency:end -->
