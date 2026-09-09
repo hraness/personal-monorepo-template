@@ -12,7 +12,7 @@ export const mergeMainUsage = `Usage:
   bun run merge:queue -- submit --commit REF [--commit REF ...] --label TEXT [--retries 0-${maximumRetries}]
 
 This command requires direct non-force pushes to origin/main. Repositories that
-protect main should use their provider's pull-request merge queue.`;
+protect main use pull requests with required checks and their configured merge workflow.`;
 
 export interface SubmitCommand {
   readonly command: "submit";
