@@ -302,7 +302,7 @@ describe("merge-main integration", () => {
     expect(git(value.remote, ["for-each-ref", "--format=%(refname)", "refs/tags"])).toBe("");
   }, integrationTimeout);
 
-  test("explains when protected main requires a pull-request queue", async () => {
+  test("explains when protected main requires a pull request", async () => {
     const value = fixture();
     const task = taskWorktree(value, "task-protected");
     const taskOid = commit(task, "protected.txt", "protected\n", "protected change");

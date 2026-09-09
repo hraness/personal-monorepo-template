@@ -10,4 +10,4 @@
 - Resolve submitted refs before integration, reject merge commits, sanitize inherited Git repository overrides, and do all replay and validation work in a task-owned detached temporary worktree.
 - Validate with the frozen Bun install and root check. Push only the exact clean commit that passed validation, disable followed-tag publication, then fetch again and prove it is reachable from `origin/main`.
 - Keep documentation checks focused on durable links and required boundaries rather than exact prose or formatting.
-- Do not add queue databases, background workers, locks, priority, status, provider delivery, or force-push behavior. Repositories that protect `main` should use their provider's pull-request merge queue.
+- Do not add queue databases, background workers, locks, priority, status, provider delivery, or force-push behavior. Repositories that protect `main` use pull requests and required checks. Auto-merge can finish validated changes; a provider merge queue is optional when concurrent changes require combined-candidate validation.
