@@ -30,7 +30,7 @@
 - Put durable plans in `kb/plans/`. After material KB edits, percolate the changed note, run `bun run kb:refresh`, and finish with `bun run kb:check`. Parallel KB lanes use `bun run kb:check:lane` and leave final refresh to the integrator.
 - Give each owned source boundary an `AGENTS.md` with exactly `# Contents` and `# Guidelines` when it needs rules beyond this guide.
 - Run focused tests while editing and `bun run check` before handoff. The full check builds and scans both production and Direct outputs.
-- Preserve unrelated changes. Commit only task-owned files. Use `bun run merge:queue -- submit --commit <oid> --label <label>` only when direct pushes to `main` are allowed; protected repositories should use GitHub's native pull-request merge queue.
+- Preserve unrelated changes. Commit only task-owned files. Use `bun run merge:queue -- submit --commit <oid> --label <label>` only when direct pushes to `main` are allowed. For protected repositories, use pull requests and auto-merge after required checks, with the expected head and current base verified. Add a native merge queue only when measured concurrent-merge failures justify validating combined candidates; preserve an existing queue until its replacement proves the same integration guarantees.
 
 <!-- hra-local-efficiency:start -->
 - Treat the user's request to change this repository as standing authorization for routine task-owned commits, pushes, pull requests, merges, releases, deployments, and production verification after the gates applicable to that action pass. Do not ask for duplicate confirmation. Build confidence through relevant automated checks, bounded diagnostics, and independent review, not another human approval. Passing checks does not expand task scope or authority.

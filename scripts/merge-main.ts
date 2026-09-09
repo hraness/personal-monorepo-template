@@ -596,7 +596,7 @@ export async function submitCommits(
       }
       if (branchProtectionFailure(push)) {
         throw new Error(
-          `origin/main rejected the ordinary push because branch protection or a repository ruleset requires a pull request. This serializer only works when direct non-force pushes to main are allowed; use the provider's pull-request merge queue instead.\n${commandOutput(push)}`,
+          `origin/main rejected the ordinary push because branch protection or a repository ruleset requires a pull request. This serializer only works when direct non-force pushes to main are allowed; use a pull request with required checks and the repository's configured merge workflow.\n${commandOutput(push)}`,
         );
       }
       throw new Error(`ordinary non-force push of ${candidate.candidateOid} failed:\n${commandOutput(push)}`);

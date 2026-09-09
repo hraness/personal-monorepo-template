@@ -272,8 +272,11 @@ database, force push, or provider credential.
 This is intentionally smaller than a service-backed merge queue. It has no
 status service, priority, crash-recovery database, affected-work planner, or
 deployment verification. Branch protection that forbids direct pushes will
-reject it. Teams and protected repositories should use pull requests and their
-provider's merge queue.
+reject it. Protected repositories use pull requests with required checks and
+can enable auto-merge to finish validated changes. Verify the expected head
+and current base before merging. Add a provider merge queue when measured
+concurrent-merge failures justify checking combined candidates. An existing
+queue keeps its integration guarantees until a replacement proves them.
 
 ## Questions before you start
 
