@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@antithesishq/bombadil": "catalog:",
-    "@hraness/kb": "github:hraness/kb#v0.15.2",
+    "@hraness/kb": "https://github.com/hraness/kb/releases/download/v0.19.6/hraness-kb-0.19.6.tgz",
     "@types/bun": "catalog:",
     "knip": "catalog:",
     "remark-parse": "catalog:",

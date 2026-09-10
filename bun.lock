@@ -6,7 +6,7 @@
       "name": "personal-monorepo-template",
       "devDependencies": {
         "@antithesishq/bombadil": "catalog:",
-        "@hraness/kb": "github:hraness/kb#v0.15.2",
+        "@hraness/kb": "https://github.com/hraness/kb/releases/download/v0.19.6/hraness-kb-0.19.6.tgz",
         "@types/bun": "catalog:",
         "knip": "catalog:",
         "remark-parse": "catalog:",
@@ -123,7 +123,9 @@
 
     "@hraness/direct": ["@hraness/direct@0.7.13", "", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "react"] }, "sha512-tyVZd+qn5ES+jpQ6o9fD7Dzh0g5xpk4aej3DftJqOfSItLz89eqXwbMoA59/Vg/iPY/IoElGk2GJENONZaQ1fw=="],
 
-    "@hraness/kb": ["@hraness/kb@github:hraness/kb#102ef24", { "dependencies": { "@steipete/sweet-cookie": "github:hraness/sweet-cookie#v0.4.2", "@tobilu/qmd": "git+https://github.com/hraness/qmd.git#aa993dceb3ef8cfb71d470554ca437570f5a2b3c", "agent-browser": "0.32.3", "defuddle": "0.19.1", "yaml": "^2.9.0", "zod": "^4.4.3" }, "bin": { "kb": "./dist/cli.js", "kb-evaluation-builder": "./dist/evaluation-builder.js" } }, "hraness-kb-102ef24", "sha512-BFxGVS9OUUkUmK+jGnkg/tYdRK3qw2MzhELQmZig+ySgM6qbTlOlOOVcprIyzC0fslHeKZsHX4i5nua2WmrwNg=="],
+    "@hraness/kb": ["@hraness/kb@https://github.com/hraness/kb/releases/download/v0.19.6/hraness-kb-0.19.6.tgz", { "dependencies": { "@hraness/oh": "github:hraness/oh#v0.2.0", "@steipete/sweet-cookie": "0.4.3", "@tobilu/qmd": "git+https://github.com/hraness/qmd.git#aa993dceb3ef8cfb71d470554ca437570f5a2b3c", "agent-browser": "0.32.3", "defuddle": "0.19.1", "effect": "3.22.1", "yaml": "^2.9.0", "zod": "^4.4.3" }, "bin": { "kb": "./dist/cli.js", "kb-evaluation-builder": "./dist/evaluation-builder.js" } }, "sha512-x+iwO3ilHlRabW9i2m+rWneIjQqVOxu0UdgjQyB+DHklo61SjPP4ECDmhYH369B5HmeMImqdEKopm/lNIGTMrA=="],
+
+    "@hraness/oh": ["@hraness/oh@github:hraness/oh#89fb133", { "peerDependencies": { "@libsql/client": ">=0.17.4 <1", "@suss/datalog": "0.20.0", "@tobilu/qmd": "2.5.3" }, "optionalPeers": ["@libsql/client", "@suss/datalog", "@tobilu/qmd"], "bin": { "oh": "./dist/cli.js" } }, "hraness-oh-89fb133", "sha512-huk8DqOAhnwMm4QAOU+JiyxfdfUF0pZth1jnzOkOmZQe6NqZjR+LXAe2swIVdBMn1hCHb47+c7IqFH3QUTBWTQ=="],
 
     "@hraness/ui": ["@hraness/ui@github:hraness/ui#69ad480", { "dependencies": { "@hugeicons/core-free-icons": "^4.2.2", "@hugeicons/react": "^1.1.9", "clsx": "^2.1.1", "react-aria": "3.50.0", "react-aria-components": "1.19.0", "tailwind-merge": "^3.6.0" }, "peerDependencies": { "react": ">=18 <20", "react-dom": ">=18 <20" } }, "hraness-ui-69ad480", "sha512-6XMMYVQhIaLj86jcA/3RK+GS/mYGSenuG4vKEUlti0mTQTpxo7m4kdj+y78ajqPPl4us+5jBjW179pXn0Jo+Qw=="],
 
@@ -421,7 +423,9 @@
 
     "@simple-git/argv-parser": ["@simple-git/argv-parser@1.1.1", "", { "dependencies": { "@simple-git/args-pathspec": "^1.0.3" } }, "sha512-Q9lBcfQ+VQCpQqGJFHe5yooOS5hGdLFFbJ5R+R5aDsnkPCahtn1hSkMcORX65J2Z5lxSkD0lQorMsncuBQxYUw=="],
 
-    "@steipete/sweet-cookie": ["@steipete/sweet-cookie@github:hraness/sweet-cookie#04ddf06", { "bin": { "sweet-cookie": "packages/core/dist/cli.js" } }, "hraness-sweet-cookie-04ddf06", "sha512-SxVC8mp7OiWY4RHtBPlDl51xpRDTh8lNctnLdUGdos62oflrrroC3qQZ/YMdR2Vd62wKUBmnErBlrLumTuj2cw=="],
+    "@standard-schema/spec": ["@standard-schema/spec@1.1.0", "", {}, "sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w=="],
+
+    "@steipete/sweet-cookie": ["@steipete/sweet-cookie@0.4.3", "", { "bin": { "sweet-cookie": "dist/cli.js" } }, "sha512-+ugAbvXMl/mzmRRpGeeK4ShjWDZVR4Ul5DouKnwjhaqdozAakDyHceyagkOxRG8DYbCaQhTsuaMUod2nA3EKWQ=="],
 
     "@swc/helpers": ["@swc/helpers@0.5.15", "", { "dependencies": { "tslib": "^2.8.0" } }, "sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g=="],
 
@@ -717,6 +721,8 @@
 
     "ee-first": ["ee-first@1.1.1", "", {}, "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="],
 
+    "effect": ["effect@3.22.1", "", { "dependencies": { "@standard-schema/spec": "^1.0.0", "fast-check": "^3.23.1" } }, "sha512-TNoXushmPOBAjJlthF5d2QwnX2xBPEtcNJr5XKNKbRLbDvBcOYkXlYDfvGfSA0zriwLFuCll5MDtNMAdZL17PQ=="],
+
     "electron-to-chromium": ["electron-to-chromium@1.5.405", "", {}, "sha512-bNglH7lPH5l+yHOes7Zr4VqxhOy4BQ9ZBUX4VdoFgxMpzJk7W1ZoO3Vgd9Pxa9PyjQ76sfm2aKH/nzEcCNRlew=="],
 
     "emoji-regex": ["emoji-regex@9.2.2", "", {}, "sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg=="],
@@ -800,6 +806,8 @@
     "express-rate-limit": ["express-rate-limit@8.6.2", "", { "dependencies": { "debug": "^4.4.3", "ip-address": "^10.2.0" }, "peerDependencies": { "express": ">= 4.11" } }, "sha512-YH4ru+eOJxQABscKFfRCy9R7x9QFGdezclVMwwgFFndzS2Xnm0uo6B0ABZsLhcpeptGv2qvuJVWlQr9gQZoC3A=="],
 
     "extend": ["extend@3.0.2", "", {}, "sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g=="],
+
+    "fast-check": ["fast-check@3.23.2", "", { "dependencies": { "pure-rand": "^6.1.0" } }, "sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A=="],
 
     "fast-deep-equal": ["fast-deep-equal@3.1.3", "", {}, "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="],
 
@@ -1266,6 +1274,8 @@
     "pump": ["pump@3.0.4", "", { "dependencies": { "end-of-stream": "^1.1.0", "once": "^1.3.1" } }, "sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA=="],
 
     "punycode": ["punycode@2.3.1", "", {}, "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="],
+
+    "pure-rand": ["pure-rand@6.1.0", "", {}, "sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA=="],
 
     "qs": ["qs@6.15.3", "", { "dependencies": { "es-define-property": "^1.0.1", "side-channel": "^1.1.1" } }, "sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A=="],
 
