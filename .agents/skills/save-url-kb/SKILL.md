@@ -12,11 +12,11 @@ description: >-
 
 # Capture web content
 
-Use the installed `kb` CLI. Check the available local routes when the capture may need a browser or optional media tools:
+Use the installed `wordcell` CLI. Check the available local routes when the capture may need a browser or optional media tools:
 
 ```sh
 wordcell doctor
-kb adapters
+wordcell adapters
 ```
 
 Resolve `<vault>` to the directory containing its authored or managed
@@ -128,7 +128,7 @@ The backfill runs serially with bounded output and time, resumes compatible side
 
 ## Report completeness literally
 
-Read [references/platforms.md](references/platforms.md) when selecting or explaining a route. Use `kb adapters --json` when software needs the installed capability matrix.
+Read [references/platforms.md](references/platforms.md) when selecting or explaining a route. Use `wordcell adapters --json` when software needs the installed capability matrix.
 
 Interpret status as follows:
 

@@ -11,7 +11,7 @@ description: >-
 
 # Save a PDF to the knowledge base
 
-Use the installed `kb` CLI. Resolve `<vault>` to the directory containing its
+Use the installed `wordcell` CLI. Resolve `<vault>` to the directory containing its
 authored or managed `index.md` front door, then set the shell-local `KB_ROOT`
 to that path (`KB_ROOT=kb` from a typical repository root).
 
