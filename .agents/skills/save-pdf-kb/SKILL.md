@@ -18,16 +18,16 @@ to that path (`KB_ROOT=kb` from a typical repository root).
 Check the local conversion routes, then capture the PDF:
 
 ```sh
-kb doctor
-kb pdf "/absolute/path/to/document.pdf" --output "$KB_ROOT/articles"
-kb pdf "https://example.com/document.pdf" --output "$KB_ROOT/articles"
+wordcell doctor
+wordcell pdf "/absolute/path/to/document.pdf" --output "$KB_ROOT/articles"
+wordcell pdf "https://example.com/document.pdf" --output "$KB_ROOT/articles"
 ```
 
 Pass a stable slug or replace a prior tool-owned bundle only when needed:
 
 ```sh
-kb pdf "/absolute/path/to/document.pdf" --slug ben-leaves-zo --output "$KB_ROOT/articles"
-kb pdf "/absolute/path/to/document.pdf" --output "$KB_ROOT/articles" --force
+wordcell pdf "/absolute/path/to/document.pdf" --slug ben-leaves-zo --output "$KB_ROOT/articles"
+wordcell pdf "/absolute/path/to/document.pdf" --output "$KB_ROOT/articles" --force
 ```
 
 The command installs one atomic bundle:
@@ -86,7 +86,7 @@ and rerun the capture:
 ```
 
 ```sh
-kb pdf "/absolute/path/to/document.pdf" \
+wordcell pdf "/absolute/path/to/document.pdf" \
   --output "$KB_ROOT/articles" \
   --annotations /tmp/pdf-image-annotations.json \
   --force
@@ -130,7 +130,7 @@ Review:
 After adding or linking the capture, run the vault's normal refresh and check:
 
 ```sh
-kb percolate "<maintained-note-id>" --root "$KB_ROOT" --limit 25 --json
-kb refresh --root "$KB_ROOT"
-kb check --root "$KB_ROOT"
+wordcell percolate "<maintained-note-id>" --root "$KB_ROOT" --limit 25 --json
+wordcell refresh --root "$KB_ROOT"
+wordcell check --root "$KB_ROOT"
 ```

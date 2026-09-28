@@ -19,7 +19,7 @@ skills. It distributes conventions and frozen interfaces. It does not require
 repositories created from the template to remain synchronized with its
 `main` branch.
 
-The root pins `@hraness/kb` to an immutable release. The website pins
+The root pins `@hraness/wordcell` to an immutable release. The website pins
 `@hraness/ui` and the development-only `@hraness/direct` boundary to immutable
 releases. Keep those artifact boundaries instead of sibling paths, Git
 submodules, or coordinated `main` workflows. Each consumer upgrades when it
