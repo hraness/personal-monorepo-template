@@ -13,4 +13,4 @@
 - Keep credentials in memory, user-owned private files, or short-lived mode-`0600` operating-system temporary files. Never place cookies, authorization values, browser state, authenticated raw DOM, or HARs in capture artifacts.
 - Capture only public or user-entitled content. Do not bypass access controls, CAPTCHA, rate limits, DRM, or platform policy.
 - Treat screenshots as potentially private evidence because pixels are not structurally sanitized.
-- Verify the installed environment with `kb doctor` and the current platform matrix with `kb adapters`.
+- Verify the installed environment with `wordcell doctor` and the current platform matrix with `kb adapters`.

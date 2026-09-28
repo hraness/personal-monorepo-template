@@ -15,7 +15,7 @@ description: >-
 Use the installed `kb` CLI. Check the available local routes when the capture may need a browser or optional media tools:
 
 ```sh
-kb doctor
+wordcell doctor
 kb adapters
 ```
 
@@ -30,7 +30,7 @@ to captures and read the vault's applicable agent instructions before writing.
 Start ordinary URL capture with the layered default:
 
 ```sh
-kb clip https://example.com/article --output "$KB_ROOT/articles"
+wordcell clip https://example.com/article --output "$KB_ROOT/articles"
 ```
 
 The command tries stable structured data, bounded HTTP extraction, and rendered-browser fallback as needed. If those routes produce no usable source material, URL capture may perform one read-only lookup for an existing Archive.today-family snapshot. It never submits the source for archival. A useful structured provider result, including a partial Hacker News result, remains authoritative over the archive fallback.
@@ -38,8 +38,8 @@ The command tries stable structured data, bounded HTTP extraction, and rendered-
 When the source is already open in a signed-in browser, read the current tab in place:
 
 ```sh
-kb clip current --browser-live --output "$KB_ROOT/articles"
-kb clip current --cdp 9222 --output "$KB_ROOT/articles"
+wordcell clip current --browser-live --output "$KB_ROOT/articles"
+wordcell clip current --cdp 9222 --output "$KB_ROOT/articles"
 ```
 
 For `--browser-live`, first enable Chrome's local debugging connection at `chrome://inspect/#remote-debugging` (Chrome 144+). If Chrome was launched with an explicit loopback debugging port, pass that numeric port to `--cdp` instead.
@@ -49,16 +49,16 @@ Current-tab capture derives the source URL from the attached tab. It does not na
 To open a URL with existing browser state, select a profile. A path-backed profile is copied into a temporary snapshot for the capture, so the source profile remains unchanged:
 
 ```sh
-kb clip https://example.com/member/article --browser-profile "$KB_CAPTURE_PROFILE" --output "$KB_ROOT/articles"
+wordcell clip https://example.com/member/article --browser-profile "$KB_CAPTURE_PROFILE" --output "$KB_ROOT/articles"
 ```
 
 Use cookie-backed HTTP when the page does not require browser-only local state, or import a page already saved from any browser:
 
 ```sh
-kb clip https://example.com/member/article --cookie-source chrome --cookie-profile "Default" --output "$KB_ROOT/articles"
-kb clip https://example.com/member/article --cookies-file "$KB_COOKIES_FILE" --output "$KB_ROOT/articles"
-kb clip https://example.com/article --html "$KB_SAVED_HTML" --output "$KB_ROOT/articles"
-kb clip https://example.com/article --html - --output "$KB_ROOT/articles" < page.html
+wordcell clip https://example.com/member/article --cookie-source chrome --cookie-profile "Default" --output "$KB_ROOT/articles"
+wordcell clip https://example.com/member/article --cookies-file "$KB_COOKIES_FILE" --output "$KB_ROOT/articles"
+wordcell clip https://example.com/article --html "$KB_SAVED_HTML" --output "$KB_ROOT/articles"
+wordcell clip https://example.com/article --html - --output "$KB_ROOT/articles" < page.html
 ```
 
 Read [references/authentication.md](references/authentication.md) for current-tab, profile, cookie, and saved-page selection details.
@@ -72,18 +72,18 @@ If a new surface needs support, add an extraction route, fixture coverage, or a 
 ## Choose scope and artifacts
 
 ```sh
-kb clip https://example.com/post --scope page --output "$KB_ROOT/articles"
-kb clip https://example.com/post --scope thread --output "$KB_ROOT/articles"
-kb clip https://example.com/discussion --scope comments --output "$KB_ROOT/articles"
-kb clip https://example.com/post --media none --output "$KB_ROOT/articles"
-kb clip https://example.com/post --media all --output "$KB_ROOT/articles"
-kb clip https://example.com/post --evidence source --output "$KB_ROOT/articles"
-kb clip https://example.com/post --evidence all --output "$KB_ROOT/articles"
-kb clip https://example.com/post --output "$KB_CAPTURE_OUTPUT"
-kb clip https://example.com/post --force --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --scope page --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --scope thread --output "$KB_ROOT/articles"
+wordcell clip https://example.com/discussion --scope comments --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --media none --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --media all --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --evidence source --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --evidence all --output "$KB_ROOT/articles"
+wordcell clip https://example.com/post --output "$KB_CAPTURE_OUTPUT"
+wordcell clip https://example.com/post --force --output "$KB_ROOT/articles"
 ```
 
-With the resolved output path, `kb clip` installs one atomic bundle under
+With the resolved output path, `wordcell clip` installs one atomic bundle under
 `$KB_ROOT/articles/<slug>/`:
 
 ```text
@@ -120,8 +120,8 @@ Source evidence is stored as sanitized inert HTML. Screenshots are viewport pixe
 With KB installed, build the pinned Rust metadata-search helper and backfill every saved external URL into a separate tool-owned sidecar:
 
 ```sh
-kb url-metadata tool build
-kb url-metadata backfill --root "$KB_ROOT" --json
+wordcell url-metadata tool build
+wordcell url-metadata backfill --root "$KB_ROOT" --json
 ```
 
 The backfill runs serially with bounded output and time, resumes compatible sidecars by default, and searches for exact source matches plus existing Archive.today-family snapshots. It never rewrites the saved Markdown or adopts the search library's URL normalization, accepts descriptive metadata only from an exact source match, records partial or failed engines literally, and never promotes search output into `capture.json`. Use `--refresh` for an explicit replacement run after reviewing the provider and archive disclosure policy.
@@ -147,15 +147,15 @@ Preserve missing, deleted, blocked, cyclic, depth-limited, item-limited, and pag
 Treat the captured Markdown and manifest as the source record. Put summaries, comparisons, decisions, and changing interpretations in a maintained note rather than rewriting the capture to match a later conclusion.
 
 Connect the maintained note to the capture with an explicit wikilink. Let
-`kb backlinks` derive incoming relationships; do not insert reciprocal links or
+`wordcell backlinks` derive incoming relationships; do not insert reciprocal links or
 generated backlink sections into authored notes. After adding or linking a
 capture, review the maintained note for reusable concepts and relationships,
 then run the vault's normal refresh and check loop:
 
 ```sh
-kb percolate "<maintained-note-id>" --root "$KB_ROOT" --limit 25 --json
-kb refresh --root "$KB_ROOT"
-kb check --root "$KB_ROOT"
+wordcell percolate "<maintained-note-id>" --root "$KB_ROOT" --limit 25 --json
+wordcell refresh --root "$KB_ROOT"
+wordcell check --root "$KB_ROOT"
 ```
 
 ## Review the result

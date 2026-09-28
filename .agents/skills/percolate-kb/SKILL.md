@@ -5,7 +5,7 @@ description: Review a hraness/kb Markdown vault for recurring ideas and missing 
 
 # Percolate concepts and relationships
 
-Keep the graph authored, local, and reviewable. `kb percolate` proposes
+Keep the graph authored, local, and reviewable. `wordcell percolate` proposes
 candidates from deterministic evidence; it never changes a note. Backlinks,
 graph reports, and QMD results are derived views, while Markdown remains the
 authority.
@@ -24,13 +24,13 @@ authority.
 Run percolation on the changed note when possible:
 
 ```sh
-kb percolate notes/example --root "$KB_ROOT" --limit 25 --json
+wordcell percolate notes/example --root "$KB_ROOT" --limit 25 --json
 ```
 
 Run it without a note only when reviewing the whole vault:
 
 ```sh
-kb percolate --root "$KB_ROOT" --min-support 2 --limit 50 --json
+wordcell percolate --root "$KB_ROOT" --min-support 2 --limit 50 --json
 ```
 
 Treat each result as a prompt to open the cited notes and read the relevant
@@ -61,7 +61,7 @@ Create a concept only when the idea is likely to be reused and its definition
 can be stated from the source material:
 
 ```sh
-kb note create notes/local-first \
+wordcell note create notes/local-first \
   --root "$KB_ROOT" \
   --title "Local-first" \
   --type concept \
@@ -81,7 +81,7 @@ concept may support relationships among its neighbors even when a run scoped to
 the concept itself has no candidate:
 
 ```sh
-kb percolate notes/write-path --root "$KB_ROOT" --limit 25 --json
+wordcell percolate notes/write-path --root "$KB_ROOT" --limit 25 --json
 ```
 
 ## Author typed relationships
@@ -89,7 +89,7 @@ kb percolate notes/write-path --root "$KB_ROOT" --limit 25 --json
 Add a relationship from the note that owns the assertion:
 
 ```sh
-kb relation add notes/write-path supports notes/durable-agent-memory \
+wordcell relation add notes/write-path supports notes/durable-agent-memory \
   --root "$KB_ROOT"
 ```
 
@@ -100,8 +100,8 @@ frontmatter is an indexable statement, not a substitute for explanation.
 List or remove relationships without editing reciprocal notes:
 
 ```sh
-kb relation list notes/write-path --root "$KB_ROOT" --json
-kb relation remove notes/write-path supports notes/durable-agent-memory \
+wordcell relation list notes/write-path --root "$KB_ROOT" --json
+wordcell relation remove notes/write-path supports notes/durable-agent-memory \
   --root "$KB_ROOT"
 ```
 
@@ -114,9 +114,9 @@ views.
 Use exact structure to verify that the promoted graph says what the prose says:
 
 ```sh
-kb links notes/write-path --root "$KB_ROOT" --direction both --depth 2 --json
-kb relation list notes/write-path --root "$KB_ROOT" --json
-kb graph --root "$KB_ROOT" --json
+wordcell links notes/write-path --root "$KB_ROOT" --direction both --depth 2 --json
+wordcell relation list notes/write-path --root "$KB_ROOT" --json
+wordcell graph --root "$KB_ROOT" --json
 ```
 
 Prefer the note-scoped commands first. Use the whole-vault graph only when the
@@ -128,8 +128,8 @@ Markdown notes before reporting a conclusion.
 When working alone or integrating several lanes:
 
 ```sh
-kb refresh --root "$KB_ROOT"
-kb check --root "$KB_ROOT"
+wordcell refresh --root "$KB_ROOT"
+wordcell check --root "$KB_ROOT"
 ```
 
 When several agents are editing different notes in a managed-catalog vault,
@@ -137,11 +137,11 @@ each lane should validate authored structure and local attachments without
 rewriting the shared catalog:
 
 ```sh
-kb check --root "$KB_ROOT" --no-catalog
+wordcell check --root "$KB_ROOT" --no-catalog
 ```
 
 The integrating agent runs one final managed refresh and normal check. In an
 authored-catalog vault, refresh and check leave the front door untouched, while
-`kb catalog --root "$KB_ROOT"` renders an exhaustive disposable inventory.
+`wordcell catalog --root "$KB_ROOT"` renders an exhaustive disposable inventory.
 Resolve same-note Git conflicts from the prose and evidence; do not accept one
 side's frontmatter mechanically.

@@ -20,7 +20,7 @@ record, not a disposable answer or a duplicate task tracker.
    `KB_REPO` and load that path's current memory before a whole-vault search:
 
 ```sh
-kb context "<repository-path>" --root "$KB_ROOT" --repo "$KB_REPO"
+wordcell context "<repository-path>" --root "$KB_ROOT" --repo "$KB_REPO"
 ```
 
 Use `--kind file` or `--kind directory` when an absent future path cannot be
@@ -31,8 +31,8 @@ separate historical-plan group.
 3. Search existing plans before creating one:
 
 ```sh
-kb list --root "$KB_ROOT" --where type=plan --sort area --json
-kb search "the intended outcome" --root "$KB_ROOT" --json
+wordcell list --root "$KB_ROOT" --where type=plan --sort area --json
+wordcell search "the intended outcome" --root "$KB_ROOT" --json
 ```
 
 If `kb` is not installed, do not let retrieval tooling block the plan: use
@@ -100,9 +100,9 @@ a useful connection. Review the changed plan for reusable concepts before
 refreshing:
 
 ```sh
-kb percolate "<plan-note-id>" --root "$KB_ROOT" --limit 25 --json
-kb refresh --root "$KB_ROOT"
-kb check --root "$KB_ROOT"
+wordcell percolate "<plan-note-id>" --root "$KB_ROOT" --limit 25 --json
+wordcell refresh --root "$KB_ROOT"
+wordcell check --root "$KB_ROOT"
 ```
 
 Run those commands when the plan lives in an initialized hraness/kb vault. In a
@@ -116,5 +116,5 @@ graph counts.
 
 In an authored-catalog vault, refresh leaves the front door unchanged and `kb
 catalog --root "$KB_ROOT"` renders an exhaustive disposable inventory. In a
-managed vault, independent edit lanes use `kb check --root "$KB_ROOT"
+managed vault, independent edit lanes use `wordcell check --root "$KB_ROOT"
 --no-catalog`; the integrating lane performs the single catalog refresh.

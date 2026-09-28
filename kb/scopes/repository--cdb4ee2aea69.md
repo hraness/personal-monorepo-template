@@ -16,10 +16,10 @@ The root `AGENTS.md` is the repository's normative control plane. Its compact ru
 
 `AGENTS.md` owns instructions an agent must know before editing: ownership, hard prohibitions, dependency boundaries, and required verification. Repository `docs/` owns current multi-step operating procedures. Types, tests, schemas, and deterministic checkers own executable contracts. The KB owns pull-based rationale, history, evidence, maintained synthesis, plans, and relationships.
 
-That split is maintained in [[notes/documentation-ownership|documentation ownership]]. `kb context` resolves inherited guides, this curated hub, and current records whose exact `repository_scopes` match a requested path. Guides remain authoritative: this hub can explain a rule, but it cannot override or become the only home of a load-bearing constraint.
+That split is maintained in [[notes/documentation-ownership|documentation ownership]]. `wordcell context` resolves inherited guides, this curated hub, and current records whose exact `repository_scopes` match a requested path. Guides remain authoritative: this hub can explain a rule, but it cannot override or become the only home of a load-bearing constraint.
 
 [[notes/repository-seams|Repository seams]] records why the template consumes
-immutable `@hraness/kb`, `@hraness/ui`, and `@hraness/direct` releases instead
+immutable `@hraness/wordcell`, `@hraness/ui`, and `@hraness/direct` releases instead
 of sibling paths or coordinated branches. The template distributes stable
 interfaces and conventions without requiring every consumer to change in
 lockstep.

@@ -211,7 +211,7 @@ Direct output for both the browser bridge and real shared UI.
 
 ## Keep durable knowledge beside the product
 
-[`@hraness/kb`](https://github.com/hraness/kb) treats Markdown and Git as the
+[`@hraness/wordcell`](https://github.com/hraness/wordcell) treats Markdown and Git as the
 authority. The starter uses an authored front door, avoiding a shared generated
 catalog during parallel work.
 

@@ -14,7 +14,7 @@ projections are derived.
 Start repository work with:
 
 ```sh
-kb context <repository-path> --root kb --repo .
+wordcell context <repository-path> --root kb --repo .
 ```
 
 The command returns inherited `AGENTS.md` rules, curated scope hubs, and current

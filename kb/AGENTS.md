@@ -17,7 +17,7 @@
 - Treat `AGENTS.md` as the normative, always-loaded control plane and `scopes/` as optional rationale, history, examples, and graph routing. Keep every load-bearing edit-time rule in the applicable guide.
 - Preserve source authority and voice. Integrate source captures through maintained notes instead of silently rewriting captured material.
 - Publish Reading entries only through a reviewed `notes/reading/` note and the checked generator. Ordinary notes and captures remain private.
-- Start repository work with `kb context <repository-path> --root kb --repo .`, then expand through bounded links, exact metadata, or search.
+- Start repository work with `wordcell context <repository-path> --root kb --repo .`, then expand through bounded links, exact metadata, or search.
 - After adding, moving, renaming, or materially revising a KB entry, use the `percolate-kb` skill on the changed note, then use `refresh-kb` or run `bun run kb:refresh` and finish with `bun run kb:check`.
 - During parallel work, each lane edits only its owned notes and runs `bun run kb:check:lane`. The integrating agent performs the final refresh and normal check.
 - Keep `index.md` concise and authored. Use `bun run kb:catalog` for an exhaustive disposable inventory.
