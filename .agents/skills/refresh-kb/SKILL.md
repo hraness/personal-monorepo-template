@@ -1,6 +1,6 @@
 ---
 name: refresh-kb
-description: Refresh and validate a hraness/kb Markdown knowledge graph after notes, concepts, typed relationships, attachments, repository scopes, or context mappings change. Use when an agent needs to maintain a managed or authored catalog, inspect graph and lifecycle findings, validate local artifacts and scope hubs, or complete a vault health check.
+description: Refresh and validate a hraness/wordcell Markdown knowledge graph after notes, concepts, typed relationships, attachments, repository scopes, or context mappings change. Use when an agent needs to maintain a managed or authored catalog, inspect graph and lifecycle findings, validate local artifacts and scope hubs, or complete a vault health check.
 ---
 
 # Refresh a knowledge base
