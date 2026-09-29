@@ -97,7 +97,7 @@ the production build.
 ```sh
 bun run dev             # Next.js personal website
 bun run dev:direct      # deterministic Direct workbench
-bun run check           # complete local and CI gate
+bun run check           # complete local and CI gate (check:static + check:build)
 bun run check:knip      # unused files, exports, and dependencies
 bun run kb:catalog      # disposable complete vault listing
 bun run kb:doctor       # optional KB capability diagnostics

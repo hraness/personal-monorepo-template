@@ -15,7 +15,8 @@
     "build:direct": "vite build --config direct/vite.config.ts",
     "check:production-boundary": "bun run direct/check-build-boundaries.ts production .next",
     "check:direct-boundary": "bun run direct/check-build-boundaries.ts direct dist-direct",
-    "verify": "bun run test && bun run typecheck && bun run lint && bun run build && bun run check:production-boundary && bun run build:direct && bun run check:direct-boundary"
+    "verify": "bun run test && bun run typecheck && bun run lint && bun run verify:build",
+    "verify:build": "bun run build && bun run check:production-boundary && bun run build:direct && bun run check:direct-boundary"
   },
   "dependencies": {
     "@hraness/ui": "github:hraness/ui#v0.4.3",
@@ -26,7 +27,7 @@
   },
   "devDependencies": {
     "@antithesishq/bombadil": "catalog:",
-    "@hraness/direct": "0.7.13",
+    "@hraness/direct": "0.7.23",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
