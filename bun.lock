@@ -27,7 +27,7 @@
       },
       "devDependencies": {
         "@antithesishq/bombadil": "catalog:",
-        "@hraness/direct": "0.7.13",
+        "@hraness/direct": "0.7.23",
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
         "@types/react": "catalog:",
@@ -121,7 +121,7 @@
 
     "@hono/node-server": ["@hono/node-server@1.19.17", "", { "peerDependencies": { "hono": "^4" } }, "sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ=="],
 
-    "@hraness/direct": ["@hraness/direct@0.7.13", "", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "react"] }, "sha512-tyVZd+qn5ES+jpQ6o9fD7Dzh0g5xpk4aej3DftJqOfSItLz89eqXwbMoA59/Vg/iPY/IoElGk2GJENONZaQ1fw=="],
+    "@hraness/direct": ["@hraness/direct@0.7.23", "", { "peerDependencies": { "@antithesishq/bombadil": "0.7.2", "agent-browser": "0.32.3", "effect": "3.22.1", "react": ">=18 <20" }, "optionalPeers": ["@antithesishq/bombadil", "agent-browser", "effect", "react"] }, "sha512-KeVhOYrJfBwSJESJZC3GBz3o7rqUx48TMISUTb8W5Fb/I2m+5BmUbEQXOXLv1aktT7aiPuPGr5Uq3uh0yDuQZw=="],
 
     "@hraness/oh": ["@hraness/oh@https://github.com/hraness/oh/releases/download/v0.12.0/hraness-oh-0.12.0.tgz", { "peerDependencies": { "@libsql/client": ">=0.17.4 <1", "@suss/datalog": "0.20.0", "@tobilu/qmd": "2.5.3" }, "optionalPeers": ["@libsql/client", "@suss/datalog", "@tobilu/qmd"], "bin": { "oh": "./dist/cli.js" } }, "sha512-BHAzZHXAldhDCg/J2OGFjN0VSBzwmfzk6QjOLdh3vamOftvDHZXNtwOkPpKpXOag2hX4fEr0vrenG0bF07YGFA=="],
 

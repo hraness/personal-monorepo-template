@@ -3,7 +3,7 @@
 This template uses public Hraness projects under their own MIT licenses:
 
 - [`@hraness/ui`](https://github.com/hraness/ui), pinned to `v0.4.3`.
-- [`@hraness/direct`](https://github.com/hraness/direct), pinned to `v0.7.13`.
+- [`@hraness/direct`](https://github.com/hraness/direct), pinned to `v0.7.23`.
 - [`@hraness/wordcell`](https://github.com/hraness/wordcell), pinned to `v0.24.0`.
 
 The `query-kb`, `refresh-kb`, `percolate-kb`, `plan-kb`, `save-url-kb`,

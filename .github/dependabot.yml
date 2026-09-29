@@ -1,0 +1,19 @@
+# From the hraness/.github Dependabot template. Only github-actions is
+# enabled: this template pins its Bun dependencies through the workspace
+# catalog and updates them by hand.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Los_Angeles
+    cooldown:
+      default-days: 3
+    open-pull-requests-limit: 2
+    groups:
+      actions:
+        patterns:
+          - "*"
