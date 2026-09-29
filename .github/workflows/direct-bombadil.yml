@@ -1,8 +1,11 @@
 name: Direct Bombadil discovery
 
 on:
-  schedule:
-    - cron: "17 9 * * 1"
+  # The weekly schedule is paused: every run since 2026-08-30 fails inside
+  # @hraness/direct's download-provenance check ("Bombadil Chrome download
+  # completion downloads/<uuid> lacks live partial provenance"), on 0.7.13 and
+  # 0.7.23 alike, before any campaign explores. Restore `schedule:
+  # - cron: "17 9 * * 1"` once a dispatched run is green.
   workflow_dispatch:
 
 permissions:
