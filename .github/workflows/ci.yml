@@ -70,9 +70,6 @@ jobs:
             bun-${{ runner.os }}-
       - run: bun install --frozen-lockfile
       - name: Build Next.js and Direct and scan both outputs
-        env:
-          # The static job runs the same tsc --noEmit; Required needs both.
-          PERSONAL_WEBSITE_TYPECHECKED: "1"
         run: bun run check:build
 
   required:
