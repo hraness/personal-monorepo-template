@@ -46,6 +46,9 @@ Follow this path before exploring the rest of the repository:
    bun run dev
    ```
 
+   Open the local URL printed by Next.js and confirm your name and links appear.
+   Keep this terminal open while using the site; stop it with Ctrl+C when done.
+
 3. Create a durable Markdown note under `kb/notes/`, then check the vault lane
    without writing shared derived state:
 
@@ -59,6 +62,11 @@ Follow this path before exploring the rest of the repository:
    ```sh
    bun run dev:direct
    ```
+
+   Open `/direct/` on the local origin printed by Vite if it does not open
+   automatically. These states exercise the shared homepage with deterministic
+   fixtures, not browser storage, analytics ingestion, or a deployed site. Stop
+   both development servers with Ctrl+C before running the final check.
 
 5. Prove lint, types, tests, dependency boundaries, KB policy, both builds, and
    the production boundary together:
