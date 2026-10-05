@@ -71,5 +71,8 @@
     "typescript": "catalog:",
     "unified": "catalog:",
     "yaml": "catalog:"
+  },
+  "overrides": {
+    "fast-glob": "npm:tinyglobby@0.2.17"
   }
 }
