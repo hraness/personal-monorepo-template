@@ -9,7 +9,7 @@ private repository private if the vault will contain private notes.
 
 Report vulnerabilities in this template through the Hraness repository's
 [private vulnerability reporting](https://github.com/hraness/personal-monorepo-template/security/advisories/new)
-with a minimal reproduction and no unrelated private data.
+with a minimal reproduction and no unrelated private data. If GitHub reporting is unavailable, email [hraness@pm.me](mailto:hraness@pm.me).
 
 Private vulnerability reporting is a repository setting and may not carry
 into a repository generated from this template. Before publishing a generated
